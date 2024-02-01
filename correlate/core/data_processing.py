@@ -7,6 +7,7 @@ import pandas as pd
 def transform_data(df, time_increment, fiscal_end_month=None):
     # Convert 'Date' to datetime type if it's not already
     # Floor the date to the day so that there is no time component of the time
+    df = df.copy(deep=True)
     df["Date"] = pd.to_datetime(df["Date"])
     # Convert 'Value' to float type if it's not already
     df["Value"] = df["Value"].astype(float)  # Convert to float

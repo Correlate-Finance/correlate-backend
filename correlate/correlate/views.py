@@ -35,30 +35,48 @@ def index(request:HttpRequest):
     return JsonResponse(CorrelateData(data=correlation_points).model_dump())
 
 @cache
-def fetch_stock_revenues(stock: str, start_year: int):
-    url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
-    response = requests.get(url)
+def fetch_stock_revenues(stock: str, start_year: int, aggregation_period: str="Annually"):
 
-    response_json = response.json()
+    if aggregation_period == "Annually":
+        url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
+        response = requests.get(url)
 
-    revenues = {}
-    report = response_json["report"]
-    for i in range(len(report)):
-        year = report[i]["calendarYear"]
-        if year < start_year:
-            continue
-        revenues[year] = report[i]["revenue"]
-    return revenues
+        response_json = response.json()
+
+        revenues = {}
+        report = response_json["report"]
+        for i in range(len(report)):
+            year = report[i]["calendarYear"]
+            date = year + "-01-01"
+            if year < start_year:
+                continue
+            revenues[date] = report[i]["revenue"]
+        return revenues
+    elif aggregation_period == "Quarterly":
+        url = f"https://discountingcashflows.com/api/income-statement/quarterly/{stock}/?key=e787734f-59d8-4809-8955-1502cb22ba36"
+        response = requests.get(url)
+        response_json = response.json()
+
+        revenues = {}
+        report = response_json["report"]
+        for i in range(len(report)):
+            year = report[i]["calendarYear"]
+            date = year + report[i]["period"]
+            if year < start_year:
+                continue
+            revenues[date] = report[i]["revenue"]
+        return revenues
 
 
 def revenue(request: HttpRequest):
     stock = request.GET.get("stock")
     start_year = request.GET.get("startYear", 2010)
+    aggregation_period = request.GET.get("aggregationPeriod", "Annually")
 
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    revenues = fetch_stock_revenues(stock, start_year)
+    revenues = fetch_stock_revenues(stock, start_year, aggregation_period)
     json_revenues = [{"date": date, "value": value} for date, value in revenues.items()]
     return JsonResponse(json_revenues, safe=False)
 
@@ -66,23 +84,23 @@ def revenue(request: HttpRequest):
 def correlate(request: HttpRequest):
     stock = request.GET.get("stock")
     start_year = request.GET.get("startYear", 2010)
+    aggregation_period = request.GET.get("aggregationPeriod", "Annually")
 
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    revenues = fetch_stock_revenues(stock, start_year)
-    test_data = {"Date": list(map(lambda x: x + "-01-01", revenues.keys())), "Value": list(revenues.values())}
+    revenues = fetch_stock_revenues(stock, start_year, aggregation_period)
+    test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
     print("test_data", test_data)
 
-    time_increment = request.GET.get("time_increment", "Annually")
     fiscal_end_month = request.GET.get("fiscal_end_month", "December")
 
-    sorted_correlations = calculate_correlation(time_increment, fiscal_end_month, test_data=test_data)
+    sorted_correlations = calculate_correlation(aggregation_period, fiscal_end_month, test_data=test_data)
 
     correlation_points = []
     for title, corr_value in sorted_correlations[:100]:
-        if corr_value < 0.8:
+        if corr_value < 0.6:
             break
         correlation_points.append(
             CorrelateDataPoint(title=title, pearson_value=corr_value)
