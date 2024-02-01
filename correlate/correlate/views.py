@@ -32,7 +32,7 @@ def index(request):
     return JsonResponse(CorrelateData(data=correlation_points).model_dump())
 
 @cache
-def fetch_stock_revenues(stock: str):
+def fetch_stock_revenues(stock: str, start_year: int):
     url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
     response = requests.get(url)
 
@@ -41,27 +41,32 @@ def fetch_stock_revenues(stock: str):
     revenues = {}
     report = response_json["report"]
     for i in range(len(report)):
-        revenues[report[i]["calendarYear"]] = report[i]["revenue"]
+        year = report[i]["calendarYear"]
+        if year < start_year:
+            continue
+        revenues[year] = report[i]["revenue"]
     return revenues
 
 
 def fetch_historic_data(request):
     stock = request.GET.get("stock")
+    start_year = request.GET.get("startYear", 2010)
 
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    revenues = fetch_stock_revenues(stock)
+    revenues = fetch_stock_revenues(stock, start_year)
     return JsonResponse(revenues)
 
 
 def correlate(request):
     stock = request.GET.get("stock")
+    start_year = request.GET.get("startYear", 2010)
 
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    revenues = fetch_stock_revenues(stock)
+    revenues = fetch_stock_revenues(stock, start_year)
     test_data = {"Date": list(map(lambda x: x + "-01-01", revenues.keys())), "Value": list(revenues.values())}
 
     print("test_data", test_data)
