@@ -21,4 +21,5 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('correlate/', views.correlate, name="correlate"),
+    path('correlateInputData/', views.correlateInputData, name="correlateInputData"),
 ]

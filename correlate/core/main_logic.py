@@ -10,6 +10,7 @@ from core.mongo_operations import (
 import pandas as pd
 import time
 from core.data import TEST_DATA
+import math
 
 
 def calculate_correlation(
@@ -53,7 +54,14 @@ def calculate_correlation(
         print("df", df)
 
         merged = pd.merge(df, test_df, on="Date")
-        correlation_results[title] = merged["Value_x"].corr(merged["Value_y"])
+        if merged.size < 4:
+            continue
+        correlation_value = merged["Value_x"].corr(merged["Value_y"])
+
+        if math.isnan(correlation_value):
+            continue
+
+        correlation_results[title] = correlation_value
         # for lag in range(3):
         #     correlation_results[title + " lagged: " + str(lag + 1)] = merged["Value_x"][
         #         lag + 1 :
