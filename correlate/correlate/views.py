@@ -51,7 +51,7 @@ def fetch_stock_revenues(stock: str, start_year: int):
     return revenues
 
 
-def fetch_historic_data(request: HttpRequest):
+def revenue(request: HttpRequest):
     stock = request.GET.get("stock")
     start_year = request.GET.get("startYear", 2010)
 
@@ -59,7 +59,8 @@ def fetch_historic_data(request: HttpRequest):
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
     revenues = fetch_stock_revenues(stock, start_year)
-    return JsonResponse(revenues)
+    json_revenues = [{"date": date, "value": value} for date, value in revenues.items()]
+    return JsonResponse(json_revenues, safe=False)
 
 
 def correlate(request: HttpRequest):

@@ -45,14 +45,7 @@ def calculate_correlation(
 
     start_time = time.time()
     for title, df in dfs.items():
-        # Perform Pearson correlation
-        # correlation_value = test_df['Value'].corr(df['Value'])
-        # correlation_results[title] = correlation_value
-
         # Merge the data so that the dates are aligned
-        print("test_df2", test_df)
-        print("df", df)
-
         merged = pd.merge(df, test_df, on="Date")
         if merged.size < 4:
             continue
@@ -79,9 +72,3 @@ def calculate_correlation(
         print(f"Table Name: {title}, Correlation: {corr_value:.2f}")
 
     return sorted_correlations
-
-
-# if __name__ == "__main__":
-#    results = main("Monthly", None, "Some_Category_Name")
-#    for title, corr_value in results:
-#        print(f"Table Name: {title}, Correlation: {corr_value:.2f}")
