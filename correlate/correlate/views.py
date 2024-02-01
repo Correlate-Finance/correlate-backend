@@ -73,6 +73,8 @@ def correlate(request):
 
     correlation_points = []
     for title, corr_value in sorted_correlations[:100]:
+        if corr_value < 0.8:
+            break
         correlation_points.append(
             CorrelateDataPoint(title=title, pearson_value=corr_value)
         )
