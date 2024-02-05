@@ -50,7 +50,7 @@ def freezeargs(func):
 
 @freezeargs
 @cache
-def fetch_data_frames(db, dataTable_ids, date_threshold=datetime.strptime("2014-01-01", "%Y-%m-%d"), max=None):
+def fetch_data_frames(db, dataTable_ids, date_threshold=datetime.strptime("1971-01-01", "%Y-%m-%d"), max=None):
     data_collection = db['data']
     dfs = {}
 
