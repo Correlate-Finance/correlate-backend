@@ -59,8 +59,8 @@ def calculate_correlation(
             CorrelateDataPoint(title=title, pearson_value=correlation_value, lag=0)
         )
         for lag in range(3):
-            correlation_value = merged["Value_x"][lag + 1 :].corr(
-                merged["Value_y"][: -1 * (lag + 1)]
+            correlation_value = merged["Value_y"][lag + 1 :].corr(
+                merged["Value_x"][: -1 * (lag + 1)]
             )
             if math.isnan(correlation_value):
                 continue
