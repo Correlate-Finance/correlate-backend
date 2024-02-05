@@ -61,7 +61,7 @@ def calculate_correlation(
 
     # Sort by correlation in descending order
     sorted_correlations = sorted(
-        correlation_results.items(), key=lambda x: math.abs(x[1]), reverse=True
+        correlation_results.items(), key=lambda x: abs(x[1]), reverse=True
     )
 
     print("Computation time", time.time() - start_time)

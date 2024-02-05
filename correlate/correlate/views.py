@@ -5,6 +5,8 @@ from core.main_logic import calculate_correlation
 import json
 from pydantic import BaseModel
 import requests
+import calendar
+from datetime import datetime
 
 from functools import cache
 import numpy
@@ -38,36 +40,60 @@ def index(request:HttpRequest):
 
 @cache
 def fetch_stock_revenues(stock: str, start_year: int, aggregation_period: str="Annually"):
-
+    fiscal_year_end = None
     if aggregation_period == "Annually":
         url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
         response = requests.get(url)
 
         response_json = response.json()
+        report = response_json["report"]
+        if len(report) == 0:
+            return {}, None
+        
+        reporting_date_month = datetime.strptime(report[0]["date"], "%Y-%m-%d")
+        fiscal_year_end = calendar.month_name[reporting_date_month.month]
 
         revenues = {}
-        report = response_json["report"]
+        
         for i in range(len(report)):
             year = report[i]["calendarYear"]
             date = year + "-01-01"
             if year < start_year:
                 continue
             revenues[date] = report[i]["revenue"]
-        return revenues
+        return revenues, fiscal_year_end
     elif aggregation_period == "Quarterly":
         url = f"https://discountingcashflows.com/api/income-statement/quarterly/{stock}/?key=e787734f-59d8-4809-8955-1502cb22ba36"
         response = requests.get(url)
         response_json = response.json()
 
-        revenues = {}
         report = response_json["report"]
+        if len(report) == 0:
+            return {}, None
+        
+        period = report[0]["period"]
+        reporting_date_month = datetime.strptime(report[0]["date"], "%Y-%m-%d")
+
+        if period == "Q1":
+            delta = 9
+        elif period == "Q2":
+            delta = 6
+        elif period == "Q3":
+            delta = 3
+        else:
+            delta = 0
+        
+        fiscal_year_end = calendar.month_name[(reporting_date_month.month + delta) % 12]
+        print(fiscal_year_end)
+
+        revenues = {}
         for i in range(len(report)):
             year = report[i]["calendarYear"]
             date = year + report[i]["period"]
             if year < start_year:
                 continue
             revenues[date] = report[i]["revenue"]
-        return revenues
+        return revenues, fiscal_year_end
 
 
 def revenue(request: HttpRequest):
@@ -78,7 +104,7 @@ def revenue(request: HttpRequest):
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    revenues = fetch_stock_revenues(stock, start_year, aggregation_period)
+    revenues, _ = fetch_stock_revenues(stock, start_year, aggregation_period)
     json_revenues = [{"date": date, "value": str(value)} for date, value in revenues.items()]
     return JsonResponse(json_revenues, safe=False)
 
@@ -91,12 +117,10 @@ def correlate(request: HttpRequest):
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    revenues = fetch_stock_revenues(stock, start_year, aggregation_period)
+    revenues, fiscal_end_month = fetch_stock_revenues(stock, start_year, aggregation_period)
     test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
     print("test_data", test_data)
-
-    fiscal_end_month = request.GET.get("fiscal_end_month", "December")
 
     sorted_correlations = calculate_correlation(aggregation_period, fiscal_end_month, test_data=test_data)
 
