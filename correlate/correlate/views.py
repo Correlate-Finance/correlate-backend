@@ -129,20 +129,19 @@ def correlateInputData(request: HttpRequest):
     values = [row[1] for row in table]
 
     test_data = process_data({"Date": dates, "Value": values})
-    print("test_data", test_data)
 
     time_increment = request.GET.get("time_increment", "Annually")
-    fiscal_end_month = request.GET.get("fiscal_end_month", "December")
+    fiscal_end_month = request.GET.get("fiscal_year_end", "December")
 
     sorted_correlations = calculate_correlation(time_increment, fiscal_end_month, test_data=test_data)
 
     correlation_points = []
-    for title, corr_value in sorted_correlations[:100]:
-        if corr_value < 0.8:
+    for title, corr_value in sorted_correlations:
+        if corr_value < 0.6:
             break
 
         correlation_points.append(
             CorrelateDataPoint(title=title, pearson_value=corr_value)
         )
-    print(correlation_points)
+
     return JsonResponse(CorrelateData(data=correlation_points).model_dump())
