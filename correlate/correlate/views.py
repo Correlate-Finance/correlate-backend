@@ -71,8 +71,12 @@ def fetch_stock_revenues(
         else:
             delta = 0
 
-        fiscal_year_end = calendar.month_name[(reporting_date_month.month + delta) % 12]
-        print(fiscal_year_end)
+        updated_month = reporting_date_month.month + delta
+        if updated_month > 12:
+            updated_month = ((updated_month - 1) % 12 ) + 1
+
+        fiscal_year_end = calendar.month_name[updated_month]
+        print("fiscal year end: ", fiscal_year_end)
 
         revenues = {}
         for i in range(len(report)):

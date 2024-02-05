@@ -75,9 +75,4 @@ def calculate_correlation(
     )
 
     print("Computation time", time.time() - start_time)
-
-    # Print the sorted results
-    for dp in sorted_correlations:
-        print(f"Table Name: {dp.title}, Correlation: {dp.pearson_value:.2f}")
-
     return sorted_correlations
