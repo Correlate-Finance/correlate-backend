@@ -136,8 +136,8 @@ def correlateInputData(request: HttpRequest):
     sorted_correlations = calculate_correlation(time_increment, fiscal_end_month, test_data=test_data)
 
     correlation_points = []
-    for title, corr_value in sorted_correlations[:100]:
-        if corr_value < 0.8:
+    for title, corr_value in sorted_correlations:
+        if corr_value < 0.6:
             break
 
         correlation_points.append(
