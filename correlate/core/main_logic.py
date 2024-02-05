@@ -66,7 +66,9 @@ def calculate_correlation(
                 continue
 
             correlation_results.append(
-                CorrelateDataPoint(title=title, pearson_value=correlation_value, lag=lag + 1)
+                CorrelateDataPoint(
+                    title=title, pearson_value=correlation_value, lag=lag + 1
+                )
             )
 
     # Sort by correlation in descending order

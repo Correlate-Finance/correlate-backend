@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class CorrelateDataPoint(BaseModel):
     title: str
     pearson_value: float

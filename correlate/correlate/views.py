@@ -14,7 +14,6 @@ import numpy
 from core.data_processing import process_data
 
 
-
 # Create your views here.
 def index(request: HttpRequest):
     time_increment = request.GET.get("time_increment", "Quarterly")
@@ -73,7 +72,7 @@ def fetch_stock_revenues(
 
         updated_month = reporting_date_month.month + delta
         if updated_month > 12:
-            updated_month = ((updated_month - 1) % 12 ) + 1
+            updated_month = ((updated_month - 1) % 12) + 1
 
         fiscal_year_end = calendar.month_name[updated_month]
         print("fiscal year end: ", fiscal_year_end)
