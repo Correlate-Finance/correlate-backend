@@ -130,7 +130,7 @@ def correlateInputData(request: HttpRequest):
 
     test_data = process_data({"Date": dates, "Value": values})
 
-    time_increment = request.GET.get("time_increment", "Annually")
+    time_increment = request.GET.get("time_increment", "Quarterly")
     fiscal_end_month = request.GET.get("fiscal_year_end", "December")
 
     sorted_correlations = calculate_correlation(time_increment, fiscal_end_month, test_data=test_data)
