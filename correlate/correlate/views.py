@@ -79,7 +79,7 @@ def revenue(request: HttpRequest):
         return HttpResponseBadRequest("Pass a valid stock ticker")
 
     revenues = fetch_stock_revenues(stock, start_year, aggregation_period)
-    json_revenues = [{"date": date, "value": value} for date, value in revenues.items()]
+    json_revenues = [{"date": date, "value": str(value)} for date, value in revenues.items()]
     return JsonResponse(json_revenues, safe=False)
 
 
