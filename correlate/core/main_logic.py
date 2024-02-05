@@ -12,6 +12,8 @@ import time
 from core.data import TEST_DATA
 import math
 
+from correlate.models import CorrelateDataPoint
+
 
 def calculate_correlation(
     time_increment, fiscal_end_month, test_data=None, selected_name=None
@@ -39,8 +41,8 @@ def calculate_correlation(
     for title, df in dfs.items():
         transformed_dfs[title] = transform_data(df, time_increment, fiscal_end_month)
     dfs = transformed_dfs
-    
-    correlation_results = {}
+
+    correlation_results: list[CorrelateDataPoint] = []
 
     start_time = time.time()
     for title, df in dfs.items():
@@ -48,26 +50,34 @@ def calculate_correlation(
         merged = pd.merge(df, test_df, on="Date")
         if merged.size < 4:
             continue
-        correlation_value = merged["Value_x"].corr(merged["Value_y"])
 
+        correlation_value = merged["Value_x"].corr(merged["Value_y"])
         if math.isnan(correlation_value):
             continue
 
-        correlation_results[title] = correlation_value
-        # for lag in range(3):
-        #     correlation_results[title + " lagged: " + str(lag + 1)] = merged["Value_x"][
-        #         lag + 1 :
-        #     ].corr(merged["Value_y"][: -1 * (lag + 1)])
+        correlation_results.append(
+            CorrelateDataPoint(title=title, pearson_value=correlation_value, lag=0)
+        )
+        for lag in range(3):
+            correlation_value = merged["Value_x"][lag + 1 :].corr(
+                merged["Value_y"][: -1 * (lag + 1)]
+            )
+            if math.isnan(correlation_value):
+                continue
+
+            correlation_results.append(
+                CorrelateDataPoint(title=title, pearson_value=correlation_value, lag=lag + 1)
+            )
 
     # Sort by correlation in descending order
     sorted_correlations = sorted(
-        correlation_results.items(), key=lambda x: abs(x[1]), reverse=True
+        correlation_results, key=lambda x: abs(x.pearson_value), reverse=True
     )
 
     print("Computation time", time.time() - start_time)
 
     # Print the sorted results
-    for title, corr_value in sorted_correlations:
-        print(f"Table Name: {title}, Correlation: {corr_value:.2f}")
+    for dp in sorted_correlations:
+        print(f"Table Name: {dp.title}, Correlation: {dp.pearson_value:.2f}")
 
     return sorted_correlations
