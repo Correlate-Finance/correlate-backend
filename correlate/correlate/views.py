@@ -7,7 +7,9 @@ from pydantic import BaseModel
 import requests
 
 from functools import cache
-import numpy 
+import numpy
+
+from core.data_processing import process_data 
 
 
 class CorrelateDataPoint(BaseModel):
@@ -126,8 +128,7 @@ def correlateInputData(request: HttpRequest):
     dates = [row[0] for row in table]
     values = [row[1] for row in table]
 
-    test_data = {"Date": dates, "Value": values}
-
+    test_data = process_data({"Date": dates, "Value": values})
     print("test_data", test_data)
 
     time_increment = request.GET.get("time_increment", "Annually")

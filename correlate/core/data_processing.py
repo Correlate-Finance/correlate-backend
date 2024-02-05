@@ -2,6 +2,7 @@
 # add dataframe task here
 
 import pandas as pd
+import re
 
 
 def transform_data(df, time_increment, fiscal_end_month=None):
@@ -60,3 +61,42 @@ def compute_correlations(test_df, dfs):
         correlation_results.items(), key=lambda x: x[1], reverse=True
     )
     return sorted_correlations
+
+def convert_to_four_digit_year(year: str, max_year: int=2029):
+    if int(year) < (max_year%100):
+        return "20" + year
+    else:
+        return "19" + year
+
+
+
+def process_data(data):
+    valid_date_patterns = {
+        #2014Q1 -> Accepted pattern, do nothing
+        r'^(\d{4})Q([1-4])' : lambda x: x,
+        r'^Q([1-4])\'(\d{2})$' : lambda match: convert_to_four_digit_year(match.group(2)) + "Q" + match.group(1)
+    }
+
+    dates = data["Date"]
+
+    if len(dates) <= 0:
+        return data
+    
+    for pattern, processor in valid_date_patterns.items():
+        for i in range(len(dates)):
+            if match := re.match(pattern, dates[i]):
+                dates[i] = processor(match)
+
+    values: list[int | str] = data["Value"]
+    for i in range(len(values)):
+        if isinstance(values[i], str):
+            values[i] = int(values[i].replace(",",""))
+
+    data["Date"] = dates
+    data["Value"] = values
+
+    return data
+
+
+
+    
