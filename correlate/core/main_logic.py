@@ -21,7 +21,6 @@ def calculate_correlation(
 
     # Create a DataFrame
     test_df = pd.DataFrame(test_data)
-    print("test_df1", test_df)
 
     mongo_uri = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?retryWrites=true&w=majority"
     database_name = "test"
