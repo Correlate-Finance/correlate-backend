@@ -1,11 +1,8 @@
 # make this the api route file
 
-from core.data_processing import transform_data, compute_correlations
+from core.data_processing import transform_data
 from core.mongo_operations import (
-    connect_to_mongo,
-    fetch_category_names,
-    fetch_data_table_ids,
-    fetch_data_frames,
+    get_all_dfs,
 )
 import pandas as pd
 import time
@@ -16,22 +13,22 @@ from correlate.models import CorrelateDataPoint
 
 
 def calculate_correlation(
-    time_increment, fiscal_end_month, test_data=None, selected_name=None
+    time_increment: str,
+    fiscal_end_month: str,
+    test_data: dict | pd.DataFrame = None,
+    selected_name=None,
+    lag_periods: int = 0,
 ):
     if test_data is None:
         test_data = TEST_DATA
 
     # Create a DataFrame
-    test_df = pd.DataFrame(test_data)
+    if isinstance(test_data, dict):
+        test_df = pd.DataFrame(test_data)
+    else:
+        test_df = test_data
 
-    mongo_uri = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?retryWrites=true&w=majority"
-    database_name = "test"
-
-    db = connect_to_mongo(mongo_uri, database_name)
-
-    dataTable_ids = fetch_data_table_ids(db, selected_name)
-    dfs = fetch_data_frames(db, dataTable_ids)
-    db.client.close()
+    dfs = get_all_dfs()
 
     # Apply the transformation on test_data. make this a single helper method with the job below (sanitize and transform)
     test_df = transform_data(test_df, time_increment, fiscal_end_month)
@@ -46,9 +43,12 @@ def calculate_correlation(
 
     start_time = time.time()
     for title, df in dfs.items():
+        # if title != "fast total personnel absolute":
+        #     continue
         # Merge the data so that the dates are aligned
         merged = pd.merge(df, test_df, on="Date")
-        if merged.size < 4:
+
+        if len(merged.index) < 4:
             continue
 
         correlation_value = merged["Value_x"].corr(merged["Value_y"])
@@ -58,18 +58,22 @@ def calculate_correlation(
         correlation_results.append(
             CorrelateDataPoint(title=title, pearson_value=correlation_value, lag=0)
         )
-        for lag in range(3):
-            correlation_value = merged["Value_y"][lag + 1 :].corr(
-                merged["Value_x"][: -1 * (lag + 1)]
-            )
-            if math.isnan(correlation_value):
-                continue
 
-            correlation_results.append(
-                CorrelateDataPoint(
-                    title=title, pearson_value=correlation_value, lag=lag + 1
+        if lag_periods > 0:
+            for lag in range(lag_periods):
+                print(merged["Value_x"][: -1 * (lag + 1)])
+                print()
+                correlation_value = merged["Value_y"][lag + 1 :].corr(
+                    merged["Value_x"][: -1 * (lag + 1)]
                 )
-            )
+                if math.isnan(correlation_value):
+                    continue
+
+                correlation_results.append(
+                    CorrelateDataPoint(
+                        title=title, pearson_value=correlation_value, lag=lag + 1
+                    )
+                )
 
     # Sort by correlation in descending order
     sorted_correlations = sorted(

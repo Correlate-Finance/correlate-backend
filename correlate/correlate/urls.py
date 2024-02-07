@@ -23,5 +23,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("revenue/", views.revenue, name="revenue"),
     path("correlate/", views.correlate, name="correlate"),
-    path("correlateInputData/", views.correlateInputData, name="correlateInputData"),
+    path("correlateInputData/", views.correlate_input_data, name="correlateInputData"),
 ]

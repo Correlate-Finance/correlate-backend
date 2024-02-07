@@ -106,6 +106,7 @@ def correlate(request: HttpRequest):
     stock = request.GET.get("stock")
     start_year = request.GET.get("startYear", 2010)
     aggregation_period = request.GET.get("aggregationPeriod", "Annually")
+    lag_periods = int(request.GET.get("lag_periods", 0))
 
     if stock is None or len(stock) < 2:
         return HttpResponseBadRequest("Pass a valid stock ticker")
@@ -118,15 +119,17 @@ def correlate(request: HttpRequest):
     print("test_data", test_data)
 
     sorted_correlations = calculate_correlation(
-        aggregation_period, fiscal_end_month, test_data=test_data
+        aggregation_period,
+        fiscal_end_month,
+        test_data=test_data,
+        lag_periods=lag_periods,
     )
 
     return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
 
 
 @csrf_exempt
-def correlateInputData(request: HttpRequest):
-
+def correlate_input_data(request: HttpRequest):
     body = request.body
     body = body.decode("utf-8")
 
@@ -146,8 +149,9 @@ def correlateInputData(request: HttpRequest):
 
     time_increment = request.GET.get("time_increment", "Quarterly")
     fiscal_end_month = request.GET.get("fiscal_year_end", "December")
+    lag_periods = int(request.GET.get("lag_periods", 0))
 
     sorted_correlations = calculate_correlation(
-        time_increment, fiscal_end_month, test_data=test_data
+        time_increment, fiscal_end_month, test_data=test_data, lag_periods=lag_periods
     )
     return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())

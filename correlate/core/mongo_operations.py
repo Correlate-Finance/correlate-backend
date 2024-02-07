@@ -43,6 +43,18 @@ def fetch_data_table_ids(db, selected_name=None):
     return dataTable_ids
 
 
+def get_all_dfs() -> dict[str, pd.DataFrame]:
+    mongo_uri = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?retryWrites=true&w=majority"
+    database_name = "test"
+
+    db = connect_to_mongo(mongo_uri, database_name)
+
+    dataTable_ids = fetch_data_table_ids(db)
+    dfs = fetch_data_frames(db, dataTable_ids)
+    db.client.close()
+    return dfs
+
+
 def freezeargs(func):
     """Transform mutable dictionnary
     Into immutable
@@ -69,7 +81,7 @@ def fetch_data_frames(
     dataTable_ids,
     date_threshold=datetime.strptime("1971-01-01", "%Y-%m-%d"),
     max=None,
-):
+) -> dict[str, pd.DataFrame]:
     data_collection = db["data"]
     dfs = {}
 
