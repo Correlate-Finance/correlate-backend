@@ -28,7 +28,11 @@ SECRET_KEY = "django-insecure-1gsgldh1jz-od#lbdmhq#0w*8som8dpeggp747dj^rihkg1k7l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["correlate-backend-e2905dab5cac.herokuapp.com", "localhost"]
+ALLOWED_HOSTS = [
+    "correlate-backend-e2905dab5cac.herokuapp.com",
+    "localhost",
+    "api.correlatefinance.com",
+]
 
 
 # Application definition
