@@ -36,7 +36,9 @@ class LoginView(APIView):
         token, _ = Token.objects.get_or_create(user=user)
 
         response = Response()
-        response.set_cookie("session", token.key, httponly=True)
+        response.set_cookie(
+            "session", token.key, httponly=True, max_age=365 * 24 * 60 * 60
+        )
         response.data = {}
         return response
 
