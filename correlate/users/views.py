@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from .models import User
+from datetime import datetime, timedelta
 # Create your views here.
 
 
@@ -37,7 +38,10 @@ class LoginView(APIView):
 
         response = Response()
         response.set_cookie(
-            "session", token.key, httponly=True, max_age=365 * 24 * 60 * 60
+            "session",
+            token.key,
+            httponly=True,
+            expires=datetime.utcnow() + timedelta(days=365),
         )
         response.data = {}
         return response
