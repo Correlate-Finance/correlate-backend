@@ -55,6 +55,11 @@ def get_all_dfs() -> dict[str, pd.DataFrame]:
     return dfs
 
 
+def get_df(name: str) -> pd.DataFrame | None:
+    dfs = get_all_dfs()
+    return dfs.get(name)
+
+
 def freezeargs(func):
     """Transform mutable dictionnary
     Into immutable
@@ -80,7 +85,7 @@ def fetch_data_frames(
     db,
     dataTable_ids,
     date_threshold=datetime.strptime("1971-01-01", "%Y-%m-%d"),
-    max=None,
+    max=1,
 ) -> dict[str, pd.DataFrame]:
     data_collection = db["data"]
     dfs = {}

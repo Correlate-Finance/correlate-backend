@@ -23,6 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("users/", include("users.urls")),
     path("revenue/", views.RevenueView.as_view(), name="revenue"),
+    path("dataset/", views.DatasetView.as_view(), name="dataset"),
     path("correlate/", views.CorrelateView.as_view(), name="correlate"),
     path(
         "correlateInputData/",

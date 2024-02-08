@@ -1,4 +1,4 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer, UserAuthenticationSerializer
@@ -19,7 +19,7 @@ environ.Env.read_env()
 class RegisterView(APIView):
     serializer_class = UserSerializer
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -29,7 +29,7 @@ class RegisterView(APIView):
 class LoginView(APIView):
     serializer_class = UserAuthenticationSerializer
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         serializer = UserAuthenticationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -56,7 +56,7 @@ class LoginView(APIView):
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         Token.objects.get(user=request.user).delete()
 
         response = Response()
