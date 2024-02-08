@@ -46,7 +46,6 @@ class LoginView(APIView):
         response.set_cookie(
             "session",
             token.key,
-            httponly=True,
             expires=datetime.utcnow() + timedelta(days=365),
             domain=".correlatefinance.com" if not env.bool("LOCAL_DEV") else None,
         )
