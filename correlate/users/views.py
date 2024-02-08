@@ -48,7 +48,7 @@ class LoginView(APIView):
             token.key,
             httponly=True,
             expires=datetime.utcnow() + timedelta(days=365),
-            domain=".correlatefinance.com" if not env("LOCAL_DEV") else None,
+            domain=".correlatefinance.com" if not env.bool("LOCAL_DEV") else None,
         )
         response.data = {"token": token.key}
         return response
@@ -62,6 +62,7 @@ class LogoutView(APIView):
 
         response = Response()
         response.delete_cookie(
-            "session", domain=".correlatefinance.com" if not env("LOCAL_DEV") else None
+            "session",
+            domain=".correlatefinance.com" if not env.bool("LOCAL_DEV") else None,
         )
         return response

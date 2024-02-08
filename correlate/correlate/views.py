@@ -1,6 +1,5 @@
 from rest_framework.views import APIView
 from django.http import JsonResponse, HttpResponseBadRequest, HttpRequest
-from django.views.decorators.csrf import csrf_exempt
 from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
