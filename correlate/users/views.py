@@ -10,6 +10,12 @@ from datetime import datetime, timedelta
 # Create your views here.
 
 
+import environ
+
+env = environ.Env()
+environ.Env.read_env()
+
+
 class RegisterView(APIView):
     serializer_class = UserSerializer
 
@@ -42,9 +48,9 @@ class LoginView(APIView):
             token.key,
             httponly=True,
             expires=datetime.utcnow() + timedelta(days=365),
-            domain=".correlatefinance.com",
+            domain=".correlatefinance.com" if not env("LOCAL_DEV") else None,
         )
-        response.data = {}
+        response.data = {"token": token.key}
         return response
 
 
@@ -55,5 +61,7 @@ class LogoutView(APIView):
         Token.objects.get(user=request.user).delete()
 
         response = Response()
-        response.delete_cookie("session")
+        response.delete_cookie(
+            "session", domain=".correlatefinance.com" if not env("LOCAL_DEV") else None
+        )
         return response
