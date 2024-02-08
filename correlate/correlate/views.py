@@ -1,8 +1,9 @@
+from rest_framework.views import APIView
 from django.http import JsonResponse, HttpResponseBadRequest, HttpRequest
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
-import json
 from correlate.models import CorrelateData
 import requests
 import calendar
@@ -12,15 +13,6 @@ from functools import cache
 import numpy
 
 from core.data_processing import process_data
-
-
-# Create your views here.
-def index(request: HttpRequest):
-    time_increment = request.GET.get("time_increment", "Quarterly")
-    fiscal_end_month = request.GET.get("fiscal_end_month", "December")
-
-    sorted_correlations = calculate_correlation(time_increment, fiscal_end_month)
-    return JsonResponse(CorrelateData(data=sorted_correlations).model_dump())
 
 
 @cache
@@ -87,71 +79,82 @@ def fetch_stock_revenues(
         return revenues, fiscal_year_end
 
 
-def revenue(request: HttpRequest):
-    stock = request.GET.get("stock")
-    start_year = request.GET.get("startYear", 2010)
-    aggregation_period = request.GET.get("aggregationPeriod", "Annually")
+class RevenueView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-    if stock is None or len(stock) < 2:
-        return HttpResponseBadRequest("Pass a valid stock ticker")
+    def get(self, request: HttpRequest):
+        stock = request.GET.get("stock")
+        start_year = request.GET.get("startYear", 2010)
+        aggregation_period = request.GET.get("aggregationPeriod", "Annually")
 
-    revenues, _ = fetch_stock_revenues(stock, start_year, aggregation_period)
-    json_revenues = [
-        {"date": date, "value": str(value)} for date, value in revenues.items()
-    ]
-    return JsonResponse(json_revenues, safe=False)
+        if stock is None or len(stock) < 2:
+            return HttpResponseBadRequest("Pass a valid stock ticker")
 
-
-def correlate(request: HttpRequest):
-    stock = request.GET.get("stock")
-    start_year = request.GET.get("startYear", 2010)
-    aggregation_period = request.GET.get("aggregationPeriod", "Annually")
-    lag_periods = int(request.GET.get("lag_periods", 0))
-
-    if stock is None or len(stock) < 2:
-        return HttpResponseBadRequest("Pass a valid stock ticker")
-
-    revenues, fiscal_end_month = fetch_stock_revenues(
-        stock, start_year, aggregation_period
-    )
-    test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
-
-    print("test_data", test_data)
-
-    sorted_correlations = calculate_correlation(
-        aggregation_period,
-        fiscal_end_month,
-        test_data=test_data,
-        lag_periods=lag_periods,
-    )
-
-    return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
+        revenues, _ = fetch_stock_revenues(stock, start_year, aggregation_period)
+        json_revenues = [
+            {"date": date, "value": str(value)} for date, value in revenues.items()
+        ]
+        return JsonResponse(json_revenues, safe=False)
 
 
-@csrf_exempt
-def correlate_input_data(request: HttpRequest):
-    body = request.body
-    body = body.decode("utf-8")
+class CorrelateView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-    rows = body.split("\n")
-    table = list(map(lambda row: row.split(), rows))
+    def get(self, request: HttpRequest):
+        stock = request.GET.get("stock")
+        start_year = request.GET.get("startYear", 2010)
+        aggregation_period = request.GET.get("aggregationPeriod", "Annually")
+        lag_periods = int(request.GET.get("lag_periods", 0))
 
-    rows = len(table)
+        if stock is None or len(stock) < 2:
+            return HttpResponseBadRequest("Pass a valid stock ticker")
 
-    if rows == 2:
-        # transpose data
-        table = numpy.transpose(table)
+        revenues, fiscal_end_month = fetch_stock_revenues(
+            stock, start_year, aggregation_period
+        )
+        test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
-    dates = [row[0] for row in table]
-    values = [row[1] for row in table]
+        print("test_data", test_data)
 
-    test_data = process_data({"Date": dates, "Value": values})
+        sorted_correlations = calculate_correlation(
+            aggregation_period,
+            fiscal_end_month,
+            test_data=test_data,
+            lag_periods=lag_periods,
+        )
 
-    time_increment = request.GET.get("time_increment", "Quarterly")
-    fiscal_end_month = request.GET.get("fiscal_year_end", "December")
-    lag_periods = int(request.GET.get("lag_periods", 0))
+        return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
 
-    sorted_correlations = calculate_correlation(
-        time_increment, fiscal_end_month, test_data=test_data, lag_periods=lag_periods
-    )
-    return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
+
+class CorrelateInputDataView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: HttpRequest):
+        body = request.body
+        body = body.decode("utf-8")
+
+        rows = body.split("\n")
+        table = list(map(lambda row: row.split(), rows))
+
+        rows = len(table)
+
+        if rows == 2:
+            # transpose data
+            table = numpy.transpose(table)
+
+        dates = [row[0] for row in table]
+        values = [row[1] for row in table]
+
+        test_data = process_data({"Date": dates, "Value": values})
+
+        time_increment = request.GET.get("time_increment", "Quarterly")
+        fiscal_end_month = request.GET.get("fiscal_year_end", "December")
+        lag_periods = int(request.GET.get("lag_periods", 0))
+
+        sorted_correlations = calculate_correlation(
+            time_increment,
+            fiscal_end_month,
+            test_data=test_data,
+            lag_periods=lag_periods,
+        )
+        return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
