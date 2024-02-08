@@ -1,3 +1,4 @@
+from django.http import HttpRequest
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
 from .serializers import UserSerializer, UserAuthenticationSerializer
@@ -14,7 +15,7 @@ from datetime import datetime
 class RegisterView(APIView):
     serializer_class = UserSerializer
 
-    def post(self, request):
+    def post(self, request: HttpRequest):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -24,7 +25,7 @@ class RegisterView(APIView):
 class LoginView(APIView):
     serializer_class = UserAuthenticationSerializer
 
-    def post(self, request):
+    def post(self, request: HttpRequest):
         serializer = UserAuthenticationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
@@ -38,7 +39,9 @@ class LoginView(APIView):
         token, _ = Token.objects.get_or_create(user=user)
 
         response = Response()
-        response.set_cookie("session", token.key)
+        response.set_cookie("session", token.key, httponly=True)
+        response.set_cookie("logged_in", True)
+
         response.data = {"token": token.key}
         return response
 
@@ -46,17 +49,10 @@ class LoginView(APIView):
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request):
-        response = Response({"message": "success"})
-        response.set_cookie("session", "")
+    def post(self, request: HttpRequest):
+        Token.objects.delete(user=request.user)
+
+        response = Response()
+        response.delete_cookie("session")
+        response.delete_cookie("logged_in")
         return response
-
-
-class HomeView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        content = {
-            "message": "Welcome to the JWT Authentication page using React JS and Django!"
-        }
-        return Response(content)
