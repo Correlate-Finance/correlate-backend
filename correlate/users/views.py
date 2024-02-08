@@ -6,9 +6,6 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from .models import User
-import jwt
-from datetime import datetime
-
 # Create your views here.
 
 
@@ -40,9 +37,7 @@ class LoginView(APIView):
 
         response = Response()
         response.set_cookie("session", token.key, httponly=True)
-        response.set_cookie("logged_in", True)
-
-        response.data = {"token": token.key}
+        response.data = {}
         return response
 
 
@@ -50,9 +45,8 @@ class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request: HttpRequest):
-        Token.objects.delete(user=request.user)
+        Token.objects.get(user=request.user).delete()
 
         response = Response()
         response.delete_cookie("session")
-        response.delete_cookie("logged_in")
         return response
