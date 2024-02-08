@@ -4,12 +4,10 @@ from django.http import (
     JsonResponse,
     HttpResponseBadRequest,
     HttpRequest,
-    HttpResponseNotFound,
 )
 from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
-from core.mongo_operations import get_df
 from correlate.models import CorrelateData
 import requests
 import calendar
@@ -18,7 +16,7 @@ from datetime import datetime
 from functools import cache
 import numpy
 
-from core.data_processing import process_data, transform_data
+from core.data_processing import process_data
 
 
 @cache
@@ -100,34 +98,6 @@ class RevenueView(APIView):
             {"date": date, "value": str(value)} for date, value in revenues.items()
         ]
         return JsonResponse(json_revenues, safe=False)
-
-
-class DatasetView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        body = request.body
-        table = body.decode("utf-8")
-
-        time_increment = request.GET.get("time_increment", "Quarterly")
-        fiscal_end_month = request.GET.get("fiscal_year_end", "December")
-
-        print(table)
-        if table is None or table == "":
-            return HttpResponseBadRequest("Invalid table name")
-
-        df = get_df(table)
-        if df is None:
-            return HttpResponseNotFound(f"No table with name {table} found")
-
-        transformed_df = transform_data(df, time_increment, fiscal_end_month)
-        transformed_df_json = {
-            "date": list(transformed_df["Date"].to_string()),
-            "value": list(transformed_df["Value"]),
-        }
-        print(transformed_df_json)
-
-        return JsonResponse(transformed_df_json, safe=False)
 
 
 class CorrelateView(APIView):

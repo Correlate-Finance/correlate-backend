@@ -85,7 +85,7 @@ def fetch_data_frames(
     db,
     dataTable_ids,
     date_threshold=datetime.strptime("1971-01-01", "%Y-%m-%d"),
-    max=1,
+    max=None,
 ) -> dict[str, pd.DataFrame]:
     data_collection = db["data"]
     dfs = {}
