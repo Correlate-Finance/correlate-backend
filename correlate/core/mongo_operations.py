@@ -55,6 +55,11 @@ def get_all_dfs() -> dict[str, pd.DataFrame]:
     return dfs
 
 
+def get_df(name: str) -> pd.DataFrame | None:
+    dfs = get_all_dfs()
+    return dfs.get(name)
+
+
 def freezeargs(func):
     """Transform mutable dictionnary
     Into immutable

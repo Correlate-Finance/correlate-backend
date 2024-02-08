@@ -1,5 +1,10 @@
 from rest_framework.views import APIView
-from django.http import JsonResponse, HttpResponseBadRequest, HttpRequest
+from django.http import (
+    HttpResponse,
+    JsonResponse,
+    HttpResponseBadRequest,
+    HttpRequest,
+)
 from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
@@ -17,8 +22,7 @@ from core.data_processing import process_data
 @cache
 def fetch_stock_revenues(
     stock: str, start_year: int, aggregation_period: str = "Annually"
-):
-    fiscal_year_end = None
+) -> tuple[dict, str]:
     if aggregation_period == "Annually":
         url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
         response = requests.get(url)
@@ -81,7 +85,7 @@ def fetch_stock_revenues(
 class RevenueView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         stock = request.GET.get("stock")
         start_year = request.GET.get("startYear", 2010)
         aggregation_period = request.GET.get("aggregationPeriod", "Annually")
@@ -99,7 +103,7 @@ class RevenueView(APIView):
 class CorrelateView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request: HttpRequest):
+    def get(self, request: HttpRequest) -> HttpResponse:
         stock = request.GET.get("stock")
         start_year = request.GET.get("startYear", 2010)
         aggregation_period = request.GET.get("aggregationPeriod", "Annually")
@@ -128,7 +132,7 @@ class CorrelateView(APIView):
 class CorrelateInputDataView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request: HttpRequest):
+    def post(self, request: HttpRequest) -> HttpResponse:
         body = request.body
         body = body.decode("utf-8")
 

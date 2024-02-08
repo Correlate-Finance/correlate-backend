@@ -34,7 +34,7 @@ def calculate_correlation(
     # Apply the transformation on test_data. make this a single helper method with the job below (sanitize and transform)
     test_df = transform_data(test_df, time_increment, fiscal_end_month)
 
-    transformed_dfs = {}
+    transformed_dfs: dict[str, pd.DataFrame] = {}
     # Apply the transformation on every dataframe in dfs.
     for title, df in dfs.items():
         transformed_dfs[title] = transform_data(df, time_increment, fiscal_end_month)
@@ -48,14 +48,14 @@ def calculate_correlation(
         #     continue
         # Merge the data so that the dates are aligned
         merged = pd.merge(df, test_df, on="Date")
+        test_points = list(merged["Value_y"])
+        dataset_points = list(merged["Value_x"])
+        dates = list(merged["Date"].astype(str))
 
         if len(merged.index) < 4:
             continue
 
         for lag in range(lag_periods + 1):
-            test_points = list(merged["Value_y"])
-            dataset_points = list(merged["Value_x"])
-
             correlation_value, p_value = pearsonr(
                 test_points[lag:], dataset_points[: len(dataset_points) - lag]
             )
@@ -68,6 +68,9 @@ def calculate_correlation(
                     pearson_value=correlation_value,
                     lag=lag,
                     p_value=p_value,
+                    input_data=test_points,
+                    dataset_data=dataset_points,
+                    dates=dates,
                 )
             )
 
