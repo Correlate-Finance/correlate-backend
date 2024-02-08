@@ -2,21 +2,11 @@
 This script runs pairwise correlations against all datasets and calculates clusters as well as average correlation of a dataset against other datasets.
 """
 
-from core.data_processing import transform_data, compute_correlations
 from core.mongo_operations import (
-    connect_to_mongo,
-    fetch_category_names,
-    fetch_data_table_ids,
-    fetch_data_frames,
     get_all_dfs,
 )
-import pandas as pd
-import time
-from core.data import TEST_DATA
-import math
 from core.main_logic import calculate_correlation
 
-from correlate.models import CorrelateDataPoint
 
 
 def calculate_pairwise_correlation():
