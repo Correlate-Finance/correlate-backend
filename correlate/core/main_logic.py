@@ -10,6 +10,7 @@ from core.data import TEST_DATA
 import math
 
 from correlate.models import CorrelateDataPoint
+from scipy.stats.stats import pearsonr
 
 
 def calculate_correlation(
@@ -51,29 +52,24 @@ def calculate_correlation(
         if len(merged.index) < 4:
             continue
 
-        correlation_value = merged["Value_x"].corr(merged["Value_y"])
-        if math.isnan(correlation_value):
-            continue
+        for lag in range(lag_periods + 1):
+            test_points = list(merged["Value_y"])
+            dataset_points = list(merged["Value_x"])
 
-        correlation_results.append(
-            CorrelateDataPoint(title=title, pearson_value=correlation_value, lag=0)
-        )
+            correlation_value, p_value = pearsonr(
+                test_points[lag:], dataset_points[: len(dataset_points) - lag]
+            )
+            if math.isnan(correlation_value):
+                continue
 
-        if lag_periods > 0:
-            for lag in range(lag_periods):
-                print(merged["Value_x"][: -1 * (lag + 1)])
-                print()
-                correlation_value = merged["Value_y"][lag + 1 :].corr(
-                    merged["Value_x"][: -1 * (lag + 1)]
+            correlation_results.append(
+                CorrelateDataPoint(
+                    title=title,
+                    pearson_value=correlation_value,
+                    lag=lag,
+                    p_value=p_value,
                 )
-                if math.isnan(correlation_value):
-                    continue
-
-                correlation_results.append(
-                    CorrelateDataPoint(
-                        title=title, pearson_value=correlation_value, lag=lag + 1
-                    )
-                )
+            )
 
     # Sort by correlation in descending order
     sorted_correlations = sorted(
