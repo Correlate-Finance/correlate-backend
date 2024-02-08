@@ -42,6 +42,7 @@ class LoginView(APIView):
             token.key,
             httponly=True,
             expires=datetime.utcnow() + timedelta(days=365),
+            domain=".correlatefinance.com",
         )
         response.data = {}
         return response
