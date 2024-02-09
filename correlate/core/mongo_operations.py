@@ -7,6 +7,9 @@ import certifi
 from frozendict import frozendict
 from functools import cache, wraps
 
+MONGO_URI = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?retryWrites=true&w=majority"
+DATABASE_NAME = "test"
+
 
 def connect_to_mongo(uri, db_name):
     client = MongoClient(uri, tlsCAFile=certifi.where())
@@ -23,14 +26,17 @@ def fetch_category_names(db):
     return category_data
 
 
-def fetch_data_table_ids(db, selected_name=None):
-    category_data = fetch_category_names(db)
-
+def fetch_data_table_ids(db, selected_name=None, selected_category=None):
     dataTable_documents = db["dataTable"]
-    if selected_name is not None:
-        selected_id = category_data[selected_name]
+    if selected_category is not None:
+        category_data = fetch_category_names(db)
+        selected_id = category_data[selected_category]
         dataTable_documents = dataTable_documents.find(
             {"category": selected_id}, {"title": 1, "_id": 1}
+        )
+    elif selected_name is not None:
+        dataTable_documents = dataTable_documents.find(
+            {"title": selected_name}, {"title": 1, "_id": 1}
         )
     else:
         dataTable_documents = dataTable_documents.find({}, {"title": 1, "_id": 1})
@@ -44,10 +50,7 @@ def fetch_data_table_ids(db, selected_name=None):
 
 
 def get_all_dfs() -> dict[str, pd.DataFrame]:
-    mongo_uri = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?retryWrites=true&w=majority"
-    database_name = "test"
-
-    db = connect_to_mongo(mongo_uri, database_name)
+    db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
 
     dataTable_ids = fetch_data_table_ids(db)
     dfs = fetch_data_frames(db, dataTable_ids)
@@ -56,14 +59,17 @@ def get_all_dfs() -> dict[str, pd.DataFrame]:
 
 
 def get_df(name: str) -> pd.DataFrame | None:
-    dfs = get_all_dfs()
+    db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
+    dataTable_ids = fetch_data_table_ids(db, selected_name=name)
+    dfs = fetch_data_frames(db, dataTable_ids)
+    db.client.close()
     return dfs.get(name)
 
 
 def freezeargs(func):
-    """Transform mutable dictionnary
-    Into immutable
-    Useful to be compatible with cache
+    """
+    Transform mutable dictionary into immutable.
+    Useful to be compatible with cache.
     """
 
     @wraps(func)

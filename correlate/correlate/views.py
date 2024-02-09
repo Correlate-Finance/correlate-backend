@@ -8,6 +8,12 @@ from django.http import (
 from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
+from core.data_trends import (
+    calculate_trailing_months,
+    calculate_year_over_year_growth,
+    calculate_yearly_stacks,
+)
+from core.mongo_operations import get_df
 from correlate.models import CorrelateData
 import requests
 import calendar
@@ -15,6 +21,7 @@ from datetime import datetime
 
 from functools import cache
 import numpy
+import pandas as pd
 
 from core.data_processing import process_data
 
@@ -80,6 +87,26 @@ def fetch_stock_revenues(
                 continue
             revenues[date] = report[i]["revenue"]
         return revenues, fiscal_year_end
+
+
+class DatasetView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        table = request.body.decode("utf-8")
+        print(table)
+        df: pd.DataFrame | None = get_df(table)
+        if df is None:
+            return HttpResponseBadRequest("Invalid data")
+
+        df = df.copy()
+        df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
+
+        calculate_trailing_months(df)
+        calculate_year_over_year_growth(df)
+        calculate_yearly_stacks(df)
+
+        return JsonResponse(df.to_json(orient="records"), safe=False)
 
 
 class RevenueView(APIView):
