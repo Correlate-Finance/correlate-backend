@@ -22,10 +22,10 @@ def calculate_year_over_year_growth(
 
 def calculate_yearly_stacks(data: pd.DataFrame) -> pd.DataFrame:
     """Calculate the yearly stack from the dataset."""
-    data["2YStack"] = (
+    data["Stack2Y"] = (
         ((1 + data["YoYGrowth"]) * (1 + data["YoYGrowth"].shift(12))) ** 0.5
     ) - 1
-    data["3YStack"] = (
+    data["Stack3Y"] = (
         (
             (1 + data["YoYGrowth"])
             * (1 + data["YoYGrowth"].shift(12))

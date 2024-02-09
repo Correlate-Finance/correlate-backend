@@ -5,6 +5,8 @@ from django.http import (
     HttpResponseBadRequest,
     HttpRequest,
 )
+import urllib.parse
+
 from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
@@ -94,12 +96,15 @@ class DatasetView(APIView):
 
     def post(self, request: HttpRequest) -> HttpResponse:
         table = request.body.decode("utf-8")
+        table = urllib.parse.unquote(table)
         print(table)
         df: pd.DataFrame | None = get_df(table)
         if df is None:
             return HttpResponseBadRequest("Invalid data")
 
         df = df.copy()
+        df["Date"] = pd.to_datetime(df["Date"])
+        df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
         df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
 
         calculate_trailing_months(df)
