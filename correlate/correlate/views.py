@@ -103,6 +103,7 @@ class DatasetView(APIView):
             return HttpResponseBadRequest("Invalid data")
 
         df = df.copy()
+        df.sort_values(by="Date", inplace=True)
         df["Date"] = pd.to_datetime(df["Date"])
         df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
         df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
