@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from core.main_logic import calculate_correlation
 from core.data_trends import (
+    calculate_average_monthly_growth,
     calculate_trailing_months,
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
@@ -97,20 +98,21 @@ class DatasetView(APIView):
     def post(self, request: HttpRequest) -> HttpResponse:
         table = request.body.decode("utf-8")
         table = urllib.parse.unquote(table)
-        print(table)
+
         df: pd.DataFrame | None = get_df(table)
         if df is None:
             return HttpResponseBadRequest("Invalid data")
 
         df = df.copy()
-        df.sort_values(by="Date", inplace=True)
         df["Date"] = pd.to_datetime(df["Date"])
-        df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
+        df.sort_values(by="Date", inplace=True)
         df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
 
         calculate_trailing_months(df)
         calculate_year_over_year_growth(df)
         calculate_yearly_stacks(df)
+        calculate_average_monthly_growth(df, years=5)
+        df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
 
         return JsonResponse(df.to_json(orient="records"), safe=False)
 
