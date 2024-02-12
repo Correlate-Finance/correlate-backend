@@ -11,9 +11,28 @@ MONGO_URI = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?r
 DATABASE_NAME = "test"
 
 HIGH_LEVEL_TABLES = [
-    "adv retail sales auto & other",
-    "ships & boats shipments",
-    "paperboard container shipments",
+    "heating_Days_united_states",
+    "cooling_Days_united_states",
+    "total us construction spend",
+    "total ressie construction spend",
+    "total non res const spend",
+    "total private const spend",
+    "total public construction spend",
+    "manuf ex transport orders",
+    "manuf ex defense orders",
+    "duarble goods shipments",
+    "total manufacturing orders",
+    "manuf ex transport orders",
+    "manuf ex defense orders",
+    "manuf unfilled orders",
+    "durable goods orders",
+    "fast daily sales",
+    "south_korea_exp_total",
+    "domestic auto sales",
+    "domestic auto production",
+    "total dod o&m",
+    "total dod procurement",
+    "total dod rdt&e",
 ]
 
 
