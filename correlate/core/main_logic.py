@@ -1,9 +1,7 @@
 # make this the api route file
 
 from core.data_processing import transform_data
-from core.mongo_operations import (
-    get_all_dfs,
-)
+from core.mongo_operations import get_all_dfs, HIGH_LEVEL_TABLES
 import pandas as pd
 import time
 from core.data import TEST_DATA
@@ -19,6 +17,7 @@ def calculate_correlation(
     test_data: dict | pd.DataFrame = None,
     selected_name=None,
     lag_periods: int = 0,
+    high_level_only: bool = False,
 ):
     if test_data is None:
         test_data = TEST_DATA
@@ -29,7 +28,7 @@ def calculate_correlation(
     else:
         test_df = test_data
 
-    dfs = get_all_dfs()
+    dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
 
     # Apply the transformation on test_data. make this a single helper method with the job below (sanitize and transform)
     test_df = transform_data(test_df, time_increment, fiscal_end_month)

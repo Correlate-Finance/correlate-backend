@@ -10,6 +10,12 @@ from functools import cache, wraps
 MONGO_URI = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?retryWrites=true&w=majority"
 DATABASE_NAME = "test"
 
+HIGH_LEVEL_TABLES = [
+    "adv retail sales auto & other",
+    "ships & boats shipments",
+    "paperboard container shipments",
+]
+
 
 def connect_to_mongo(uri, db_name):
     client = MongoClient(uri, tlsCAFile=certifi.where())
@@ -26,7 +32,9 @@ def fetch_category_names(db):
     return category_data
 
 
-def fetch_data_table_ids(db, selected_name=None, selected_category=None):
+def fetch_data_table_ids(
+    db, selected_names: list[str] | None = None, selected_category: str | None = None
+):
     dataTable_documents = db["dataTable"]
     if selected_category is not None:
         category_data = fetch_category_names(db)
@@ -34,9 +42,9 @@ def fetch_data_table_ids(db, selected_name=None, selected_category=None):
         dataTable_documents = dataTable_documents.find(
             {"category": selected_id}, {"title": 1, "_id": 1}
         )
-    elif selected_name is not None:
+    elif selected_names is not None:
         dataTable_documents = dataTable_documents.find(
-            {"title": selected_name}, {"title": 1, "_id": 1}
+            {"title": {"$in": selected_names}}, {"title": 1, "_id": 1}
         )
     else:
         dataTable_documents = dataTable_documents.find({}, {"title": 1, "_id": 1})
@@ -49,10 +57,10 @@ def fetch_data_table_ids(db, selected_name=None, selected_category=None):
     return dataTable_ids
 
 
-def get_all_dfs() -> dict[str, pd.DataFrame]:
+def get_all_dfs(selected_names: list[str] | None = None) -> dict[str, pd.DataFrame]:
     db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
 
-    dataTable_ids = fetch_data_table_ids(db)
+    dataTable_ids = fetch_data_table_ids(db, selected_names=selected_names)
     dfs = fetch_data_frames(db, dataTable_ids)
     db.client.close()
     return dfs
