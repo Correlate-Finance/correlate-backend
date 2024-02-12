@@ -15,6 +15,19 @@ import os
 import dj_database_url
 import environ
 
+import sentry_sdk
+
+sentry_sdk.init(
+    dsn="https://44990de3e2b5e22e22533ee906f4a07a@o4506736104112128.ingest.sentry.io/4506736106930176",
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    traces_sample_rate=1.0,
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production.
+    profiles_sample_rate=1.0,
+)
+
 env = environ.Env()
 environ.Env.read_env()
 
