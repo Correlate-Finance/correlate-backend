@@ -21,19 +21,14 @@ def calculate_year_over_year_growth(
     return data
 
 
-def calculate_yearly_stacks(data: pd.DataFrame) -> pd.DataFrame:
+def calculate_yearly_stacks(data: pd.DataFrame, years: int = 5) -> pd.DataFrame:
     """Calculate the yearly stack from the dataset."""
-    data["Stack2Y"] = (
-        ((1 + data["YoYGrowth"]) * (1 + data["YoYGrowth"].shift(12))) ** 0.5
-    ) - 1
-    data["Stack3Y"] = (
-        (
-            (1 + data["YoYGrowth"])
-            * (1 + data["YoYGrowth"].shift(12))
-            * (1 + data["YoYGrowth"].shift(24))
-        )
-        ** (1 / 3)
-    ) - 1
+
+    for stack_year in range(2, years + 1):
+        compound_growth = 1
+        for i in range(stack_year):
+            compound_growth *= 1 + data["YoYGrowth"].shift(12 * i)
+        data[f"Stack{stack_year}Y"] = compound_growth ** (1 / stack_year) - 1
     return data
 
 
@@ -41,12 +36,14 @@ def calculate_average_monthly_growth(
     data: pd.DataFrame, years: int | None = None
 ) -> pd.DataFrame:
     """Calculate the average monthly growth from the dataset."""
+    total_data = len(data.index)
     if years is not None:
-        index = years * 12
+        index = min(total_data, years * 12)
     else:
-        index = len(data.index)
+        index = total_data
+
     df = (
-        data[len(data.index) - index :]
+        data[total_data - index :]
         .groupby(data["Date"].dt.month)["MoMGrowth"]
         .mean()
         .reset_index()
@@ -54,5 +51,5 @@ def calculate_average_monthly_growth(
 
     data["averageMoM"] = data["Date"].dt.month.map(lambda x: df["MoMGrowth"][x - 1])
     data["DeltaSeasonality"] = data["MoMGrowth"] - data["averageMoM"]
-    print(data["DeltaSeasonality"])
+
     return data
