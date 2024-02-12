@@ -87,7 +87,7 @@ def get_all_dfs(selected_names: list[str] | None = None) -> dict[str, pd.DataFra
 
 def get_df(name: str) -> pd.DataFrame | None:
     db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
-    dataTable_ids = fetch_data_table_ids(db, selected_name=name)
+    dataTable_ids = fetch_data_table_ids(db, selected_names=[name])
     dfs = fetch_data_frames(db, dataTable_ids)
     db.client.close()
     return dfs.get(name)
