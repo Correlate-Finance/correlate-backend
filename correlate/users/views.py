@@ -7,9 +7,6 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from .models import User
 from datetime import datetime, timedelta
-# Create your views here.
-
-
 import environ
 
 env = environ.Env()
@@ -23,6 +20,7 @@ class RegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
         return Response(serializer.data)
 
 
