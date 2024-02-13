@@ -6,7 +6,7 @@ from .models import DatasetMetadata
 
 
 class DatasetMetadataAdmin(admin.ModelAdmin):
-    list_display = ("internal_name", "external_name")
+    list_display = ("internal_name", "external_name", "updated_at")
     search_fields = ("internal_name",)
 
 
