@@ -4,4 +4,10 @@ from django.contrib import admin
 
 from .models import DatasetMetadata
 
-admin.site.register(DatasetMetadata)
+
+class DatasetMetadataAdmin(admin.ModelAdmin):
+    list_display = ("internal_name", "external_name")
+    search_fields = ("internal_name",)
+
+
+admin.site.register(DatasetMetadata, DatasetMetadataAdmin)
