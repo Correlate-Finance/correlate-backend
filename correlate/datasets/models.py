@@ -36,3 +36,6 @@ class DatasetMetadata(models.Model):
     category = models.CharField(
         choices=Categories.choices, max_length=255, blank=True, null=True
     )
+
+    def __str__(self):
+        return f"{self.external_name if self.external_name is not None else self.internal_name}"
