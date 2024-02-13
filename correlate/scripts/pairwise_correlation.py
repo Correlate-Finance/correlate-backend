@@ -8,7 +8,6 @@ from core.mongo_operations import (
 from core.main_logic import calculate_correlation
 
 
-
 def calculate_pairwise_correlation():
     dfs = get_all_dfs()
 

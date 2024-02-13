@@ -5,7 +5,6 @@ from core.mongo_operations import (
     MONGO_URI,
     DATABASE_NAME,
 )
-from datetime import datetime
 import pytz
 
 
