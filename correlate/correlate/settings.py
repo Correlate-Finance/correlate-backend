@@ -81,7 +81,7 @@ MIDDLEWARE = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "api.correlatefinance.com",
+    "https://api.correlatefinance.com",
 ]
 
 ROOT_URLCONF = "correlate.urls"
