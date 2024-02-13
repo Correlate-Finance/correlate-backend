@@ -7,7 +7,7 @@ import time
 from core.data import TEST_DATA
 import math
 
-from correlate.models import CorrelateDataPoint
+from datasets.models import CorrelateDataPoint
 from scipy.stats.stats import pearsonr
 
 

@@ -17,7 +17,8 @@ from core.data_trends import (
     calculate_yearly_stacks,
 )
 from core.mongo_operations import get_df
-from correlate.models import CorrelateData
+from datasets.dataset_metadata import augment_with_external_title
+from datasets.models import CorrelateData
 import requests
 import calendar
 from datetime import datetime
@@ -163,7 +164,11 @@ class CorrelateView(APIView):
             high_level_only=high_level_only,
         )
 
-        return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
+        return JsonResponse(
+            CorrelateData(
+                data=augment_with_external_title(sorted_correlations[:100])
+            ).model_dump()
+        )
 
 
 class CorrelateInputDataView(APIView):
@@ -199,4 +204,8 @@ class CorrelateInputDataView(APIView):
             lag_periods=lag_periods,
             high_level_only=high_level_only,
         )
-        return JsonResponse(CorrelateData(data=sorted_correlations[:100]).model_dump())
+        return JsonResponse(
+            CorrelateData(
+                data=augment_with_external_title(sorted_correlations[:100])
+            ).model_dump()
+        )
