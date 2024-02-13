@@ -11,6 +11,9 @@ MONGO_URI = "mongodb+srv://cmd2:VXSkRSG3kbRLIoJd@cluster0.fgu6ofc.mongodb.net/?r
 DATABASE_NAME = "test"
 
 HIGH_LEVEL_TABLES = [
+    "ressie water heaters",
+    "commercial water heaters",
+    "total ac & heat pumps",
     "heating_Days_united_states",
     "cooling_Days_united_states",
     "total us construction spend",
@@ -18,8 +21,10 @@ HIGH_LEVEL_TABLES = [
     "total non res const spend",
     "total private const spend",
     "total public construction spend",
+    "manufacturing shipments",
     "manuf ex transport orders",
     "manuf ex defense orders",
+    "manu unfilled orders shipments",
     "duarble goods shipments",
     "total manufacturing orders",
     "manuf ex transport orders",
@@ -33,6 +38,9 @@ HIGH_LEVEL_TABLES = [
     "total dod o&m",
     "total dod procurement",
     "total dod rdt&e",
+    "monotaro daily monthly sales",
+    "Adv Retail Sales Retail Trade",
+    "wsts worldwide semis",
 ]
 
 
