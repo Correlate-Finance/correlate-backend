@@ -80,6 +80,10 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "api.correlatefinance.com",
+]
+
 ROOT_URLCONF = "correlate.urls"
 
 TEMPLATES = [
