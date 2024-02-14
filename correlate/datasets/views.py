@@ -18,7 +18,10 @@ from core.data_trends import (
 )
 from core.mongo_operations import get_all_dfs, get_df
 from core import mongo_operations
-from datasets.dataset_metadata import augment_with_external_title
+from datasets.dataset_metadata import (
+    augment_with_external_title,
+    get_metadata_from_external_name,
+)
 from datasets.models import CorrelateData
 import requests
 import calendar
@@ -100,6 +103,9 @@ class DatasetView(APIView):
     def post(self, request: HttpRequest) -> HttpResponse:
         table = request.body.decode("utf-8")
         table = urllib.parse.unquote(table)
+        metadata = get_metadata_from_external_name(table)
+        if metadata is not None:
+            table = metadata.internal_name
 
         if mongo_operations.CACHED:
             df: pd.DataFrame | None = get_all_dfs().get(table)

@@ -15,3 +15,7 @@ def augment_with_external_title(
             continue
         dataset.title = metadata.external_name
     return datasets
+
+
+def get_metadata_from_external_name(external_name: str) -> DatasetMetadata | None:
+    return DatasetMetadata.objects.filter(external_name=external_name).first()
