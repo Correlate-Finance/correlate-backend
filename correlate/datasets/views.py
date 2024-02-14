@@ -171,7 +171,7 @@ class CorrelateView(APIView):
 
         if not show_negatives:
             sorted_correlations = list(
-                filter(lambda x: x["pearson_value"] > 0, sorted_correlations)
+                filter(lambda x: x.pearson_value > 0, sorted_correlations)
             )
 
         return JsonResponse(
@@ -218,7 +218,7 @@ class CorrelateInputDataView(APIView):
 
         if not show_negatives:
             sorted_correlations = list(
-                filter(lambda x: x["pearson_value"] > 0, sorted_correlations)
+                filter(lambda x: x.pearson_value > 0, sorted_correlations)
             )
 
         return JsonResponse(
