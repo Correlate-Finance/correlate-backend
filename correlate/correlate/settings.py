@@ -17,6 +17,17 @@ import environ
 
 import sentry_sdk
 
+
+env = environ.Env()
+environ.Env.read_env()
+
+LOCAL_DEV = env.bool("LOCAL_DEV", default=False)
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+
 sentry_sdk.init(
     dsn="https://44990de3e2b5e22e22533ee906f4a07a@o4506736104112128.ingest.sentry.io/4506736106930176",
     # Set traces_sample_rate to 1.0 to capture 100%
@@ -26,15 +37,8 @@ sentry_sdk.init(
     # of sampled transactions.
     # We recommend adjusting this value in production.
     profiles_sample_rate=1.0,
+    environment="development" if LOCAL_DEV else "production",
 )
-
-env = environ.Env()
-environ.Env.read_env()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
