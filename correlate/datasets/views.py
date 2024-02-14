@@ -16,7 +16,8 @@ from core.data_trends import (
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
 )
-from core.mongo_operations import get_df
+from core.mongo_operations import get_all_dfs, get_df
+from core import mongo_operations
 from datasets.dataset_metadata import augment_with_external_title
 from datasets.models import CorrelateData
 import requests
@@ -100,7 +101,10 @@ class DatasetView(APIView):
         table = request.body.decode("utf-8")
         table = urllib.parse.unquote(table)
 
-        df: pd.DataFrame | None = get_df(table)
+        if mongo_operations.CACHED:
+            df: pd.DataFrame | None = get_all_dfs().get(table)
+        else:
+            df: pd.DataFrame | None = get_df(table)
         if df is None:
             return HttpResponseBadRequest("Invalid data")
 

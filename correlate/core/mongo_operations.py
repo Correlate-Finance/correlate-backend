@@ -43,6 +43,8 @@ HIGH_LEVEL_TABLES = [
     "wsts worldwide semis",
 ]
 
+CACHED = False
+
 
 def connect_to_mongo(uri, db_name):
     client = MongoClient(uri, tlsCAFile=certifi.where())
@@ -149,4 +151,6 @@ def fetch_data_frames(
 
         if max and len(dfs) >= max:
             break
+    global CACHED
+    CACHED = True
     return frozendict(dfs)
