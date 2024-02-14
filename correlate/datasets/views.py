@@ -130,7 +130,7 @@ class RevenueView(APIView):
         start_year = request.GET.get("startYear", 2010)
         aggregation_period = request.GET.get("aggregationPeriod", "Annually")
 
-        if stock is None or len(stock) < 2:
+        if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
         revenues, _ = fetch_stock_revenues(stock, start_year, aggregation_period)
@@ -150,7 +150,7 @@ class CorrelateView(APIView):
         lag_periods = int(request.GET.get("lag_periods", 0))
         high_level_only = request.GET.get("high_level_only", "false") == "true"
 
-        if stock is None or len(stock) < 2:
+        if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
         revenues, fiscal_end_month = fetch_stock_revenues(
