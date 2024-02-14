@@ -149,6 +149,7 @@ class CorrelateView(APIView):
         aggregation_period = request.GET.get("aggregationPeriod", "Annually")
         lag_periods = int(request.GET.get("lag_periods", 0))
         high_level_only = request.GET.get("high_level_only", "false") == "true"
+        show_negatives = request.GET.get("show_negatives", "false") == "true"
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
@@ -167,6 +168,11 @@ class CorrelateView(APIView):
             lag_periods=lag_periods,
             high_level_only=high_level_only,
         )
+
+        if not show_negatives:
+            sorted_correlations = list(
+                filter(lambda x: x["pearson_value"] > 0, sorted_correlations)
+            )
 
         return JsonResponse(
             CorrelateData(
@@ -199,7 +205,8 @@ class CorrelateInputDataView(APIView):
         time_increment = request.GET.get("time_increment", "Quarterly")
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
         lag_periods = int(request.GET.get("lag_periods", 0))
-        high_level_only = request.GET.get("high_level_only", "false")
+        high_level_only = request.GET.get("high_level_only", "false") == "true"
+        show_negatives = request.GET.get("show_negatives", "false") == "true"
 
         sorted_correlations = calculate_correlation(
             time_increment,
@@ -208,6 +215,12 @@ class CorrelateInputDataView(APIView):
             lag_periods=lag_periods,
             high_level_only=high_level_only,
         )
+
+        if not show_negatives:
+            sorted_correlations = list(
+                filter(lambda x: x["pearson_value"] > 0, sorted_correlations)
+            )
+
         return JsonResponse(
             CorrelateData(
                 data=augment_with_external_title(sorted_correlations[:100])
