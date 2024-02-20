@@ -4,8 +4,14 @@ from . import views
 urlpatterns = [
     path("revenue", views.RevenueView.as_view(), name="revenue"),
     path("correlate", views.CorrelateView.as_view(), name="correlate"),
+    path("correlate/", views.CorrelateView.as_view(), name="correlate"),
     path(
         "correlateInputData",
+        views.CorrelateInputDataView.as_view(),
+        name="correlateInputData",
+    ),
+    path(
+        "correlateInputData/",
         views.CorrelateInputDataView.as_view(),
         name="correlateInputData",
     ),
