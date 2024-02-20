@@ -150,11 +150,12 @@ class CorrelateView(APIView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         stock = request.GET.get("stock")
-        start_year = request.GET.get("startYear", 2010)
-        aggregation_period = request.GET.get("aggregationPeriod", "Annually")
+        start_year = request.GET.get("start_year", 2010)
+        aggregation_period = request.GET.get("aggregation_period", "Annually")
         lag_periods = int(request.GET.get("lag_periods", 0))
         high_level_only = request.GET.get("high_level_only", "false") == "true"
         show_negatives = request.GET.get("show_negatives", "false") == "true"
+        correlation_metric = request.GET.get("correlation_metric", "RAW_VALUE")
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
@@ -171,6 +172,7 @@ class CorrelateView(APIView):
             lag_periods=lag_periods,
             high_level_only=high_level_only,
             show_negatives=show_negatives,
+            correlation_metric=correlation_metric,
         )
 
 
@@ -195,14 +197,14 @@ class CorrelateInputDataView(APIView):
 
         test_data = process_data({"Date": dates, "Value": values})
 
-        time_increment = request.GET.get("time_increment", "Quarterly")
+        aggregation_period = request.GET.get("aggregation_period", "Quarterly")
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
         lag_periods = int(request.GET.get("lag_periods", 0))
         high_level_only = request.GET.get("high_level_only", "false") == "true"
         show_negatives = request.GET.get("show_negatives", "false") == "true"
 
         return run_correlations(
-            time_increment,
+            aggregation_period,
             fiscal_end_month,
             test_data=test_data,
             lag_periods=lag_periods,
@@ -218,6 +220,7 @@ def run_correlations(
     lag_periods: int,
     high_level_only: bool,
     show_negatives: bool,
+    correlation_metric: str,
 ) -> JsonResponse:
     sorted_correlations = calculate_correlation(
         time_increment,
@@ -225,6 +228,7 @@ def run_correlations(
         test_data=test_data,
         lag_periods=lag_periods,
         high_level_only=high_level_only,
+        correlation_metric=correlation_metric,
     )
 
     if not show_negatives:

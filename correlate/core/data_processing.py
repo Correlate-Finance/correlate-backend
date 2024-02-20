@@ -5,7 +5,12 @@ import pandas as pd
 import re
 
 
-def transform_data(df, time_increment, fiscal_end_month=None):
+def transform_data(
+    df: pd.DataFrame,
+    time_increment,
+    fiscal_end_month=None,
+    correlation_metric="RAW_VALUE",
+) -> pd.DataFrame:
     # Convert 'Date' to datetime type if it's not already
     # Floor the date to the day so that there is no time component of the time
     df = df.copy(deep=True)
@@ -15,6 +20,8 @@ def transform_data(df, time_increment, fiscal_end_month=None):
 
     # Monthly: Do nothing
     if time_increment == "Monthly":
+        if correlation_metric == "YOY_GROWTH":
+            df["Value"] = df["Value"].pct_change(periods=12)
         return df
 
     # Quarterly
@@ -38,6 +45,8 @@ def transform_data(df, time_increment, fiscal_end_month=None):
         df["Date"] = df["Date"].dt.to_period(fiscal_month_code[fiscal_end_month])
         # Group by Fiscal_Quarter and sum the values
         df = df.groupby("Date").sum().reset_index()
+        if correlation_metric == "YOY_GROWTH":
+            df["Value"] = df["Value"].pct_change(periods=4)
         return df
 
     # Annually
@@ -46,6 +55,8 @@ def transform_data(df, time_increment, fiscal_end_month=None):
         df = df.groupby(df["Date"].dt.year)["Value"].sum().reset_index()
         # Reconstruct the 'Date' column to represent the first day of each year
         df["Date"] = pd.to_datetime(df["Date"].astype(str) + "-1-1", errors="coerce")
+        if correlation_metric == "YOY_GROWTH":
+            df["Value"] = df["Value"].pct_change(periods=1)
         return df
 
 
