@@ -85,7 +85,6 @@ def fetch_stock_revenues(
             updated_month = ((updated_month - 1) % 12) + 1
 
         fiscal_year_end = calendar.month_name[updated_month]
-        print("fiscal year end: ", fiscal_year_end)
 
         revenues = {}
         for i in range(len(report)):
@@ -165,25 +164,13 @@ class CorrelateView(APIView):
         )
         test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
-        print("test_data", test_data)
-
-        sorted_correlations = calculate_correlation(
-            aggregation_period,
-            fiscal_end_month,
+        return run_correlations(
+            time_increment=aggregation_period,
+            fiscal_end_month=fiscal_end_month,
             test_data=test_data,
             lag_periods=lag_periods,
             high_level_only=high_level_only,
-        )
-
-        if not show_negatives:
-            sorted_correlations = list(
-                filter(lambda x: x.pearson_value > 0, sorted_correlations)
-            )
-
-        return JsonResponse(
-            CorrelateData(
-                data=augment_with_external_title(sorted_correlations[:100])
-            ).model_dump()
+            show_negatives=show_negatives,
         )
 
 
@@ -214,21 +201,39 @@ class CorrelateInputDataView(APIView):
         high_level_only = request.GET.get("high_level_only", "false") == "true"
         show_negatives = request.GET.get("show_negatives", "false") == "true"
 
-        sorted_correlations = calculate_correlation(
+        return run_correlations(
             time_increment,
             fiscal_end_month,
             test_data=test_data,
             lag_periods=lag_periods,
             high_level_only=high_level_only,
+            show_negatives=show_negatives,
         )
 
-        if not show_negatives:
-            sorted_correlations = list(
-                filter(lambda x: x.pearson_value > 0, sorted_correlations)
-            )
 
-        return JsonResponse(
-            CorrelateData(
-                data=augment_with_external_title(sorted_correlations[:100])
-            ).model_dump()
+def run_correlations(
+    time_increment: str,
+    fiscal_end_month: str,
+    test_data: dict,
+    lag_periods: int,
+    high_level_only: bool,
+    show_negatives: bool,
+) -> JsonResponse:
+    sorted_correlations = calculate_correlation(
+        time_increment,
+        fiscal_end_month,
+        test_data=test_data,
+        lag_periods=lag_periods,
+        high_level_only=high_level_only,
+    )
+
+    if not show_negatives:
+        sorted_correlations = list(
+            filter(lambda x: x.pearson_value > 0, sorted_correlations)
         )
+
+    return JsonResponse(
+        CorrelateData(
+            data=augment_with_external_title(sorted_correlations[:100])
+        ).model_dump()
+    )

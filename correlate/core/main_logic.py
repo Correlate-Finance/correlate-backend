@@ -78,5 +78,4 @@ def calculate_correlation(
         correlation_results, key=lambda x: abs(x.pearson_value), reverse=True
     )
 
-    print("Computation time", time.time() - start_time)
     return sorted_correlations
