@@ -10,4 +10,5 @@ urlpatterns = [
         name="correlateInputData",
     ),
     path("dataset", views.DatasetView.as_view(), name="dataset"),
+    path("dataset/", views.DatasetView.as_view(), name="dataset"),
 ]

@@ -11,13 +11,13 @@ def transform_data(
     fiscal_end_month=None,
     correlation_metric="RAW_VALUE",
 ) -> pd.DataFrame:
-    # Convert 'Date' to datetime type if it's not already
-    # Floor the date to the day so that there is no time component of the time
     df = df.copy(deep=True)
     # Short circuit if df is empty
     if df.empty:
         return df
 
+    # Convert 'Date' to datetime type if it's not already
+    # Floor the date to the day so that there is no time component of the time
     df["Date"] = pd.to_datetime(df["Date"])
     # Convert 'Value' to float type if it's not already
     df["Value"] = df["Value"].astype(float)  # Convert to float
