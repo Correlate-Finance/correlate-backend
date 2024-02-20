@@ -202,6 +202,7 @@ class CorrelateInputDataView(APIView):
         lag_periods = int(request.GET.get("lag_periods", 0))
         high_level_only = request.GET.get("high_level_only", "false") == "true"
         show_negatives = request.GET.get("show_negatives", "false") == "true"
+        correlation_metric = request.GET.get("correlation_metric", "RAW_VALUE")
 
         return run_correlations(
             aggregation_period,
@@ -210,6 +211,7 @@ class CorrelateInputDataView(APIView):
             lag_periods=lag_periods,
             high_level_only=high_level_only,
             show_negatives=show_negatives,
+            correlation_metric=correlation_metric,
         )
 
 
