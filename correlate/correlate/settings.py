@@ -21,7 +21,7 @@ import sentry_sdk
 env = environ.Env()
 environ.Env.read_env()
 
-LOCAL_DEV = env.bool("LOCAL_DEV", default=False)
+LOCAL_DEV = env.bool("LOCAL_DEV", default=False)  # type:ignore
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,7 +47,7 @@ sentry_sdk.init(
 SECRET_KEY = "django-insecure-1gsgldh1jz-od#lbdmhq#0w*8som8dpeggp747dj^rihkg1k7l"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool("DEBUG", default=False)
+DEBUG = env.bool("DEBUG", default=False)  # type:ignore
 
 ALLOWED_HOSTS = [
     "correlate-backend-e2905dab5cac.herokuapp.com",
