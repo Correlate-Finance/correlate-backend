@@ -19,3 +19,10 @@ def augment_with_external_title(
 
 def get_metadata_from_external_name(external_name: str) -> DatasetMetadata | None:
     return DatasetMetadata.objects.filter(external_name=external_name).first()
+
+
+def get_internal_name_from_external_name(external_name: str) -> str:
+    metadata = get_metadata_from_external_name(external_name)
+    if metadata is None:
+        return external_name
+    return metadata.internal_name

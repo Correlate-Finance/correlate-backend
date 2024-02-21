@@ -22,6 +22,7 @@ from core import mongo_operations
 from datasets.serializers import CorrelateIndexRequestBody
 from datasets.dataset_metadata import (
     augment_with_external_title,
+    get_internal_name_from_external_name,
     get_metadata_from_external_name,
 )
 from datasets.models import CorrelateData
@@ -30,7 +31,6 @@ import calendar
 from datetime import datetime
 
 from functools import cache
-import numpy
 import pandas as pd
 
 from core.data_processing import parse_input_dataset, transform_data
@@ -227,9 +227,13 @@ class CorrelateIndex(APIView):
         correlation_metric = request.GET.get("correlation_metric", "RAW_VALUE")
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
 
-        print(body)
         request_body = CorrelateIndexRequestBody(**json.loads(body))
-        print(request_body)
+
+        for i in range(len(request_body.index_datasets)):
+            internal_name = get_internal_name_from_external_name(
+                request_body.index_datasets[i]
+            )
+            request_body.index_datasets[i] = internal_name
 
         test_df = pd.DataFrame(
             {"Date": request_body.dates, "Value": request_body.input_data}
@@ -251,6 +255,7 @@ class CorrelateIndex(APIView):
             correlation_metric=correlation_metric,
             fiscal_end_month=fiscal_end_month,
         )
+
         if index is None:
             return JsonResponse({"error": "No data available"})
 
