@@ -292,6 +292,7 @@ def run_correlations(
         lag_periods=lag_periods,
         high_level_only=high_level_only,
         correlation_metric=correlation_metric,
+        test_correlation_metric=test_correlation_metric,
     )
 
     if not show_negatives:
