@@ -3,6 +3,7 @@
 
 import pandas as pd
 import re
+import numpy as np
 
 
 def transform_data(
@@ -117,7 +118,19 @@ def convert_to_four_digit_year(year: str, max_year: int = 2029):
         return "19" + year
 
 
-def process_data(data):
+def parse_input_dataset(data: str) -> dict[str, list[str | int]] | None:
+    rows = data.split("\n")
+    table = list(map(lambda row: row.split(), rows))
+
+    rows = len(table)
+
+    if rows == 2:
+        # transpose data
+        table = np.transpose(table)
+
+    dates = [row[0] for row in table]
+    values = [row[1] for row in table]
+
     valid_date_patterns = {
         # 2014Q1 -> Accepted pattern, do nothing
         r"^(\d{4})Q([1-4])": lambda x: x,
@@ -126,22 +139,17 @@ def process_data(data):
         + match.group(1),
     }
 
-    dates = data["Date"]
-
     if len(dates) <= 0:
-        return data
+        return None
 
     for pattern, processor in valid_date_patterns.items():
         for i in range(len(dates)):
             if match := re.match(pattern, dates[i]):
                 dates[i] = processor(match)
 
-    values: list[int | str] = data["Value"]
     for i in range(len(values)):
-        if isinstance(values[i], str):
-            values[i] = int(values[i].replace(",", ""))
+        value = values[i]
+        if isinstance(value, str):
+            values[i] = int(value.replace(",", ""))
 
-    data["Date"] = dates
-    data["Value"] = values
-
-    return data
+    return {"Date": dates, "Value": values}

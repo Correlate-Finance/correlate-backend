@@ -19,6 +19,7 @@ class CorrelateData(BaseModel):
     data: list[CorrelateDataPoint]
     aggregationPeriod: str
     correlationMetric: str
+    fiscalYearEnd: str = "December"
 
 
 # Create your models here.
