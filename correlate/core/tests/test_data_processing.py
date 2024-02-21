@@ -3,27 +3,43 @@ import pandas as pd
 import math
 
 from core.data_processing import transform_data
+from parameterized import parameterized
+
+TEST_DATA = {
+    "Date": [
+        "2020-01-01",
+        "2020-02-01",
+        "2020-03-01",
+        "2020-04-01",
+        "2020-05-01",
+        "2020-06-01",
+        "2020-07-01",
+        "2020-08-01",
+        "2020-09-01",
+        "2020-10-01",
+        "2020-11-01",
+        "2020-12-01",
+    ],
+    "Value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+}
+QUARTERLY_DATA = {
+    "Date": [
+        "2020Q1",
+        "2020Q2",
+        "2020Q3",
+        "2020Q4",
+        "2021Q1",
+        "2021Q2",
+        "2021Q3",
+        "2021Q4",
+    ],
+    "Value": [1] * 4 + [2] * 4,
+}
 
 
 class TestTransformData(unittest.TestCase):
     def setUp(self) -> None:
-        self.test_data = {
-            "Date": [
-                "2020-01-01",
-                "2020-02-01",
-                "2020-03-01",
-                "2020-04-01",
-                "2020-05-01",
-                "2020-06-01",
-                "2020-07-01",
-                "2020-08-01",
-                "2020-09-01",
-                "2020-10-01",
-                "2020-11-01",
-                "2020-12-01",
-            ],
-            "Value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-        }
+        self.test_data = TEST_DATA
         self.incomplete_data_start = {
             "Date": [
                 "2020-02-01",
@@ -85,6 +101,7 @@ class TestTransformData(unittest.TestCase):
             ],
             "Value": [1] * 12 + [2] * 12,
         }
+        self.quarterly_data = QUARTERLY_DATA
         return super().setUp()
 
     def test_transform_empty(self):
@@ -109,8 +126,9 @@ class TestTransformData(unittest.TestCase):
         with self.assertRaises(ValueError):
             transform_data(df, "Quarterly")
 
-    def test_transform_quarterly(self):
-        df = pd.DataFrame(self.test_data)
+    @parameterized.expand([[TEST_DATA], [QUARTERLY_DATA]])
+    def test_transform_quarterly(self, test_data):
+        df = pd.DataFrame(test_data)
         result = transform_data(df, "Quarterly", fiscal_end_month="December")
         self.assertEqual(result["Date"].iloc[0], pd.Period("2020Q1", "Q-DEC"))
         self.assertEqual(result["Date"].iloc[3], pd.Period("2020Q4", "Q-DEC"))
@@ -150,8 +168,9 @@ class TestTransformData(unittest.TestCase):
         self.assertTrue(math.isnan(result["Value"].iloc[0]))
         self.assertAlmostEqual(result["Value"].iloc[4], 1)
 
-    def test_transform_annual(self):
-        df = pd.DataFrame(self.test_data)
+    @parameterized.expand([[TEST_DATA], [QUARTERLY_DATA]])
+    def test_transform_annual(self, test_data):
+        df = pd.DataFrame(test_data)
         result = transform_data(df, "Annually", fiscal_end_month="December")
         self.assertEqual(result["Date"].iloc[0], pd.to_datetime("2020-01-01"))
 
