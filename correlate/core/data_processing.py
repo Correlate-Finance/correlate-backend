@@ -150,6 +150,6 @@ def parse_input_dataset(data: str) -> dict[str, list[str | int]] | None:
     for i in range(len(values)):
         value = values[i]
         if isinstance(value, str):
-            values[i] = int(value.replace(",", ""))
+            values[i] = float(value.replace(",", ""))
 
     return {"Date": dates, "Value": values}
