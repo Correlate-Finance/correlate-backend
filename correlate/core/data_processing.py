@@ -27,7 +27,6 @@ def transform_data(
     if time_increment == "Monthly":
         if correlation_metric == "YOY_GROWTH":
             df["Value"] = df["Value"].pct_change(periods=12)
-        return df
 
     # Quarterly
     elif time_increment == "Quarterly":
@@ -82,7 +81,6 @@ def transform_data(
         df = df.groupby("Date").sum().reset_index()
         if correlation_metric == "YOY_GROWTH":
             df["Value"] = df["Value"].pct_change(periods=4)
-        return df
 
     # Annually
     elif time_increment == "Annually":
@@ -92,9 +90,13 @@ def transform_data(
         df["Date"] = pd.to_datetime(df["Date"].astype(str) + "-1-1", errors="coerce")
         if correlation_metric == "YOY_GROWTH":
             df["Value"] = df["Value"].pct_change(periods=1)
-        return df
+
     else:
         raise ValueError("Invalid time_increment")
+
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(inplace=True)
+    return df
 
 
 def compute_correlations(test_df, dfs):

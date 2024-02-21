@@ -77,8 +77,6 @@ def calculate_correlation(
     test_df = transform_data(
         test_df, time_increment, fiscal_end_month, correlation_metric
     )
-    test_df.replace([np.inf, -np.inf], np.nan, inplace=True)
-    test_df.dropna(inplace=True)
 
     transformed_dfs: dict[str, pd.DataFrame] = {}
     # Apply the transformation on every dataframe in dfs.
@@ -86,8 +84,6 @@ def calculate_correlation(
         transformed_dfs[title] = transform_data(
             df, time_increment, fiscal_end_month, correlation_metric
         )
-        transformed_dfs[title].replace([np.inf, -np.inf], np.nan, inplace=True)
-        transformed_dfs[title].dropna(inplace=True)
 
     dfs = transformed_dfs
 
@@ -125,8 +121,6 @@ def create_index(
         transformed_df = transform_data(
             df, aggregation_period, fiscal_end_month, correlation_metric
         )
-        transformed_df.replace([np.inf, -np.inf], np.nan, inplace=True)
-        transformed_df.dropna(inplace=True)
 
         if correlation_metric == "RAW_VALUE":
             transformed_df["Value"] = (

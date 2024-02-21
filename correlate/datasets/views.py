@@ -254,8 +254,9 @@ class CorrelateIndex(APIView):
         if index is None:
             return JsonResponse({"error": "No data available"})
 
-        # TODO: Use the name of the index when available
-        results = correlate_datasets(index, test_df, "Index")
+        results = correlate_datasets(
+            df=index, test_df=test_df, df_title=request_body.index_name
+        )
         if results is None:
             return JsonResponse({"error": "No data available"})
         return JsonResponse(
