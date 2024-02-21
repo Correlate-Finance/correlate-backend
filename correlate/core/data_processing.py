@@ -134,9 +134,10 @@ def parse_input_dataset(data: str) -> dict[str, list[str | int]] | None:
     valid_date_patterns = {
         # 2014Q1 -> Accepted pattern, do nothing
         r"^(\d{4})Q([1-4])": lambda x: x,
-        r"^Q([1-4])\'(\d{2})$": lambda match: convert_to_four_digit_year(match.group(2))
-        + "Q"
-        + match.group(1),
+        # Q1'14 -> Convert to 2014Q1
+        r"^Q([1-4])\'(\d{2})$": lambda match: (
+            convert_to_four_digit_year(match.group(2)) + "Q" + match.group(1)
+        ),
     }
 
     if len(dates) <= 0:
