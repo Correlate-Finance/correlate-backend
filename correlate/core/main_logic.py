@@ -60,6 +60,7 @@ def calculate_correlation(
     test_data: dict | pd.DataFrame | None = None,
     lag_periods: int = 0,
     high_level_only: bool = False,
+    test_correlation_metric: str = "RAW_VALUE",
     correlation_metric: str = "RAW_VALUE",
 ):
     if test_data is None:
@@ -73,9 +74,8 @@ def calculate_correlation(
 
     dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
 
-    # Apply the transformation on test_data. make this a single helper method with the job below (sanitize and transform)
     test_df = transform_data(
-        test_df, time_increment, fiscal_end_month, correlation_metric
+        test_df, time_increment, fiscal_end_month, test_correlation_metric
     )
 
     transformed_dfs: dict[str, pd.DataFrame] = {}

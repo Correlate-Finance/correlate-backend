@@ -185,6 +185,7 @@ class CorrelateView(APIView):
             high_level_only=high_level_only,
             show_negatives=show_negatives,
             correlation_metric=correlation_metric,
+            test_correlation_metric=correlation_metric,
         )
 
 
@@ -214,6 +215,7 @@ class CorrelateInputDataView(APIView):
             high_level_only=high_level_only,
             show_negatives=show_negatives,
             correlation_metric=correlation_metric,
+            test_correlation_metric="RAW_VALUE",
         )
 
 
@@ -281,6 +283,7 @@ def run_correlations(
     high_level_only: bool,
     show_negatives: bool,
     correlation_metric: str,
+    test_correlation_metric: str = "RAW_VALUE",
 ) -> JsonResponse:
     sorted_correlations = calculate_correlation(
         time_increment,
