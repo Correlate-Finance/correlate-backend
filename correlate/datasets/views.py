@@ -1,3 +1,4 @@
+import json
 from rest_framework.views import APIView
 from django.http import (
     HttpResponse,
@@ -18,6 +19,7 @@ from core.data_trends import (
 )
 from core.mongo_operations import get_all_dfs, get_df
 from core import mongo_operations
+from datasets.serializers import CorrelateIndexRequestBody
 from datasets.dataset_metadata import (
     augment_with_external_title,
     get_metadata_from_external_name,
@@ -31,7 +33,7 @@ from functools import cache
 import numpy
 import pandas as pd
 
-from core.data_processing import parse_input_dataset
+from core.data_processing import parse_input_dataset, transform_data
 
 
 @cache
@@ -55,7 +57,7 @@ def fetch_stock_revenues(
         for i in range(len(report)):
             year = report[i]["calendarYear"]
             date = year + "-01-01"
-            if year < start_year:
+            if int(year) < start_year:
                 continue
             revenues[date] = report[i]["revenue"]
         return revenues, fiscal_year_end
@@ -80,7 +82,7 @@ def fetch_stock_revenues(
         else:
             delta = 0
 
-        updated_month = reporting_date_month.month + delta
+        updated_month: int = reporting_date_month.month + delta
         if updated_month > 12:
             updated_month = ((updated_month - 1) % 12) + 1
 
@@ -88,9 +90,9 @@ def fetch_stock_revenues(
 
         revenues = {}
         for i in range(len(report)):
-            year = report[i]["calendarYear"]
-            date = year + report[i]["period"]
-            if year < start_year:
+            year: str = report[i]["calendarYear"]
+            date: str = year + report[i]["period"]
+            if int(year) < start_year:
                 continue
             revenues[date] = report[i]["revenue"]
         return revenues, fiscal_year_end
@@ -216,20 +218,35 @@ class CorrelateInputDataView(APIView):
 
 
 class CorrelateIndex(APIView):
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def post(self, request: HttpRequest) -> HttpResponse:
         body = request.body
         body = body.decode("utf-8")
-
-        test_data = parse_input_dataset(body)
-
         aggregation_period = request.GET.get("aggregation_period", "Quarterly")
         correlation_metric = request.GET.get("correlation_metric", "RAW_VALUE")
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
 
+        print(body)
+        request_body = CorrelateIndexRequestBody(**json.loads(body))
+        print(request_body)
+
+        test_df = pd.DataFrame(
+            {"Date": request_body.dates, "Value": request_body.input_data}
+        )
+
+        test_df = transform_data(
+            test_df,
+            aggregation_period,
+            correlation_metric=correlation_metric,
+            fiscal_end_month=fiscal_end_month,
+        )
+
         index = create_index(
-            dataset_weights={},
+            dataset_weights={
+                request_body.index_datasets[i]: request_body.index_percentages[i]
+                for i in range(len(request_body.index_datasets))
+            },
             aggregation_period=aggregation_period,
             correlation_metric=correlation_metric,
             fiscal_end_month=fiscal_end_month,
@@ -238,7 +255,7 @@ class CorrelateIndex(APIView):
             return JsonResponse({"error": "No data available"})
 
         # TODO: Use the name of the index when available
-        results = correlate_datasets(index, pd.DataFrame(test_data), "Index")
+        results = correlate_datasets(index, test_df, "Index")
         if results is None:
             return JsonResponse({"error": "No data available"})
         return JsonResponse(
