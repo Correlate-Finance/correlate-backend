@@ -61,48 +61,6 @@ def fetch_category_names(db):
     return category_data
 
 
-def fetch_data_table_ids(
-    db, selected_names: list[str] | None = None, selected_category: str | None = None
-):
-    dataTable_documents = db["dataTable"]
-    if selected_category is not None:
-        category_data = fetch_category_names(db)
-        selected_id = category_data[selected_category]
-        dataTable_documents = dataTable_documents.find(
-            {"category": selected_id}, {"title": 1, "_id": 1}
-        )
-    elif selected_names is not None:
-        dataTable_documents = dataTable_documents.find(
-            {"title": {"$in": selected_names}}, {"title": 1, "_id": 1}
-        )
-    else:
-        dataTable_documents = dataTable_documents.find({}, {"title": 1, "_id": 1})
-
-    dataTable_ids = {}
-    for document in dataTable_documents:
-        if "_id" in document and "title" in document:
-            dataTable_ids[str(document["_id"])] = document["title"]
-
-    return dataTable_ids
-
-
-def get_all_dfs(selected_names: list[str] | None = None) -> dict[str, pd.DataFrame]:
-    db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
-
-    dataTable_ids = fetch_data_table_ids(db, selected_names=selected_names)
-    dfs = fetch_data_frames(db, dataTable_ids)
-    db.client.close()
-    return dfs
-
-
-def get_df(name: str) -> pd.DataFrame | None:
-    db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
-    dataTable_ids = fetch_data_table_ids(db, selected_names=[name])
-    dfs = fetch_data_frames(db, dataTable_ids)
-    db.client.close()
-    return dfs.get(name)
-
-
 def freezeargs(func):
     """
     Transform mutable dictionary into immutable.
@@ -126,12 +84,12 @@ def freezeargs(func):
 @cache
 def fetch_data_frames(
     db,
-    dataTable_ids,
+    dataTable_ids: dict[str, str],
     date_threshold=datetime.strptime("1971-01-01", "%Y-%m-%d"),
     max=None,
-) -> dict[str, pd.DataFrame]:
+) -> frozendict[str, pd.DataFrame]:
     data_collection = db["data"]
-    dfs = {}
+    dfs: dict[str, pd.DataFrame] = {}
 
     for id_as_string, title in dataTable_ids.items():
         pipeline = [
@@ -154,3 +112,47 @@ def fetch_data_frames(
     global CACHED
     CACHED = True
     return frozendict(dfs)
+
+
+def fetch_data_table_ids(
+    db, selected_names: list[str] | None = None, selected_category: str | None = None
+) -> dict[str, str]:
+    dataTable_documents = db["dataTable"]
+    if selected_category is not None:
+        category_data = fetch_category_names(db)
+        selected_id = category_data[selected_category]
+        dataTable_documents = dataTable_documents.find(
+            {"category": selected_id}, {"title": 1, "_id": 1}
+        )
+    elif selected_names is not None:
+        dataTable_documents = dataTable_documents.find(
+            {"title": {"$in": selected_names}}, {"title": 1, "_id": 1}
+        )
+    else:
+        dataTable_documents = dataTable_documents.find({}, {"title": 1, "_id": 1})
+
+    dataTable_ids = {}
+    for document in dataTable_documents:
+        if "_id" in document and "title" in document:
+            dataTable_ids[str(document["_id"])] = document["title"]
+
+    return dataTable_ids
+
+
+def get_all_dfs(
+    selected_names: list[str] | None = None,
+) -> frozendict[str, pd.DataFrame]:
+    db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
+
+    dataTable_ids = fetch_data_table_ids(db, selected_names=selected_names)
+    dfs = fetch_data_frames(db, dataTable_ids)  # type: ignore
+    db.client.close()
+    return dfs
+
+
+def get_df(name: str) -> pd.DataFrame | None:
+    db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
+    dataTable_ids = fetch_data_table_ids(db, selected_names=[name])
+    dfs = fetch_data_frames(db, dataTable_ids)  # type: ignore
+    db.client.close()
+    return dfs.get(name)

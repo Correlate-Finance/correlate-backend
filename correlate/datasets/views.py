@@ -9,7 +9,7 @@ import urllib.parse
 
 from rest_framework.permissions import IsAuthenticated
 
-from core.main_logic import calculate_correlation
+from core.main_logic import calculate_correlation, correlate_datasets, create_index
 from core.data_trends import (
     calculate_average_monthly_growth,
     calculate_trailing_months,
@@ -31,13 +31,13 @@ from functools import cache
 import numpy
 import pandas as pd
 
-from core.data_processing import process_data
+from core.data_processing import parse_input_dataset
 
 
 @cache
 def fetch_stock_revenues(
     stock: str, start_year: int, aggregation_period: str = "Annually"
-) -> tuple[dict, str]:
+) -> tuple[dict, str | None]:
     if aggregation_period == "Annually":
         url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
         response = requests.get(url)
@@ -94,6 +94,8 @@ def fetch_stock_revenues(
                 continue
             revenues[date] = report[i]["revenue"]
         return revenues, fiscal_year_end
+    else:
+        raise ValueError("Invalid aggregation period")
 
 
 class DatasetView(APIView):
@@ -132,7 +134,7 @@ class RevenueView(APIView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         stock = request.GET.get("stock")
-        start_year = request.GET.get("startYear", 2010)
+        start_year = int(request.GET.get("startYear", 2010))
         aggregation_period = request.GET.get("aggregationPeriod", "Annually")
 
         if stock is None or len(stock) < 1:
@@ -150,7 +152,7 @@ class CorrelateView(APIView):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         stock = request.GET.get("stock")
-        start_year = request.GET.get("start_year", 2010)
+        start_year = int(request.GET.get("start_year", 2010))
         aggregation_period = request.GET.get("aggregation_period", "Annually")
         lag_periods = int(request.GET.get("lag_periods", 0))
         high_level_only = request.GET.get("high_level_only", "false") == "true"
@@ -163,6 +165,14 @@ class CorrelateView(APIView):
         revenues, fiscal_end_month = fetch_stock_revenues(
             stock, start_year, aggregation_period
         )
+        if fiscal_end_month is None:
+            return JsonResponse(
+                CorrelateData(
+                    data=[],
+                    aggregationPeriod=aggregation_period,
+                    correlationMetric=correlation_metric,
+                ).model_dump()
+            )
         test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
         return run_correlations(
@@ -183,19 +193,9 @@ class CorrelateInputDataView(APIView):
         body = request.body
         body = body.decode("utf-8")
 
-        rows = body.split("\n")
-        table = list(map(lambda row: row.split(), rows))
-
-        rows = len(table)
-
-        if rows == 2:
-            # transpose data
-            table = numpy.transpose(table)
-
-        dates = [row[0] for row in table]
-        values = [row[1] for row in table]
-
-        test_data = process_data({"Date": dates, "Value": values})
+        test_data = parse_input_dataset(body)
+        if test_data is None:
+            return HttpResponseBadRequest("Could not parse input data.")
 
         aggregation_period = request.GET.get("aggregation_period", "Quarterly")
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
@@ -212,6 +212,41 @@ class CorrelateInputDataView(APIView):
             high_level_only=high_level_only,
             show_negatives=show_negatives,
             correlation_metric=correlation_metric,
+        )
+
+
+class CorrelateIndex(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        body = request.body
+        body = body.decode("utf-8")
+
+        test_data = parse_input_dataset(body)
+
+        aggregation_period = request.GET.get("aggregation_period", "Quarterly")
+        correlation_metric = request.GET.get("correlation_metric", "RAW_VALUE")
+        fiscal_end_month = request.GET.get("fiscal_year_end", "December")
+
+        index = create_index(
+            dataset_weights={},
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+            fiscal_end_month=fiscal_end_month,
+        )
+        if index is None:
+            return JsonResponse({"error": "No data available"})
+
+        # TODO: Use the name of the index when available
+        results = correlate_datasets(index, pd.DataFrame(test_data), "Index")
+        if results is None:
+            return JsonResponse({"error": "No data available"})
+        return JsonResponse(
+            CorrelateData(
+                data=results,
+                aggregationPeriod=aggregation_period,
+                correlationMetric=correlation_metric,
+            ).model_dump()
         )
 
 

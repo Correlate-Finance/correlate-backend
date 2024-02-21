@@ -17,4 +17,6 @@ urlpatterns = [
     ),
     path("dataset", views.DatasetView.as_view(), name="dataset"),
     path("dataset/", views.DatasetView.as_view(), name="dataset"),
+    path("correlateindex", views.CorrelateIndex.as_view(), name="correlateindex"),
+    path("correlateindex/", views.CorrelateIndex.as_view(), name="correlateindex"),
 ]
