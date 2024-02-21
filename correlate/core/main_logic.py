@@ -33,7 +33,8 @@ def calculate_correlation(
     test_df = transform_data(
         test_df, time_increment, fiscal_end_month, correlation_metric
     )
-    test_df.dropna(inplace=True)
+    with pd.option_context("mode.use_inf_as_na", True):
+        test_df.dropna(inplace=True)
 
     transformed_dfs: dict[str, pd.DataFrame] = {}
     # Apply the transformation on every dataframe in dfs.
@@ -41,7 +42,9 @@ def calculate_correlation(
         transformed_dfs[title] = transform_data(
             df, time_increment, fiscal_end_month, correlation_metric
         )
-        transformed_dfs[title].dropna(inplace=True)
+        with pd.option_context("mode.use_inf_as_na", True):
+            transformed_dfs[title].dropna(inplace=True)
+
     dfs = transformed_dfs
 
     correlation_results: list[CorrelateDataPoint] = []
@@ -56,9 +59,14 @@ def calculate_correlation(
             continue
 
         for lag in range(lag_periods + 1):
-            correlation_value, p_value = pearsonr(
-                test_points[lag:], dataset_points[: len(dataset_points) - lag]
-            )
+            try:
+                correlation_value, p_value = pearsonr(
+                    test_points[lag:], dataset_points[: len(dataset_points) - lag]
+                )
+            except Exception as e:
+                print("Error in correlation", title, merged)
+                raise e
+
             if math.isnan(correlation_value):
                 continue
 
