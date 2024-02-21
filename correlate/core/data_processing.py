@@ -34,6 +34,11 @@ def transform_data(
             raise ValueError(
                 "fiscal_end_month is required for Quarterly time increment"
             )
+
+        # Make sure we have at least 3 months of data, otherwise return an empty dataframe
+        if len(df) < 3:
+            return pd.DataFrame()
+
         # Map the fiscal_end_month to its appropriate code
         fiscal_month_code = {
             "December": "Q-DEC",

@@ -115,6 +115,11 @@ class TestTransformData(unittest.TestCase):
         self.assertEqual(result["Date"].iloc[0], pd.Period("2020Q1", "Q-DEC"))
         self.assertEqual(result["Date"].iloc[3], pd.Period("2020Q4", "Q-DEC"))
 
+    def test_transform_quarterly_less_than_three_months_of_data(self):
+        df = pd.DataFrame(self.test_data).iloc[:2]
+        result = transform_data(df, "Quarterly", fiscal_end_month="December")
+        self.assertTrue(result.empty)
+
     def test_transform_quarterly_fiscal_month_January(self):
         df = pd.DataFrame(self.test_data)
         result = transform_data(df, "Quarterly", fiscal_end_month="January")
