@@ -15,7 +15,10 @@ class CorrelateDataPoint(BaseModel):
 
 
 class CorrelateData(BaseModel):
+    # These are in camel case since they are sent to the frontend
     data: list[CorrelateDataPoint]
+    aggregationPeriod: str
+    correlationMetric: str
 
 
 # Create your models here.

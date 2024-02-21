@@ -240,6 +240,8 @@ def run_correlations(
 
     return JsonResponse(
         CorrelateData(
-            data=augment_with_external_title(sorted_correlations[:100])
+            data=augment_with_external_title(sorted_correlations[:100]),
+            aggregationPeriod=time_increment,
+            correlationMetric=correlation_metric,
         ).model_dump()
     )
