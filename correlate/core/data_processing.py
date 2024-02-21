@@ -30,6 +30,10 @@ def transform_data(
 
     # Quarterly
     elif time_increment == "Quarterly":
+        if fiscal_end_month is None:
+            raise ValueError(
+                "fiscal_end_month is required for Quarterly time increment"
+            )
         # Map the fiscal_end_month to its appropriate code
         fiscal_month_code = {
             "December": "Q-DEC",
@@ -47,6 +51,22 @@ def transform_data(
         }
 
         df["Date"] = df["Date"].dt.to_period(fiscal_month_code[fiscal_end_month])
+
+        # Make sure the start and end quarters are complete
+        # Remove the start months until the first quarter is complete
+        while (
+            df["Date"].iloc[0].month != df["Date"].iloc[1].month
+            or df["Date"].iloc[1].month != df["Date"].iloc[2].month
+        ):
+            df = df.iloc[1:]
+
+        # Remove the end months until the last quarter is complete
+        while (
+            df["Date"].iloc[-1].month != df["Date"].iloc[-2].month
+            or df["Date"].iloc[-2].month != df["Date"].iloc[-3].month
+        ):
+            df = df.iloc[:-1]
+
         # Group by Fiscal_Quarter and sum the values
         df = df.groupby("Date").sum().reset_index()
         if correlation_metric == "YOY_GROWTH":
@@ -62,6 +82,8 @@ def transform_data(
         if correlation_metric == "YOY_GROWTH":
             df["Value"] = df["Value"].pct_change(periods=1)
         return df
+    else:
+        raise ValueError("Invalid time_increment")
 
 
 def compute_correlations(test_df, dfs):
