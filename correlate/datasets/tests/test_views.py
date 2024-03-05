@@ -1,3 +1,10 @@
+# Create your tests here.
+from django.http import HttpRequest
+from django.test import TestCase
+from unittest.mock import patch
+from .views import RawDatasetView
+import pandas as pd
+from io import StringIO
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -45,3 +52,41 @@ class CorrelateViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         # Add more tests here to cover different scenarios and parameter combinations
+
+
+class TestRawDatasetView(APITestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(
+            username="testuser", password="testpassword"
+        )
+        self.url = reverse("/rawdataset")
+
+    @patch("core.mongo_operations.get_all_dfs")
+    def test_post_cached_df_exists(self, mock_get_all_dfs):
+        # Mock the dataframe to be returned by get_all_dfs
+        mock_df = pd.DataFrame(
+            {"Date": ["2021-01-01", "2021-01-02"], "Value": ["10", "20"]}
+        )
+        mock_get_all_dfs.return_value = {"table_name": mock_df}
+
+        # Create a fake request
+        response = self.client.post(self.url, "table_name")
+
+        # Check if the response is correct
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content, b"your_expected_json_output")
+
+    @patch("datasets.dataset_metadata.get_metadata_from_external_name")
+    @patch("core.mongo_operations.get_df")
+    def test_post_df_does_not_exist(
+        self, mock_get_df, mock_get_metadata_from_external_name
+    ):
+        # Mock the metadata to return None indicating the table doesn't exist
+        mock_get_metadata_from_external_name.return_value = None
+        # Mock get_df to return None indicating the dataframe doesn't exist
+        mock_get_df.return_value = None
+
+        response = self.client.post(self.url, "table_name")
+
+        # Check if the response is a bad request
+        self.assertEqual(response.status_code, 400)

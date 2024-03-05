@@ -131,6 +131,32 @@ class DatasetView(APIView):
         return JsonResponse(df.to_json(orient="records"), safe=False)
 
 
+class RawDatasetView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: HttpRequest) -> HttpResponse:
+        table = request.body.decode("utf-8")
+        table = urllib.parse.unquote(table)
+        metadata = get_metadata_from_external_name(table)
+        if metadata is not None:
+            table = metadata.internal_name
+
+        if mongo_operations.CACHED:
+            df: pd.DataFrame | None = get_all_dfs().get(table)
+        else:
+            df: pd.DataFrame | None = get_df(table)
+        if df is None:
+            return HttpResponseBadRequest("Invalid data")
+
+        df = df.copy()
+        df["Date"] = pd.to_datetime(df["Date"])
+        df.sort_values(by="Date", inplace=True)
+        df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
+        df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
+
+        return JsonResponse(df.to_json(orient="records"), safe=False)
+
+
 class RevenueView(APIView):
     permission_classes = (IsAuthenticated,)
 
