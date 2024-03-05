@@ -8,7 +8,6 @@ import math
 
 from datasets.models import CorrelateDataPoint
 from scipy.stats.stats import pearsonr  # type: ignore
-import numpy as np
 
 
 def correlate_datasets(
