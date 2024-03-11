@@ -4,8 +4,8 @@ jobs:
   test_project:
     runs-on: ubuntu-latest # operating system your code will run on
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.12' # version of python to use
       - run: pip install -r requirements.txt # install all our dependencies for the project
