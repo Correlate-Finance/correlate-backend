@@ -30,6 +30,8 @@ jobs:
       - name: Run Tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+          EMAIL_HOST_USER: noreply@correlatefinance.com
+          EMAIL_HOST_PASSWORD: '!!Correlatefinance!!'
         run: |
           cd correlate
           python manage.py test # run the tests
