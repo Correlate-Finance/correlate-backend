@@ -180,8 +180,8 @@ REST_FRAMEWORK = {
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.purelymail.com"
 EMAIL_PORT = 587
-EMAIL_HOST_USER = env("EMAIL_HOST_USER", "")
-EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD", "")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")  # type:ignore
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")  # type:ignore
 EMAIL_TIMEOUT = 15
 
-FRED_API_KEY = env("FRED_API_KEY", "")
+FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
