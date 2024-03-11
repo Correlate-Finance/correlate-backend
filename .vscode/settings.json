@@ -2,7 +2,17 @@
   "cSpell.words": [
     "freezeargs",
     "frozendict",
+    "pytz",
     "rawdataset",
     "watchlist"
-  ]
+  ],
+  "python.testing.unittestArgs": [
+    "-v",
+    "-s",
+    "./correlate",
+    "-p",
+    "test*.py"
+  ],
+  "python.testing.pytestEnabled": false,
+  "python.testing.unittestEnabled": true
 }
