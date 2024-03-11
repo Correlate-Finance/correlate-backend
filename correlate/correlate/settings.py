@@ -169,7 +169,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("users.auth.TokenAuthSupportCookie",),
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "users.auth.TokenAuthSupportCookie",
+        "rest_framework.authentication.SessionAuthentication",
+    ),
 }
 
 

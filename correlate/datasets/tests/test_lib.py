@@ -1,5 +1,5 @@
 from unittest import TestCase
-from correlate.datasets.lib import get_date_from_days_since_1900
+from datasets.lib import get_date_from_days_since_1900
 from datetime import datetime
 
 

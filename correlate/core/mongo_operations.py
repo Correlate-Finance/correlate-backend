@@ -43,7 +43,7 @@ HIGH_LEVEL_TABLES = [
     "wsts worldwide semis",
 ]
 
-CACHED = False
+CACHED_DFS = None
 
 
 def connect_to_mongo(uri, db_name):
@@ -105,12 +105,12 @@ def fetch_data_frames(
         data_documents = list(data_collection.aggregate(pipeline))
         dates = [doc["date"] for doc in data_documents]
         values = [doc["value"] for doc in data_documents]
-        dfs[title] = pd.DataFrame({"Date": dates, "Value": values})
+        dfs[title] = pd.DataFrame(
+            {"Date": dates, "Value": values}, index=None, columns=None
+        )
 
         if max and len(dfs) >= max:
             break
-    global CACHED
-    CACHED = True
     return frozendict(dfs)
 
 
@@ -142,15 +142,21 @@ def fetch_data_table_ids(
 def get_all_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
+    global CACHED_DFS
+    if CACHED_DFS:
+        return CACHED_DFS
     db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
 
     dataTable_ids = fetch_data_table_ids(db, selected_names=selected_names)
     dfs = fetch_data_frames(db, dataTable_ids)  # type: ignore
     db.client.close()
+    CACHED_DFS = dfs
     return dfs
 
 
 def get_df(name: str) -> pd.DataFrame | None:
+    if CACHED_DFS:
+        return CACHED_DFS.get(name)
     db = connect_to_mongo(MONGO_URI, DATABASE_NAME)
     dataTable_ids = fetch_data_table_ids(db, selected_names=[name])
     dfs = fetch_data_frames(db, dataTable_ids)  # type: ignore
