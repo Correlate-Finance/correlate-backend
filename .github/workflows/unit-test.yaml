@@ -1,5 +1,9 @@
 name: test_Django
-on: [push]
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
 
 jobs:
   test_project:
@@ -12,7 +16,6 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: github_actions
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
         ports:
           - 5432:5432
         # needed because the postgres container does not provide a healthcheck
@@ -24,6 +27,9 @@ jobs:
         with:
           python-version: '3.12' # version of python to use
       - run: pip install -r requirements.txt # install all our dependencies for the project
-      - run: |
+      - name: Run Tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+        run: |
           cd correlate
           python manage.py test # run the tests
