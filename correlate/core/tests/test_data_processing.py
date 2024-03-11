@@ -118,8 +118,8 @@ class TestTransformData(unittest.TestCase):
     def test_transform_monthly_yoy_growth(self):
         df = pd.DataFrame(self.two_year_data)
         result = transform_data(df, "Monthly", correlation_metric="YOY_GROWTH")
-        self.assertTrue(math.isnan(result["Value"].iloc[0]))
-        self.assertAlmostEqual(result["Value"].iloc[12], 1)
+        self.assertAlmostEqual(result["Value"].iloc[0], 1)
+        self.assertAlmostEqual(result["Value"].size, 12)
 
     def test_transform_quarterly_fiscal_end_month_throws_error(self):
         df = pd.DataFrame(self.test_data)
@@ -165,8 +165,8 @@ class TestTransformData(unittest.TestCase):
             correlation_metric="YOY_GROWTH",
         )
 
-        self.assertTrue(math.isnan(result["Value"].iloc[0]))
-        self.assertAlmostEqual(result["Value"].iloc[4], 1)
+        self.assertAlmostEqual(result["Value"].iloc[0], 1)
+        self.assertEqual(result["Value"].size, 4)
 
     @parameterized.expand([[TEST_DATA], [QUARTERLY_DATA]])
     def test_transform_annual(self, test_data):
@@ -182,8 +182,7 @@ class TestTransformData(unittest.TestCase):
             fiscal_end_month="December",
             correlation_metric="YOY_GROWTH",
         )
-        self.assertTrue(math.isnan(result["Value"].iloc[0]))
-        self.assertAlmostEqual(result["Value"].iloc[1], 1)
+        self.assertAlmostEqual(result["Value"].iloc[0], 1)
 
     def test_invalid_time_increment(self):
         df = pd.DataFrame(self.test_data)
@@ -195,6 +194,7 @@ class TestParseInputDataset(unittest.TestCase):
     def test_parse_input_dataset_with_floats(self):
         input_data = "Q1'14\t0.05\nQ2'14\t-0.02\nQ3'14\t0.04\nQ4'14\t0.02\nQ1'15\t0.01\nQ2'15\t-0.02\nQ3'15\t-0.04\nQ4'15\t-0.05\nQ1'16\t-0.05\nQ2'16\t0.01\nQ3'16\t0.00\nQ4'16\t0.00\nQ1'17\t0.06\nQ2'17\t0.04\nQ3'17\t0.07\nQ4'17\t0.07\nQ1'18\t0.05\nQ2'18\t0.10\nQ3'18\t0.12\nQ4'18\t0.08\nQ1'19\t0.06\nQ2'19\t0.03\nQ3'19\t0.02\nQ4'19\t-0.03\nQ1'20\t-0.05\nQ2'20\t-0.20\nQ3'20\t-0.17\nQ4'20\t-0.04\nQ1'21\t0.02\nQ2'21\t0.08\nQ3'21\t0.07\nQ4'21\t0.07\nQ1'22\t0.11\nQ2'22\t0.13\nQ3'22\t0.17\nQ4'22\t0.09\nQ1'23\t0.09\nQ2'23\t0.10\nQ3'23\t-0.01\nQ4'23\t0.03"
         result = parse_input_dataset(input_data)
+        assert result
 
         self.assertEqual(result["Date"][0], "2014Q1")
         self.assertEqual(result["Value"][0], 0.05)
@@ -204,6 +204,7 @@ class TestParseInputDataset(unittest.TestCase):
     def test_parse_input_dataset_with_integers(self):
         input_data = "Q1'14\t5\nQ2'14\t-2\nQ3'14\t4\nQ4'14\t2\nQ1'15\t1\nQ2'15\t-2\nQ3'15\t-4\nQ4'15\t-5\nQ1'16\t-5\nQ2'16\t1\nQ3'16\t0\nQ4'16\t0\nQ1'17\t6\nQ2'17\t4\nQ3'17\t7\nQ4'17\t7\nQ1'18\t5\nQ2'18\t10\nQ3'18\t12\nQ4'18\t8\nQ1'19\t6\nQ2'19\t3\nQ3'19\t2\nQ4'19\t-3\nQ1'20\t-5\nQ2'20\t-20\nQ3'20\t-17\nQ4'20\t-4\nQ1'21\t2\nQ2'21\t8\nQ3'21\t7\nQ4'21\t7\nQ1'22\t11\nQ2'22\t13\nQ3'22\t17\nQ4'22\t9\nQ1'23\t9\nQ2'23\t10\nQ3'23\t-1\nQ4'23\t3"
         result = parse_input_dataset(input_data)
+        assert result
 
         self.assertEqual(result["Date"][0], "2014Q1")
         self.assertEqual(result["Value"][0], 5)
@@ -213,6 +214,7 @@ class TestParseInputDataset(unittest.TestCase):
     def test_parse_input_dataset_with_integers_with_commas(self):
         input_data = "Q1'14\t5,000"
         result = parse_input_dataset(input_data)
+        assert result
 
         self.assertEqual(result["Date"][0], "2014Q1")
         self.assertEqual(result["Value"][0], 5000)

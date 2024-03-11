@@ -46,4 +46,9 @@ class DatasetMetadata(models.Model):
     high_level = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.external_name if self.external_name is not None else self.internal_name}"
+        return f"{self.get_name()}"
+
+    def get_name(self):
+        return (
+            self.external_name if self.external_name is not None else self.internal_name
+        )

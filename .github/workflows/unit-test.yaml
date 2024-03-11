@@ -1,0 +1,37 @@
+name: test_Django
+on:
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  test_project:
+    runs-on: ubuntu-latest # operating system your code will run on
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: github_actions
+        ports:
+          - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.12' # version of python to use
+      - run: pip install -r requirements.txt # install all our dependencies for the project
+      - name: Run Tests
+        env:
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+          EMAIL_HOST_USER: noreply@correlatefinance.com
+          EMAIL_HOST_PASSWORD: '!!Correlatefinance!!'
+        run: |
+          cd correlate
+          python manage.py test # run the tests

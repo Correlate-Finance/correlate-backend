@@ -4,8 +4,8 @@ from django.http import (
     HttpResponse,
     JsonResponse,
     HttpResponseBadRequest,
-    HttpRequest,
 )
+from rest_framework.request import Request
 import urllib.parse
 
 from rest_framework.permissions import IsAuthenticated
@@ -103,17 +103,14 @@ def fetch_stock_revenues(
 class DatasetView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: Request) -> HttpResponse:
         table = request.body.decode("utf-8")
         table = urllib.parse.unquote(table)
         metadata = get_metadata_from_external_name(table)
         if metadata is not None:
             table = metadata.internal_name
 
-        if mongo_operations.CACHED:
-            df: pd.DataFrame | None = get_all_dfs().get(table)
-        else:
-            df: pd.DataFrame | None = get_df(table)
+        df = get_df(table)
         if df is None:
             return HttpResponseBadRequest("Invalid data")
 
@@ -134,17 +131,14 @@ class DatasetView(APIView):
 class RawDatasetView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: Request) -> HttpResponse:
         table = request.body.decode("utf-8")
         table = urllib.parse.unquote(table)
         metadata = get_metadata_from_external_name(table)
         if metadata is not None:
             table = metadata.internal_name
 
-        if mongo_operations.CACHED:
-            df: pd.DataFrame | None = get_all_dfs().get(table)
-        else:
-            df: pd.DataFrame | None = get_df(table)
+        df = get_df(table)
         if df is None:
             return HttpResponseBadRequest("Invalid data")
 
@@ -160,7 +154,7 @@ class RawDatasetView(APIView):
 class RevenueView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request: HttpRequest) -> HttpResponse:
+    def get(self, request: Request) -> HttpResponse:
         stock = request.GET.get("stock")
         start_year = int(request.GET.get("startYear", 2010))
         aggregation_period = request.GET.get("aggregationPeriod", "Annually")
@@ -178,7 +172,7 @@ class RevenueView(APIView):
 class CorrelateView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request: HttpRequest) -> HttpResponse:
+    def get(self, request: Request) -> HttpResponse:
         stock = request.GET.get("stock")
         start_year = int(request.GET.get("start_year", 2010))
         aggregation_period = request.GET.get("aggregation_period", "Annually")
@@ -218,7 +212,7 @@ class CorrelateView(APIView):
 class CorrelateInputDataView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: Request) -> HttpResponse:
         body = request.body
         body = body.decode("utf-8")
 
@@ -248,7 +242,7 @@ class CorrelateInputDataView(APIView):
 class CorrelateIndex(APIView):
     # permission_classes = (IsAuthenticated,)
 
-    def post(self, request: HttpRequest) -> HttpResponse:
+    def post(self, request: Request) -> HttpResponse:
         body = request.body
         body = body.decode("utf-8")
         aggregation_period = request.GET.get("aggregation_period", "Quarterly")
