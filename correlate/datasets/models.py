@@ -46,9 +46,25 @@ class DatasetMetadata(models.Model):
     high_level = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.get_name()}"
+        return f"{self.name}"
 
-    def get_name(self):
+    @property
+    def name(self):
         return (
             self.external_name if self.external_name is not None else self.internal_name
         )
+
+
+class Dataset(models.Model):
+    class Meta:
+        unique_together = ["metadata", "date"]
+
+    id = models.AutoField(primary_key=True)
+    metadata = models.ForeignKey(DatasetMetadata, on_delete=models.CASCADE)
+    # We don't currently need time but using time for future proofing
+    date = models.DateTimeField()
+    value = models.FloatField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.metadata.name}"

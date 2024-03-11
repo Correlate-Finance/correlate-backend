@@ -25,4 +25,4 @@ class WatchlistModelTest(TestCase):
             user=self.user, dataset=self.dataset_metadata
         )
         self.assertEqual(watchlist.user.email, "testuser")
-        self.assertEqual(watchlist.dataset.get_name(), "Dataset 1")
+        self.assertEqual(watchlist.dataset.name, "Dataset 1")
