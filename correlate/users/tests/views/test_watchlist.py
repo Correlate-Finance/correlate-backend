@@ -19,7 +19,7 @@ class WatchListViewTests(TestCase):
             internal_name="Dataset 1", description="Sample dataset"
         )
 
-    @patch("users.views.dataset_metadata.get_metadata_from_external_name")
+    @patch("users.views.dataset_metadata_orm.get_metadata_from_external_name")
     def test_add_watchlist_success(self, mock_get_metadata):
         mock_get_metadata.return_value = self.dataset
 
@@ -30,7 +30,7 @@ class WatchListViewTests(TestCase):
             WatchList.objects.filter(user=self.user, dataset=self.dataset).exists()
         )
 
-    @patch("users.views.dataset_metadata.get_metadata_from_external_name")
+    @patch("users.views.dataset_metadata_orm.get_metadata_from_external_name")
     def test_add_watchlist_dataset_not_found(self, mock_get_metadata):
         mock_get_metadata.return_value = None
 
@@ -40,7 +40,7 @@ class WatchListViewTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    @patch("users.views.dataset_metadata.get_metadata_from_external_name")
+    @patch("users.views.dataset_metadata_orm.get_metadata_from_external_name")
     def test_delete_watchlist_success(self, mock_get_metadata):
         mock_get_metadata.return_value = self.dataset
         WatchList.objects.create(user=self.user, dataset=self.dataset)
@@ -54,7 +54,7 @@ class WatchListViewTests(TestCase):
             WatchList.objects.filter(user=self.user, dataset=self.dataset).exists()
         )
 
-    @patch("users.views.dataset_metadata.get_metadata_from_external_name")
+    @patch("users.views.dataset_metadata_orm.get_metadata_from_external_name")
     def test_delete_watchlist_not_found(self, mock_get_metadata):
         mock_get_metadata.return_value = self.dataset
 

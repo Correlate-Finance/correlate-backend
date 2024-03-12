@@ -1,7 +1,13 @@
 from django.test import TransactionTestCase
 from datasets.models import Dataset, DatasetMetadata
-from datasets.dataset_orm import add_dataset
+from datasets.dataset_orm import add_dataset, parse_excel_file_for_datasets
 from datetime import datetime
+
+from django.test import TestCase
+from io import BytesIO
+import openpyxl
+import pytz
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 
 class AddDatasetTest(TransactionTestCase):
@@ -40,3 +46,54 @@ class AddDatasetTest(TransactionTestCase):
         self.assertEqual(
             Dataset.objects.count(), 3
         )  # Total three records in the database
+
+
+class ParseExcelFileForDatasetsTest(TestCase):
+    def setUp(self):
+        # Create a mock Excel file
+        self.workbook = openpyxl.Workbook()
+        sheet = self.workbook.active
+        assert sheet
+
+        sheet.title = "Test Sheet"
+        sheet.append(["Title", "Test Data Title"])  # type:ignore
+        sheet.append(["Source", "Test Data Source"])  # type:ignore
+        sheet.append(["Description", "Test Data Description"])  # type:ignore
+        sheet.append(["Date", "Value"])  # type:ignore
+        sheet.append(["2020-01-01", 123.45])  # type:ignore
+        sheet.append(["2020-01-02", 678.90])  # type:ignore
+
+        self.excel_file = BytesIO()
+        self.workbook.save(self.excel_file)
+        self.excel_file.seek(0)  # Rewind the BytesIO object to the beginning
+
+    def test_parse_excel_file_for_datasets(self):
+        # Call the function with the mock Excel file
+        results = parse_excel_file_for_datasets(
+            SimpleUploadedFile("file", self.excel_file.read())
+        )
+
+        # Assertions
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0][0], "Test Sheet")
+        self.assertTrue(results[0][1])  # created should be True
+        self.assertEqual(results[0][2], 2)  # total_new should be 2
+
+        # Verify that add_dataset was called with the correct arguments
+        expected_dataset = [
+            (datetime(2020, 1, 1, tzinfo=pytz.utc), 123.45),
+            (datetime(2020, 1, 2, tzinfo=pytz.utc), 678.90),
+        ]
+
+        self.assertEqual(DatasetMetadata.objects.count(), 1)
+        metadata = DatasetMetadata.objects.first()
+        assert metadata
+        self.assertEqual(metadata.internal_name, "Test Sheet")
+        self.assertEqual(metadata.external_name, "Test Data Title")
+        self.assertEqual(metadata.source, "Test Data Source")
+        self.assertEqual(metadata.description, "Test Data Description")
+
+        self.assertEqual(Dataset.objects.count(), 2)
+        dataset = Dataset.objects.all()
+        self.assertEqual((dataset[0].date, dataset[0].value), expected_dataset[0])
+        self.assertEqual((dataset[1].date, dataset[1].value), expected_dataset[1])

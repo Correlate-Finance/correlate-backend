@@ -1,6 +1,5 @@
 import unittest
 import pandas as pd
-import math
 
 from core.data_processing import parse_input_dataset, transform_data
 from parameterized import parameterized

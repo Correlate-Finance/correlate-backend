@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import User, WatchList
 from datetime import datetime, timedelta
 import environ
-from datasets import dataset_metadata
+from datasets import dataset_metadata_orm
 
 
 env = environ.Env()
@@ -74,7 +74,7 @@ class AddWatchListView(APIView):
     def post(self, request: Request) -> HttpResponse:
         user = request.user
         dataset_name: str = request.data.get("dataset", "")  # type: ignore
-        dataset = dataset_metadata.get_metadata_from_external_name(dataset_name)
+        dataset = dataset_metadata_orm.get_metadata_from_external_name(dataset_name)
 
         if dataset is None:
             return Response({"message": "Dataset not found"}, status=404)
@@ -90,7 +90,7 @@ class DeleteWatchListView(APIView):
     def post(self, request: Request) -> HttpResponse:
         user = request.user
         dataset_name: str = request.data.get("dataset", "")  # type: ignore
-        dataset = dataset_metadata.get_metadata_from_external_name(dataset_name)
+        dataset = dataset_metadata_orm.get_metadata_from_external_name(dataset_name)
 
         if dataset is None:
             return Response({"message": "Dataset not found"}, status=404)
