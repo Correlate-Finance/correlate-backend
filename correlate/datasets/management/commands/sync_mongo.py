@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from datasets.models import DatasetMetadata
-from core.mongo_operations import (
+from datasets.mongo_operations import (
     connect_to_mongo,
     MONGO_URI,
     DATABASE_NAME,

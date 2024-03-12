@@ -5,6 +5,7 @@ from unittest.mock import patch
 from users.models import WatchList, User
 from datasets.models import DatasetMetadata
 from django.urls import reverse
+from rest_framework.authtoken.models import Token
 
 
 class WatchListViewTests(TestCase):
@@ -12,8 +13,8 @@ class WatchListViewTests(TestCase):
         # Create a user
         self.user = User.objects.create(email="testuser", password="12345")
         self.client = APIClient()
-        self.client.force_login(user=self.user)
-
+        token = Token.objects.create(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
         # Create dataset metadata instance for testing
         self.dataset = DatasetMetadata.objects.create(
             internal_name="Dataset 1", description="Sample dataset"

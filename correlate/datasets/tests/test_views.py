@@ -6,11 +6,9 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 from users.models import User
 from django.http import JsonResponse
-from core import mongo_operations
+from datasets import mongo_operations
 import json
 from rest_framework.authtoken.models import Token
-
-from rest_framework.test import APIClient
 
 
 class CorrelateViewTests(APITestCase):
@@ -93,7 +91,7 @@ class TestRawDatasetView(APITestCase):
         "datasets.dataset_metadata_orm.get_metadata_from_external_name",
         return_value=None,
     )
-    @patch("core.mongo_operations.get_df", return_value=None)
+    @patch("datasets.mongo_operations.get_df", return_value=None)
     def test_post_df_does_not_exist(
         self, mock_get_df, mock_get_metadata_from_external_name
     ):

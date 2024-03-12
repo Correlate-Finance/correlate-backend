@@ -15,7 +15,7 @@ from core.data_trends import (
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
 )
-from core.mongo_operations import get_df
+from datasets.mongo_operations import get_df
 from datasets.serializers import CorrelateIndexRequestBody
 from datasets.dataset_metadata_orm import (
     augment_with_external_title,
@@ -30,7 +30,7 @@ from datasets.dataset_orm import get_all_dataset_dfs
 from functools import cache
 import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data
-from core.mongo_operations import get_all_dfs, HIGH_LEVEL_TABLES
+from datasets.mongo_operations import get_all_dfs, HIGH_LEVEL_TABLES
 from django.conf import settings
 
 
