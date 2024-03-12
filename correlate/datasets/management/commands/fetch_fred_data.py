@@ -15,7 +15,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         series_id = options["series_id"]
-        print(series_id)
         self.stdout.write(f"Fetching data for series {series_id}")
 
         # Fetch the data from FRED

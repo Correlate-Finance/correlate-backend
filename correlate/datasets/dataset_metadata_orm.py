@@ -26,3 +26,17 @@ def get_internal_name_from_external_name(external_name: str) -> str:
     if metadata is None:
         return external_name
     return metadata.internal_name
+
+
+def create_dataset_metadata(
+    internal_name: str,
+    external_name: str | None = None,
+    source: str | None = None,
+    description: str | None = None,
+) -> DatasetMetadata:
+    return DatasetMetadata.objects.create(
+        internal_name=internal_name,
+        external_name=external_name,
+        source=source,
+        description=description,
+    )

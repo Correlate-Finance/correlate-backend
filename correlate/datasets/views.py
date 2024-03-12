@@ -17,10 +17,9 @@ from core.data_trends import (
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
 )
-from core.mongo_operations import get_all_dfs, get_df
-from core import mongo_operations
+from core.mongo_operations import get_df
 from datasets.serializers import CorrelateIndexRequestBody
-from datasets.dataset_metadata import (
+from datasets.dataset_metadata_orm import (
     augment_with_external_title,
     get_internal_name_from_external_name,
     get_metadata_from_external_name,

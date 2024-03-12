@@ -1,0 +1,13 @@
+{% extends "admin/base_site.html" %} {% load i18n %} 
+{% block content%}
+<div class="app-yourmodel module">
+  {% autoescape off %}
+    {{message}}
+  {% endautoescape %}
+  <h1>{% trans "Upload Excel File" %}</h1>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %} {{ form.as_p }}
+    <button type="submit">{% trans "Upload" %}</button>
+  </form>
+</div>
+{% endblock %}

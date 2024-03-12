@@ -85,7 +85,8 @@ class TestRawDatasetView(APITestCase):
         mongo_operations.CACHED_DFS = {}
 
     @patch(
-        "datasets.dataset_metadata.get_metadata_from_external_name", return_value=None
+        "datasets.dataset_metadata_orm.get_metadata_from_external_name",
+        return_value=None,
     )
     @patch("core.mongo_operations.get_df", return_value=None)
     def test_post_df_does_not_exist(
