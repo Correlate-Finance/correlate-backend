@@ -18,7 +18,7 @@ class Command(BaseCommand):
         self.stdout.write(f"Fetching data for series {series_id}")
 
         # Fetch the data from FRED
-        records = fetch_fred_data(series_id)
+        records = fetch_fred_data(series_id, self.stdout)
         title = fetch_fred_title(series_id)
         dataset_metadata, _ = DatasetMetadata.objects.get_or_create(
             internal_name=series_id,
@@ -28,7 +28,7 @@ class Command(BaseCommand):
         self.stdout.write(f"Added {total_new} new records to the database")
 
 
-def fetch_fred_data(series_id):
+def fetch_fred_data(series_id, stdout=None):
     BASE_URL = "https://api.stlouisfed.org/fred/series/observations?series_id="
     API_KEY = settings.FRED_API_KEY
     url = f"{BASE_URL}{series_id}&api_key={API_KEY}&file_type=json"
@@ -37,13 +37,20 @@ def fetch_fred_data(series_id):
     response = requests.get(url)
     data = response.json()
     observations = data["observations"]
-    records = [
-        (
-            datetime.strptime(obs["date"], "%Y-%m-%d").replace(tzinfo=pytz.utc),
-            obs["value"],
-        )
-        for obs in observations
-    ]
+    records = []
+    for observation in observations:
+        try:
+            date = datetime.strptime(observation["date"], "%Y-%m-%d").replace(
+                tzinfo=pytz.utc
+            )
+            value = float(observation["value"])
+            records.append((date, value))
+        except ValueError:
+            if stdout:
+                stdout.write(
+                    f"Unable to parse datapoint {observation["value"]} for FRED dataset {series_id}"
+                )
+
     return records
 
 

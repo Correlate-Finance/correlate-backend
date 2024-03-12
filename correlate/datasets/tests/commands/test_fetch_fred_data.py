@@ -7,11 +7,12 @@ from datasets.management.commands.fetch_fred_data import (
 from django.core.management import call_command
 from datasets.models import DatasetMetadata, Dataset
 from datetime import datetime, timezone
+from unittest.mock import MagicMock, ANY
 
 
 class FetchFredTest(TestCase):
     @patch("requests.get")
-    def test_fetch_fred_data_success(self, mock_get):
+    def test_fetch_fred_data_success(self, mock_get: MagicMock):
         # Mock the API response
         mock_get.return_value.json.return_value = {
             "observations": [
@@ -19,21 +20,34 @@ class FetchFredTest(TestCase):
                 {"date": "2020-01-02", "value": "200.0"},
             ]
         }
-        data = fetch_fred_data("test_series_id")
+        data = fetch_fred_data("test_series_id", None)
         self.assertEqual(len(data), 2)  # Check if two records are returned
 
     @patch("requests.get")
-    def test_fetch_fred_title_success(self, mock_get):
+    def test_fetch_fred_title_success(self, mock_get: MagicMock):
         # Mock the API response
         mock_get.return_value.json.return_value = {"seriess": [{"title": "Test Title"}]}
         title = fetch_fred_title("test_series_id")
         self.assertEqual(title, "Test Title")
 
+    @patch("requests.get")
+    def test_fetch_fred_data_with_periods(self, mock_get: MagicMock):
+        # Mock the API response
+        mock_get.return_value.json.return_value = {
+            "observations": [
+                {"date": "2020-01-01", "value": "."},
+                {"date": "2020-01-02", "value": "100.0"},
+                {"date": "2020-01-03", "value": "200.0"},
+            ]
+        }
+        data = fetch_fred_data("test_series_id", None)
+        self.assertEqual(len(data), 2)  # Check if two records are returned
+
 
 class CommandTest(TransactionTestCase):
     @patch("datasets.management.commands.fetch_fred_data.fetch_fred_data")
     @patch("datasets.management.commands.fetch_fred_data.fetch_fred_title")
-    def test_command(self, mock_fetch_title, mock_fetch_data):
+    def test_command(self, mock_fetch_title: MagicMock, mock_fetch_data: MagicMock):
         # Setup mock responses
         mock_fetch_data.return_value = [("2020-01-01", 100.0)]
         mock_fetch_title.return_value = "Test Title"
@@ -42,7 +56,7 @@ class CommandTest(TransactionTestCase):
         call_command("fetch_fred_data", "test_series_id")
 
         # Check if the functions were called
-        mock_fetch_data.assert_called_once_with("test_series_id")
+        mock_fetch_data.assert_called_once_with("test_series_id", ANY)
         mock_fetch_title.assert_called_once_with("test_series_id")
 
         dataset_metadata = DatasetMetadata.objects.get(internal_name="test_series_id")
