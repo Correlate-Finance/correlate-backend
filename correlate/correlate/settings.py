@@ -185,4 +185,4 @@ FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
 
 
 # Flags
-USE_POSTGRES_DATASETS = env.bool("USE_POSTGRES_DATASETS", default=True)  # type:ignore
+USE_POSTGRES_DATASETS = env.bool("USE_POSTGRES_DATASETS", default=False)  # type:ignore
