@@ -1,13 +1,14 @@
 # make this the api route file
 
 from core.data_processing import transform_data
-from core.mongo_operations import get_all_dfs, HIGH_LEVEL_TABLES
+from core.mongo_operations import get_all_dfs
 import pandas as pd
 from core.data import TEST_DATA
 import math
 
 from datasets.models import CorrelateDataPoint
 from scipy.stats.stats import pearsonr  # type: ignore
+from frozendict import frozendict
 
 
 def correlate_datasets(
@@ -56,9 +57,9 @@ def correlate_datasets(
 def calculate_correlation(
     time_increment: str,
     fiscal_end_month: str,
+    dfs: frozendict[str, pd.DataFrame] | dict[str, pd.DataFrame],
     test_data: dict | pd.DataFrame | None = None,
     lag_periods: int = 0,
-    high_level_only: bool = False,
     test_correlation_metric: str = "RAW_VALUE",
     correlation_metric: str = "RAW_VALUE",
 ):
@@ -71,8 +72,6 @@ def calculate_correlation(
     else:
         test_df = test_data
 
-    dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
-
     test_df = transform_data(
         test_df, time_increment, fiscal_end_month, test_correlation_metric
     )
@@ -84,11 +83,9 @@ def calculate_correlation(
             df, time_increment, fiscal_end_month, correlation_metric
         )
 
-    dfs = transformed_dfs
-
     correlation_results: list[CorrelateDataPoint] = []
 
-    for title, df in dfs.items():
+    for title, df in transformed_dfs.items():
         results = correlate_datasets(test_df, df, title, lag_periods)
         if results is not None:
             correlation_results.extend(results)

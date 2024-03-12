@@ -48,7 +48,7 @@ def fetch_fred_data(series_id, stdout=None):
         except ValueError:
             if stdout:
                 stdout.write(
-                    f"Unable to parse datapoint {observation["value"]} for FRED dataset {series_id}"
+                    f"Unable to parse datapoint {observation['value']} for FRED dataset {series_id}"
                 )
 
     return records

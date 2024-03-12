@@ -185,3 +185,7 @@ EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")  # type:ignore
 EMAIL_TIMEOUT = 15
 
 FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
+
+
+# Flags
+USE_POSTGRES_DATASETS = env.bool("USE_POSTGRES_DATASETS", default=True)  # type:ignore

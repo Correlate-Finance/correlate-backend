@@ -1,6 +1,10 @@
 from django.test import TransactionTestCase
 from datasets.models import Dataset, DatasetMetadata
-from datasets.dataset_orm import add_dataset, parse_excel_file_for_datasets
+from datasets.dataset_orm import (
+    add_dataset,
+    parse_excel_file_for_datasets,
+    get_all_dataset_dfs,
+)
 from datetime import datetime
 
 from django.test import TestCase
@@ -8,6 +12,7 @@ from io import BytesIO
 import openpyxl
 import pytz
 from django.core.files.uploadedfile import SimpleUploadedFile
+import pandas as pd
 
 
 class AddDatasetTest(TransactionTestCase):
@@ -97,3 +102,34 @@ class ParseExcelFileForDatasetsTest(TestCase):
         dataset = Dataset.objects.all()
         self.assertEqual((dataset[0].date, dataset[0].value), expected_dataset[0])
         self.assertEqual((dataset[1].date, dataset[1].value), expected_dataset[1])
+
+
+class GetAllDatasetDfsTest(TransactionTestCase):
+    def setUp(self):
+        # Setup test data
+        metadata1 = DatasetMetadata.objects.create(internal_name="Test Data 1")
+        metadata2 = DatasetMetadata.objects.create(internal_name="Test Data 2")
+
+        Dataset.objects.create(metadata=metadata1, date=datetime.now(), value=100)
+        Dataset.objects.create(metadata=metadata1, date=datetime.now(), value=200)
+        Dataset.objects.create(metadata=metadata2, date=datetime.now(), value=300)
+
+    def test_get_all_dataset_dfs(self):
+        # Call the function
+        dfs = get_all_dataset_dfs()
+
+        # Verify the DataFrames
+        print(dfs)
+        self.assertEqual(len(dfs), 2)
+        self.assertIn("Test Data 1", dfs)
+        self.assertIn("Test Data 2", dfs)
+
+        # Further checks can be done on the content of the DataFrames
+        df1 = dfs["Test Data 1"]
+        self.assertIsInstance(df1, pd.DataFrame)
+        self.assertEqual(list(df1.columns), ["Date", "Value"])
+        self.assertEqual(len(df1), 2)  # Two rows for 'Test Data 1'
+
+        df2 = dfs["Test Data 2"]
+        self.assertIsInstance(df2, pd.DataFrame)
+        self.assertEqual(len(df2), 1)  # One row for 'Test Data 2'

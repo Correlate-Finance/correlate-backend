@@ -7,9 +7,7 @@ from django.http import (
 )
 from rest_framework.request import Request
 import urllib.parse
-
 from rest_framework.permissions import IsAuthenticated
-
 from core.main_logic import calculate_correlation, correlate_datasets, create_index
 from core.data_trends import (
     calculate_average_monthly_growth,
@@ -28,11 +26,12 @@ from datasets.models import CorrelateData
 import requests
 import calendar
 from datetime import datetime
-
+from datasets.dataset_orm import get_all_dataset_dfs
 from functools import cache
 import pandas as pd
-
 from core.data_processing import parse_input_dataset, transform_data
+from core.mongo_operations import get_all_dfs, HIGH_LEVEL_TABLES
+from django.conf import settings
 
 
 @cache
@@ -304,12 +303,18 @@ def run_correlations(
     correlation_metric: str,
     test_correlation_metric: str = "RAW_VALUE",
 ) -> JsonResponse:
+    print("Running correlations", settings.USE_POSTGRES_DATASETS)
+    if settings.USE_POSTGRES_DATASETS:
+        dfs = get_all_dataset_dfs()
+    else:
+        dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
+
     sorted_correlations = calculate_correlation(
         time_increment,
         fiscal_end_month,
+        dfs=dfs,
         test_data=test_data,
         lag_periods=lag_periods,
-        high_level_only=high_level_only,
         correlation_metric=correlation_metric,
         test_correlation_metric=test_correlation_metric,
     )

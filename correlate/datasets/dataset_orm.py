@@ -3,6 +3,7 @@ from datetime import datetime
 import openpyxl
 from django.core.files.uploadedfile import UploadedFile
 import pytz
+import pandas as pd
 
 
 def add_dataset(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
@@ -68,3 +69,18 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
         total_new = add_dataset(dataset, dataset_metadata)
         results.append((sheet.title, created, total_new))
     return results
+
+
+def get_all_dataset_dfs():
+    dfs = {}
+    datasets = Dataset.objects.all().prefetch_related("metadata")
+    for dataset in datasets:
+        title = dataset.metadata.name
+        if title not in dfs:
+            dfs[title] = []
+        dfs[title].append((dataset.date, dataset.value))
+    dfs = {
+        title: pd.DataFrame(data, columns=["Date", "Value"])
+        for title, data in dfs.items()
+    }
+    return dfs
