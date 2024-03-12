@@ -303,7 +303,6 @@ def run_correlations(
     correlation_metric: str,
     test_correlation_metric: str = "RAW_VALUE",
 ) -> JsonResponse:
-    print("Running correlations", settings.USE_POSTGRES_DATASETS)
     if settings.USE_POSTGRES_DATASETS:
         dfs = get_all_dataset_dfs()
     else:

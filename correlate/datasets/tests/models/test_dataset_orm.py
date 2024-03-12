@@ -13,6 +13,7 @@ import openpyxl
 import pytz
 from django.core.files.uploadedfile import SimpleUploadedFile
 import pandas as pd
+from pathlib import Path
 
 
 class AddDatasetTest(TransactionTestCase):
@@ -102,6 +103,30 @@ class ParseExcelFileForDatasetsTest(TestCase):
         dataset = Dataset.objects.all()
         self.assertEqual((dataset[0].date, dataset[0].value), expected_dataset[0])
         self.assertEqual((dataset[1].date, dataset[1].value), expected_dataset[1])
+
+    def test_parse_excel_file_for_datasets_with_datetime_dates(self):
+        f = open(Path(__file__).parent / "../data/fast.xlsx", "rb")
+        results = parse_excel_file_for_datasets(SimpleUploadedFile("file", f.read()))
+        f.close()
+
+        # Assertions
+        self.assertEqual(len(results), 1)
+        self.assertEqual(results[0][0], "Fastenal Daily Sales")
+        self.assertTrue(results[0][1])  # created should be True
+        self.assertEqual(results[0][2], 62)  # total_new should be 2
+
+        expected_dataset = [
+            (datetime(2019, 1, 31, tzinfo=pytz.utc), 20314.13636),
+            (datetime(2019, 2, 28, tzinfo=pytz.utc), 20593.85),
+        ]
+
+        dataset = Dataset.objects.all()
+
+        self.assertEqual(dataset[0].date, expected_dataset[0][0])
+        self.assertAlmostEqual(dataset[0].value, expected_dataset[0][1], places=4)
+
+        self.assertEqual(dataset[1].date, expected_dataset[1][0])
+        self.assertAlmostEqual(dataset[1].value, expected_dataset[1][1], places=4)
 
 
 class GetAllDatasetDfsTest(TransactionTestCase):

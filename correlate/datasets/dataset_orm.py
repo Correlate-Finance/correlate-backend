@@ -4,6 +4,7 @@ import openpyxl
 from django.core.files.uploadedfile import UploadedFile
 import pytz
 import pandas as pd
+from dateutil.parser import parse
 
 
 def add_dataset(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
@@ -48,8 +49,10 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
                 raw_date, value = str(row[0].value), row[1].value
 
                 if raw_date and value:  # Check if both date and value are present
-                    date = datetime.strptime(raw_date, "%Y-%m-%d").replace(
-                        tzinfo=pytz.utc
+                    date = (
+                        parse(raw_date).replace(tzinfo=pytz.utc)
+                        if isinstance(raw_date, str)
+                        else raw_date
                     )
                     dataset.append((date, float(value)))  # type:ignore
 
