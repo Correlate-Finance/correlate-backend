@@ -8,12 +8,16 @@ from users.models import User
 from django.http import JsonResponse
 from core import mongo_operations
 import json
+from rest_framework.authtoken.models import Token
+
+from rest_framework.test import APIClient
 
 
 class CorrelateViewTests(APITestCase):
     def setUp(self):
         # Create a user for authentication
         self.user = User.objects.create(email="testuser", password="testpassword")
+        self.token, _ = Token.objects.get_or_create(user=self.user)
         self.url = reverse("correlate")
 
     def test_access_without_authentication(self):
@@ -23,13 +27,13 @@ class CorrelateViewTests(APITestCase):
 
     def test_access_with_authentication(self):
         # Ensure that authenticated requests are allowed
-        self.client.force_login(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         response = self.client.get(self.url)
         self.assertNotEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
     def test_invalid_stock_parameter(self):
         # Test the view with an invalid stock parameter
-        self.client.force_login(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         response = self.client.get(self.url, {"stock": ""})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
@@ -42,7 +46,7 @@ class CorrelateViewTests(APITestCase):
     )
     def test_valid_request(self, mock_fetch_stock_revenues, mock_run_correlations):
         # Test the view with valid parameters
-        self.client.force_login(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         params = {
             "stock": "AAPL",
             "start_year": 2020,
@@ -62,6 +66,7 @@ class CorrelateViewTests(APITestCase):
 class TestRawDatasetView(APITestCase):
     def setUp(self):
         self.user = User.objects.create(email="testuser", password="testpassword")
+        self.token, _ = Token.objects.get_or_create(user=self.user)
         self.url = reverse("rawdataset")
 
     def test_post_cached_df_exists(self):
@@ -72,7 +77,7 @@ class TestRawDatasetView(APITestCase):
         mongo_operations.CACHED_DFS = {"table_name": mock_df}
 
         # Create a fake request
-        self.client.force_login(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         response = self.client.post(self.url, "table_name", content_type="html/text")
 
         # Check if the response is correct
@@ -92,7 +97,7 @@ class TestRawDatasetView(APITestCase):
     def test_post_df_does_not_exist(
         self, mock_get_df, mock_get_metadata_from_external_name
     ):
-        self.client.force_login(user=self.user)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         response = self.client.post(self.url, "table_name", content_type="html/text")
 
         # Check if the response is a bad request
