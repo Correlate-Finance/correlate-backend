@@ -6,6 +6,57 @@ import requests
 from datetime import datetime
 import pytz
 
+BLOCKED_SERIES = [
+    "BOIMPUS",  # Data only had 7 data points, most recent data was not available
+    "HPC9PUS",  # Data had 11 data points, most data was not available and all values were same
+    "HPI9PUS",  # Data had 11 data points, most data was not available and all values were 0
+    "NUC9PUS",  # Data had 11 data points, most data was not available and all values were 0
+    "NUI9PUS",  # Data had 11 data points, most data was not available and all values were 0
+    "HPC9SUS",  # Data had 24 data points and most recent data was not available
+    "BMACBUS",  # Data is duplicate of "REACBUS"
+    # Data does not have data newer than 2022
+    "RLUCUUS",
+    "ESOTUUS",
+    "CLRCPUS",
+    "CLRCBUS",
+    "CLRCEUS",
+    "COQIPUS",
+    "D2RCOUS",
+    "D2RCAUS",
+    "NGWPUUS",
+    "HPC9SUS",
+    "COFMUAQ",
+    "COFMUVE",
+    "COFMUUK",
+    "COFMUNI",
+    "COIMUAQ",
+    "PAIMPVI",
+    "GEC9PUS",
+    "RBTCUUS",
+    "COFMUSA",
+    "D2WHUUS",
+    "RFTCUUS",
+    "ROWHUUS",
+    "MGTCUUS",
+    "JKWHUUS",
+    "D2TCUUS",
+    "PRWHUUS",
+    "OGWSPUS",
+    "DSWHUUS",
+    "ROTCUUS",
+    "DSTCUUS",
+    "MGWHUUS",
+    "KSTCUUS",
+    "AVWHUUS",
+    "AVTCUUS",
+    "JKTCUUS",
+    "RFWHUUS",
+    "RBWHUUS",
+    "KSWHUUS",
+    "PRTCUUS",
+    "COFMUCL",
+]
+
 
 class Command(BaseCommand):
     help = "Fetches the latest data from EIA and updates the database."
@@ -23,6 +74,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         all_series = fetch_all_eia_series()
         for series_id in all_series[: int(options["n"])]:
+            if series_id in BLOCKED_SERIES:
+                continue
             fetch_and_store_eia_series(series_id, self.stdout)
 
 

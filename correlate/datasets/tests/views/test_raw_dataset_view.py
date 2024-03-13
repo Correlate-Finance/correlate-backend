@@ -4,7 +4,7 @@ import pandas as pd
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from users.models import User
-from datasets import mongo_operations
+from datasets import dataset_orm
 import json
 from rest_framework.authtoken.models import Token
 
@@ -20,7 +20,7 @@ class TestRawDatasetView(APITestCase):
         mock_df = pd.DataFrame(
             {"Date": ["2021-01-01", "2021-01-02"], "Value": ["10", "20"]}
         )
-        mongo_operations.CACHED_DFS = {"table_name": mock_df}
+        dataset_orm.CACHED_DFS = {"table_name": mock_df}
 
         # Create a fake request
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
@@ -33,7 +33,7 @@ class TestRawDatasetView(APITestCase):
             '[{"Date":"01-01-2021","Value":10},{"Date":"01-02-2021","Value":20}]',
         )
         # Todo: This is really bad we shouldnt be updating state this way
-        mongo_operations.CACHED_DFS = {}
+        dataset_orm.CACHED_DFS = {}
 
     @patch(
         "datasets.dataset_metadata_orm.get_metadata_from_external_name",

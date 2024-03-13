@@ -4,6 +4,7 @@
 import pandas as pd
 import re
 import numpy as np
+from datetime import datetime
 
 
 def transform_data(
@@ -11,6 +12,7 @@ def transform_data(
     time_increment,
     fiscal_end_month=None,
     correlation_metric="RAW_VALUE",
+    start_date: datetime | None = None,
 ) -> pd.DataFrame:
     df = df.copy(deep=True)
     # Short circuit if df is empty
@@ -22,6 +24,9 @@ def transform_data(
     df["Date"] = pd.to_datetime(df["Date"])
     # Convert 'Value' to float type if it's not already
     df["Value"] = df["Value"].astype(float)  # Convert to float
+
+    if start_date is not None:
+        df = df[df["Date"] >= start_date]
 
     # Monthly: Do nothing
     if time_increment == "Monthly":

@@ -3,6 +3,7 @@ import pandas as pd
 
 from core.data_processing import parse_input_dataset, transform_data
 from parameterized import parameterized
+from datetime import datetime
 
 TEST_DATA = {
     "Date": [
@@ -187,6 +188,25 @@ class TestTransformData(unittest.TestCase):
         df = pd.DataFrame(self.test_data)
         with self.assertRaises(ValueError):
             transform_data(df, "Invalid")
+
+    def test_transform_data_with_start_date(self):
+        df = pd.DataFrame(self.test_data)
+        result = transform_data(df, "Monthly", start_date=datetime(2020, 6, 1))
+        self.assertEqual(result["Value"].iloc[0], 6)
+        self.assertEqual(result["Value"].iloc[-1], 12)
+        self.assertEqual(result["Value"].size, 7)
+
+    def test_transform_quarterly_with_start_date(self):
+        df = pd.DataFrame(self.quarterly_data)
+        result = transform_data(
+            df,
+            "Quarterly",
+            fiscal_end_month="December",
+            start_date=datetime(2020, 6, 1),
+        )
+        self.assertEqual(result["Date"].iloc[0], pd.Period("2020Q3", "Q-DEC"))
+        self.assertEqual(result["Date"].iloc[-1], pd.Period("2021Q4", "Q-DEC"))
+        self.assertEqual(result["Value"].size, 6)
 
 
 class TestParseInputDataset(unittest.TestCase):
