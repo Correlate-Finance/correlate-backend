@@ -12,17 +12,17 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
-            "n",
+            "--n",
             type=int,
             help="The max number of series to fetch",
-            nargs="*",
             default=1000,
+            required=False,
         )
         return super().add_arguments(parser)
 
     def handle(self, *args, **options):
         all_series = fetch_all_eia_series()
-        for series_id in all_series[: options["n"]]:
+        for series_id in all_series[: int(options["n"])]:
             fetch_and_store_eia_series(series_id, self.stdout)
 
 

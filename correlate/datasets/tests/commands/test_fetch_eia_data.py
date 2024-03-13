@@ -112,7 +112,7 @@ class CommandExecutionTests(TestCase):
         ]
 
         # Call the command
-        call_command("fetch_eia_data")
+        call_command("fetch_eia_data", n=1)
 
         # Assertions to verify database interactions
         self.assertTrue(
