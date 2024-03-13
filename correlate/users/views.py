@@ -6,10 +6,11 @@ from .serializers import UserSerializer, UserAuthenticationSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
-from .models import User, WatchList
+from .models import User, WatchList, Allowlist
 from datetime import datetime, timedelta
 import environ
 from datasets import dataset_metadata_orm
+from rest_framework.status import HTTP_403_FORBIDDEN
 
 
 env = environ.Env()
@@ -22,8 +23,12 @@ class RegisterView(APIView):
     def post(self, request: Request) -> HttpResponse:
         serializer = UserSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        email = serializer.validated_data.get("email")  # type: ignore
 
+        if not Allowlist.objects.filter(email=email).exists():
+            return Response({"detail": "Email not allowed."}, status=HTTP_403_FORBIDDEN)
+
+        serializer.save()
         return Response(serializer.data)
 
 

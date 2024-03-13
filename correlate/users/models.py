@@ -24,3 +24,10 @@ class WatchList(models.Model):
 
     def __str__(self):
         return f"{self.user.email} - {self.dataset.name}"
+
+
+class Allowlist(models.Model):
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email
