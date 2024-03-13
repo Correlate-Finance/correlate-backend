@@ -139,7 +139,7 @@ def fetch_data_table_ids(
     return dataTable_ids
 
 
-def get_all_dfs(
+def get_all_mongo_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
     global CACHED_DFS
@@ -154,7 +154,7 @@ def get_all_dfs(
     return dfs
 
 
-def get_df(name: str) -> pd.DataFrame | None:
+def get_mongo_df(name: str) -> pd.DataFrame | None:
     if CACHED_DFS:
         return CACHED_DFS.get(name)
     db = connect_to_mongo(MONGO_URI, DATABASE_NAME)

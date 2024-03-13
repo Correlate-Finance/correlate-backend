@@ -4,6 +4,8 @@ from pydantic import BaseModel
 
 class CorrelateDataPoint(BaseModel):
     title: str
+    internal_name: str | None = None
+
     pearson_value: float
     p_value: float
     lag: int = 0

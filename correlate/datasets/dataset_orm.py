@@ -5,6 +5,11 @@ from django.core.files.uploadedfile import UploadedFile
 import pytz
 import pandas as pd
 from dateutil.parser import parse
+from frozendict import frozendict
+from django.conf import settings
+from datasets.mongo_operations import get_all_mongo_dfs, get_mongo_df
+
+CACHED_DFS = None
 
 
 def add_dataset(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
@@ -74,9 +79,30 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
     return results
 
 
-def get_all_dataset_dfs():
+def get_all_postgres_dfs(
+    selected_names: list[str] | None = None,
+) -> frozendict[str, pd.DataFrame]:
+    global CACHED_DFS
+    if CACHED_DFS:
+        if selected_names is None:
+            return CACHED_DFS
+        else:
+            return frozendict(
+                {
+                    name: CACHED_DFS[name]
+                    for name in selected_names
+                    if name in CACHED_DFS
+                }
+            )
+
     dfs = {}
-    datasets = Dataset.objects.all().prefetch_related("metadata")
+    if selected_names is not None:
+        datasets = Dataset.objects.filter(
+            metadata__internal_name__in=selected_names
+        ).prefetch_related("metadata")
+    else:
+        datasets = Dataset.objects.all().prefetch_related("metadata")
+
     for dataset in datasets:
         title = dataset.metadata.name
         if title not in dfs:
@@ -86,4 +112,34 @@ def get_all_dataset_dfs():
         title: pd.DataFrame(data, columns=["Date", "Value"])
         for title, data in dfs.items()
     }
-    return dfs
+    if selected_names is None:
+        CACHED_DFS = dfs
+    return frozendict(dfs)
+
+
+def get_postgres_df(title: str) -> pd.DataFrame | None:
+    if CACHED_DFS:
+        return CACHED_DFS.get(title)
+    dataset = list(Dataset.objects.filter(metadata__internal_name=title).all())
+    if len(dataset) == 0:
+        return None
+    data = [(d.date, d.value) for d in dataset]
+    return pd.DataFrame(data, columns=["Date", "Value"])
+
+
+def get_all_dfs(
+    selected_names: list[str] | None = None,
+) -> frozendict[str, pd.DataFrame]:
+    return (
+        get_all_postgres_dfs(selected_names)
+        if settings.USE_POSTGRES_DATASETS
+        else get_all_mongo_dfs(selected_names)
+    )
+
+
+def get_df(title: str) -> pd.DataFrame | None:
+    return (
+        get_postgres_df(title)
+        if settings.USE_POSTGRES_DATASETS
+        else get_mongo_df(title)
+    )

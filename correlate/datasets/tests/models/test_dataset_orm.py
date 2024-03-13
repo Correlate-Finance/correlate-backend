@@ -3,7 +3,7 @@ from datasets.models import Dataset, DatasetMetadata
 from datasets.dataset_orm import (
     add_dataset,
     parse_excel_file_for_datasets,
-    get_all_dataset_dfs,
+    get_all_postgres_dfs,
 )
 from datetime import datetime
 
@@ -139,9 +139,9 @@ class GetAllDatasetDfsTest(TransactionTestCase):
         Dataset.objects.create(metadata=metadata1, date=datetime.now(), value=200)
         Dataset.objects.create(metadata=metadata2, date=datetime.now(), value=300)
 
-    def test_get_all_dataset_dfs(self):
+    def test_get_all_postgres_dfs(self):
         # Call the function
-        dfs = get_all_dataset_dfs()
+        dfs = get_all_postgres_dfs()
 
         # Verify the DataFrames
         print(dfs)

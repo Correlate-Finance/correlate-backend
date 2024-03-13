@@ -15,7 +15,6 @@ from core.data_trends import (
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
 )
-from datasets.mongo_operations import get_df
 from datasets.serializers import CorrelateIndexRequestBody
 from datasets.dataset_metadata_orm import (
     augment_with_external_title,
@@ -26,12 +25,11 @@ from datasets.models import CorrelateData
 import requests
 import calendar
 from datetime import datetime
-from datasets.dataset_orm import get_all_dataset_dfs
 from functools import cache
 import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data
-from datasets.mongo_operations import get_all_dfs, HIGH_LEVEL_TABLES
-from django.conf import settings
+from datasets.dataset_orm import get_all_dfs, get_df
+from datasets.mongo_operations import HIGH_LEVEL_TABLES
 
 
 @cache
@@ -303,10 +301,7 @@ def run_correlations(
     correlation_metric: str,
     test_correlation_metric: str = "RAW_VALUE",
 ) -> JsonResponse:
-    if settings.USE_POSTGRES_DATASETS:
-        dfs = get_all_dataset_dfs()
-    else:
-        dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
+    dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
 
     sorted_correlations = calculate_correlation(
         time_increment,
