@@ -28,7 +28,7 @@ class Command(BaseCommand):
         self.stdout.write(f"Added {total_new} new records to the database")
 
 
-def fetch_fred_data(series_id, stdout=None):
+def fetch_fred_data(series_id, stdout=None) -> list[tuple[datetime, float]]:
     BASE_URL = "https://api.stlouisfed.org/fred/series/observations?series_id="
     API_KEY = settings.FRED_API_KEY
     url = f"{BASE_URL}{series_id}&api_key={API_KEY}&file_type=json"

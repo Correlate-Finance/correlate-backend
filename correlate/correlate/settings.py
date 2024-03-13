@@ -181,8 +181,9 @@ EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")  # type:ignore
 EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")  # type:ignore
 EMAIL_TIMEOUT = 15
 
+# API KEYS
 FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
-
+EIA_API_KEY = env.str("EIA_API_KEY", default="")  # type:ignore
 
 # Flags
 USE_POSTGRES_DATASETS = env.bool("USE_POSTGRES_DATASETS", default=False)  # type:ignore
