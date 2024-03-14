@@ -9,7 +9,6 @@ import math
 from datasets.models import CorrelateDataPoint
 from scipy.stats.stats import pearsonr  # type: ignore
 from frozendict import frozendict
-from datetime import datetime
 
 
 def correlate_datasets(
@@ -77,9 +76,9 @@ def calculate_correlation(
         test_df, time_increment, fiscal_end_month, test_correlation_metric
     )
 
-    start_time = test_df["Date"].iloc[0]
-    timestamp: pd.Period = start_time.to_timestamp()
-    start_datetime = datetime(timestamp.year, timestamp.month, timestamp.day)
+    # start_time = test_df["Date"].iloc[0]
+    # timestamp: pd.Period = start_time.to_timestamp()
+    # start_datetime = datetime(timestamp.year, timestamp.month, timestamp.day)
 
     transformed_dfs: dict[str, pd.DataFrame] = {}
     # Apply the transformation on every dataframe in dfs.
