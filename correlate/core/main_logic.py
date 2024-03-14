@@ -89,7 +89,6 @@ def calculate_correlation(
             time_increment,
             fiscal_end_month,
             correlation_metric,
-            start_date=start_datetime,
         )
 
     correlation_results: list[CorrelateDataPoint] = []
