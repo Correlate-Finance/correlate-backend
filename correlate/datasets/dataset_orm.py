@@ -104,7 +104,7 @@ def get_all_postgres_dfs(
         datasets = Dataset.objects.all().prefetch_related("metadata")
 
     for dataset in datasets:
-        title = dataset.metadata.name
+        title = dataset.metadata.internal_name
         if title not in dfs:
             dfs[title] = []
         dfs[title].append((dataset.date, dataset.value))

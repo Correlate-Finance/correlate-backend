@@ -144,7 +144,6 @@ class GetAllDatasetDfsTest(TransactionTestCase):
         dfs = get_all_postgres_dfs()
 
         # Verify the DataFrames
-        print(dfs)
         self.assertEqual(len(dfs), 2)
         self.assertIn("Test Data 1", dfs)
         self.assertIn("Test Data 2", dfs)
