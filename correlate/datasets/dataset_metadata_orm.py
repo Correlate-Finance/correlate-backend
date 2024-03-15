@@ -21,6 +21,17 @@ def get_metadata_from_external_name(external_name: str) -> DatasetMetadata | Non
     return DatasetMetadata.objects.filter(external_name=external_name).first()
 
 
+def get_metadata_from_internal_name(internal_name: str) -> DatasetMetadata | None:
+    return DatasetMetadata.objects.filter(internal_name=internal_name).first()
+
+
+def get_metadata_from_name(name: str) -> DatasetMetadata | None:
+    metadata = get_metadata_from_external_name(name)
+    if metadata is not None:
+        return metadata
+    return get_metadata_from_internal_name(name)
+
+
 def get_internal_name_from_external_name(external_name: str) -> str:
     metadata = get_metadata_from_external_name(external_name)
     if metadata is None:

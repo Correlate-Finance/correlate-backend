@@ -20,6 +20,7 @@ from datasets.dataset_metadata_orm import (
     augment_with_external_title,
     get_internal_name_from_external_name,
     get_metadata_from_external_name,
+    get_metadata_from_name,
 )
 from datasets.models import CorrelateData
 import requests
@@ -130,9 +131,11 @@ class RawDatasetView(APIView):
     def post(self, request: Request) -> HttpResponse:
         table = request.body.decode("utf-8")
         table = urllib.parse.unquote(table)
-        metadata = get_metadata_from_external_name(table)
-        if metadata is not None:
-            table = metadata.internal_name
+        metadata = get_metadata_from_name(table)
+        if metadata is None:
+            return HttpResponseBadRequest("Invalid data")
+
+        table = metadata.internal_name
 
         df = get_df(table)
         if df is None:
@@ -144,7 +147,14 @@ class RawDatasetView(APIView):
         df["Value"] = pd.to_numeric(df["Value"], errors="coerce")
         df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
 
-        return JsonResponse(df.to_json(orient="records"), safe=False)
+        return JsonResponse(
+            {
+                "dataset": df.to_json(orient="records"),
+                "source": metadata.source,
+                "description": metadata.description,
+            },
+            safe=False,
+        )
 
 
 class RevenueView(APIView):

@@ -7,6 +7,7 @@ from users.models import User
 from datasets import dataset_orm
 import json
 from rest_framework.authtoken.models import Token
+from datasets.models import DatasetMetadata
 
 
 class TestRawDatasetView(APITestCase):
@@ -21,16 +22,31 @@ class TestRawDatasetView(APITestCase):
             {"Date": ["2021-01-01", "2021-01-02"], "Value": ["10", "20"]}
         )
         dataset_orm.CACHED_DFS = {"table_name": mock_df}
+        DatasetMetadata.objects.create(
+            internal_name="table_name",
+            external_name="Title",
+            source="Source",
+            description="Description",
+        )
 
         # Create a fake request
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         response = self.client.post(self.url, "table_name", content_type="html/text")
+        json_data = json.loads(response.content)
 
         # Check if the response is correct
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            json.loads(response.content),
-            '[{"Date":"01-01-2021","Value":10},{"Date":"01-02-2021","Value":20}]',
+            json.loads(json_data["dataset"]),
+            [{"Date": "01-01-2021", "Value": 10}, {"Date": "01-02-2021", "Value": 20}],
+        )
+        self.assertEqual(
+            json_data["source"],
+            "Source",
+        )
+        self.assertEqual(
+            json_data["description"],
+            "Description",
         )
         # Todo: This is really bad we shouldnt be updating state this way
         dataset_orm.CACHED_DFS = {}

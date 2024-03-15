@@ -14,6 +14,7 @@ import pytz
 from django.core.files.uploadedfile import SimpleUploadedFile
 import pandas as pd
 from pathlib import Path
+from datasets import dataset_orm
 
 
 class AddDatasetTest(TransactionTestCase):
@@ -140,6 +141,7 @@ class GetAllDatasetDfsTest(TransactionTestCase):
         Dataset.objects.create(metadata=metadata2, date=datetime.now(), value=300)
 
     def test_get_all_postgres_dfs(self):
+        dataset_orm.CACHED_DFS = {}
         # Call the function
         dfs = get_all_postgres_dfs()
 
