@@ -8,6 +8,9 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "email", "password"]
         extra_kwargs = {"password": {"write_only": True}}
 
+    def validate_email(self, value: str):
+        return value.lower()
+
     def create(self, validated_data):
         password = validated_data.pop("password", None)
 
@@ -22,3 +25,6 @@ class UserSerializer(serializers.ModelSerializer):
 class UserAuthenticationSerializer(serializers.Serializer):
     email = serializers.CharField(required=True, allow_blank=False, max_length=255)
     password = serializers.CharField(required=True, allow_blank=False, max_length=255)
+
+    def validate_email(self, value: str):
+        return value.lower()

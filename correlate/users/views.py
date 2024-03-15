@@ -34,6 +34,7 @@ class RegisterView(APIView):
 
 class LoginView(APIView):
     serializer_class = UserAuthenticationSerializer
+    authentication_classes = []
 
     def post(self, request: Request) -> HttpResponse:
         serializer = UserAuthenticationSerializer(data=request.data)
@@ -47,16 +48,7 @@ class LoginView(APIView):
             raise AuthenticationFailed("Password is incorrect")
 
         token, _ = Token.objects.get_or_create(user=user)
-
-        response = Response()
-        response.set_cookie(
-            "session",
-            token.key,
-            expires=datetime.utcnow() + timedelta(days=365),
-            domain=".correlatefinance.com" if not env.bool("LOCAL_DEV") else None,
-        )
-        response.data = {"token": token.key}
-        return response
+        return Response(data={"token": token.key})
 
 
 class LogoutView(APIView):
