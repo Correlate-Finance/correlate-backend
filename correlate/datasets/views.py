@@ -31,6 +31,7 @@ import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data
 from datasets.dataset_orm import get_all_dfs, get_df
 from datasets.mongo_operations import HIGH_LEVEL_TABLES
+from datasets.models import DatasetMetadata
 
 
 @cache
@@ -242,6 +243,20 @@ class CorrelateInputDataView(APIView):
             show_negatives=show_negatives,
             correlation_metric=correlation_metric,
             test_correlation_metric="RAW_VALUE",
+        )
+
+
+class GetAllDatasetMetadata(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        metadata = DatasetMetadata.objects.all()
+        return JsonResponse(
+            [
+                {"internal_name": m.internal_name, "external_name": m.external_name}
+                for m in metadata
+            ],
+            safe=False,
         )
 
 
