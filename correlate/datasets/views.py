@@ -253,7 +253,7 @@ class GetAllDatasetMetadata(APIView):
         metadata = DatasetMetadata.objects.all()
         return JsonResponse(
             [
-                {"internal_name": m.internal_name, "external_name": m.external_name}
+                {"series_id": m.internal_name, "title": m.external_name}
                 for m in metadata
             ],
             safe=False,

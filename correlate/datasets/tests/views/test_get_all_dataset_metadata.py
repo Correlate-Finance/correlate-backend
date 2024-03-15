@@ -27,5 +27,5 @@ class TestGetAllDatasetMetadata(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             json_data,
-            [{"internal_name": "table_name", "external_name": "Title"}],
+            [{"series_id": "table_name", "title": "Title"}],
         )
