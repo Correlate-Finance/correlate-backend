@@ -7,15 +7,7 @@ import numpy as np
 from datetime import datetime
 
 
-def transform_data(
-    df: pd.DataFrame,
-    time_increment,
-    fiscal_end_month=None,
-    correlation_metric="RAW_VALUE",
-    start_date: datetime | None = None,
-) -> pd.DataFrame:
-    df = df.copy(deep=True)
-    # Short circuit if df is empty
+def transform_data_base(df: pd.DataFrame):
     if df.empty:
         return df
 
@@ -24,6 +16,24 @@ def transform_data(
     df["Date"] = pd.to_datetime(df["Date"])
     # Convert 'Value' to float type if it's not already
     df["Value"] = df["Value"].astype(float)  # Convert to float
+
+
+def transform_data(
+    df: pd.DataFrame,
+    time_increment,
+    fiscal_end_month=None,
+    correlation_metric="RAW_VALUE",
+    start_date: datetime | None = None,
+) -> pd.DataFrame:
+    if df.empty:
+        return df
+
+    df = df.copy(deep=True)
+    # Short circuit if df is empty
+
+    # if its not a datetime type, convert it
+    if df["Date"].dtype != "<M8[ns]":
+        transform_data_base(df)
 
     if start_date is not None:
         df = df[df["Date"] >= start_date]

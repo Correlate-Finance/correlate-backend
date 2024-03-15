@@ -7,7 +7,11 @@ import pandas as pd
 from dateutil.parser import parse
 from frozendict import frozendict
 from django.conf import settings
-from datasets.mongo_operations import get_all_mongo_dfs, get_mongo_df
+from core.data_processing import transform_data_base
+from datasets.mongo_operations import (
+    get_all_mongo_dfs,
+    get_mongo_df,
+)
 
 CACHED_DFS = None
 
@@ -108,10 +112,11 @@ def get_all_postgres_dfs(
         if title not in dfs:
             dfs[title] = []
         dfs[title].append((dataset.date, dataset.value))
-    dfs = {
-        title: pd.DataFrame(data, columns=["Date", "Value"])
-        for title, data in dfs.items()
-    }
+
+    for title, data in dfs.items():
+        dfs[title] = pd.DataFrame(data, columns=["Date", "Value"])
+        transform_data_base(dfs[title])
+
     if selected_names is None:
         CACHED_DFS = dfs
     return frozendict(dfs)
