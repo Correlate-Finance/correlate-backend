@@ -6,8 +6,8 @@ import pandas as pd
 from core.data import TEST_DATA
 import math
 
-from datasets.models import CorrelateDataPoint
-from scipy.stats.stats import pearsonr  # type: ignore
+from datasets.models import CorrelateDataPoint, AggregationPeriod, CorrelationMetric
+import numpy as np
 from frozendict import frozendict
 
 
@@ -19,19 +19,21 @@ def correlate_datasets(
 ):
     """Correlate two datasets."""
     merged = pd.merge(df, test_df, on="Date")
-    test_points = list(merged["Value_y"])
-    dataset_points = list(merged["Value_x"])
+    test_points = merged["Value_y"].values
+    dataset_points = merged["Value_x"].values
     dates = list(merged["Date"].astype(str))
 
     if len(merged.index) < 4:
         return None
 
     results = []
+    n = len(dataset_points)
     for lag in range(lag_periods + 1):
         try:
-            correlation_value, p_value = pearsonr(
-                test_points[lag:], dataset_points[: len(dataset_points) - lag]
-            )  # type: ignore
+            correlation_value = np.corrcoef(
+                test_points[lag:], dataset_points[: n - lag]
+            )[0, 1]
+
         except Exception as e:
             print("Error in correlation", df_title, merged)
             raise e
@@ -44,9 +46,9 @@ def correlate_datasets(
                 title=df_title,
                 pearson_value=correlation_value,
                 lag=lag,
-                p_value=p_value,
-                input_data=test_points,
-                dataset_data=dataset_points,
+                p_value=0,
+                input_data=list(test_points),
+                dataset_data=list(dataset_points),
                 dates=dates,
             )
         )
@@ -55,13 +57,13 @@ def correlate_datasets(
 
 
 def calculate_correlation(
-    time_increment: str,
+    time_increment: AggregationPeriod,
     fiscal_end_month: str,
     dfs: frozendict[str, pd.DataFrame] | dict[str, pd.DataFrame],
     test_data: dict | pd.DataFrame | None = None,
     lag_periods: int = 0,
-    test_correlation_metric: str = "RAW_VALUE",
-    correlation_metric: str = "RAW_VALUE",
+    test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
+    correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
 ):
     if test_data is None:
         test_data = TEST_DATA
@@ -108,8 +110,8 @@ def calculate_correlation(
 
 def create_index(
     dataset_weights: dict[str, float],
-    correlation_metric: str,
-    aggregation_period: str = "Quarterly",
+    correlation_metric: CorrelationMetric,
+    aggregation_period: AggregationPeriod = AggregationPeriod.QUARTERLY,
     fiscal_end_month: str = "December",
 ) -> pd.DataFrame | None:
     if len(dataset_weights) == 0:
@@ -126,7 +128,7 @@ def create_index(
             df, aggregation_period, fiscal_end_month, correlation_metric
         )
 
-        if correlation_metric == "RAW_VALUE":
+        if correlation_metric == CorrelationMetric.RAW_VALUE:
             transformed_df["Value"] = (
                 transformed_df["Value"] / transformed_df["Value"].abs().max()
             )
@@ -134,6 +136,4 @@ def create_index(
         transformed_df["Value"] = transformed_df["Value"] * dataset_weights[title]
         dfs_to_concat.append(transformed_df)
 
-    index = pd.concat(dfs_to_concat, join="inner").groupby("Date").sum()
-
-    return index
+    return pd.concat(dfs_to_concat, join="inner").groupby("Date").sum()

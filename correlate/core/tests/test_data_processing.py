@@ -4,6 +4,7 @@ import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data
 from parameterized import parameterized
 from datetime import datetime
+from datasets.models import AggregationPeriod, CorrelationMetric
 
 TEST_DATA = {
     "Date": [
@@ -106,53 +107,51 @@ class TestTransformData(unittest.TestCase):
 
     def test_transform_empty(self):
         df = pd.DataFrame()
-        result = transform_data(df, "Monthly")
+        result = transform_data(df, AggregationPeriod.QUARTERLY)
         self.assertTrue(result.empty)
-
-    def test_transform_monthly(self):
-        df = pd.DataFrame(self.test_data)
-        result = transform_data(df, "Monthly")
-        self.assertEqual(result["Value"].iloc[0], 1)
-        self.assertEqual(result["Value"].iloc[11], 12)
-
-    def test_transform_monthly_yoy_growth(self):
-        df = pd.DataFrame(self.two_year_data)
-        result = transform_data(df, "Monthly", correlation_metric="YOY_GROWTH")
-        self.assertAlmostEqual(result["Value"].iloc[0], 1)
-        self.assertAlmostEqual(result["Value"].size, 12)
 
     def test_transform_quarterly_fiscal_end_month_throws_error(self):
         df = pd.DataFrame(self.test_data)
         with self.assertRaises(ValueError):
-            transform_data(df, "Quarterly")
+            transform_data(df, AggregationPeriod.QUARTERLY)
 
     @parameterized.expand([[TEST_DATA], [QUARTERLY_DATA]])
     def test_transform_quarterly(self, test_data):
         df = pd.DataFrame(test_data)
-        result = transform_data(df, "Quarterly", fiscal_end_month="December")
+        result = transform_data(
+            df, AggregationPeriod.QUARTERLY, fiscal_end_month="December"
+        )
         self.assertEqual(result["Date"].iloc[0], pd.Period("2020Q1", "Q-DEC"))
         self.assertEqual(result["Date"].iloc[3], pd.Period("2020Q4", "Q-DEC"))
 
     def test_transform_quarterly_less_than_three_months_of_data(self):
         df = pd.DataFrame(self.test_data).iloc[:2]
-        result = transform_data(df, "Quarterly", fiscal_end_month="December")
+        result = transform_data(
+            df, AggregationPeriod.QUARTERLY, fiscal_end_month="December"
+        )
         self.assertTrue(result.empty)
 
     def test_transform_quarterly_fiscal_month_January(self):
         df = pd.DataFrame(self.test_data)
-        result = transform_data(df, "Quarterly", fiscal_end_month="January")
+        result = transform_data(
+            df, AggregationPeriod.QUARTERLY, fiscal_end_month="January"
+        )
         self.assertEqual(result["Date"].iloc[0], pd.Period("2021Q1", "Q-JAN"))
         self.assertEqual(result["Date"].iloc[2], pd.Period("2021Q3", "Q-JAN"))
 
     def test_transform_quarterly_incomplete_start(self):
         df = pd.DataFrame(self.incomplete_data_start)
-        result = transform_data(df, "Quarterly", fiscal_end_month="December")
+        result = transform_data(
+            df, AggregationPeriod.QUARTERLY, fiscal_end_month="December"
+        )
         self.assertEqual(result["Date"].iloc[0], pd.Period("2020Q2", "Q-DEC"))
         self.assertEqual(result["Date"].iloc[2], pd.Period("2020Q4", "Q-DEC"))
 
     def test_transform_quarterly_incomplete_end(self):
         df = pd.DataFrame(self.incomplete_data_end)
-        result = transform_data(df, "Quarterly", fiscal_end_month="December")
+        result = transform_data(
+            df, AggregationPeriod.QUARTERLY, fiscal_end_month="December"
+        )
         self.assertEqual(result["Date"].iloc[0], pd.Period("2020Q1", "Q-DEC"))
         self.assertEqual(result["Date"].iloc[2], pd.Period("2020Q3", "Q-DEC"))
 
@@ -160,9 +159,9 @@ class TestTransformData(unittest.TestCase):
         df = pd.DataFrame(self.two_year_data)
         result = transform_data(
             df,
-            "Quarterly",
+            AggregationPeriod.QUARTERLY,
             fiscal_end_month="December",
-            correlation_metric="YOY_GROWTH",
+            correlation_metric=CorrelationMetric.YOY_GROWTH,
         )
 
         self.assertAlmostEqual(result["Value"].iloc[0], 1)
@@ -171,36 +170,38 @@ class TestTransformData(unittest.TestCase):
     @parameterized.expand([[TEST_DATA], [QUARTERLY_DATA]])
     def test_transform_annual(self, test_data):
         df = pd.DataFrame(test_data)
-        result = transform_data(df, "Annually", fiscal_end_month="December")
+        result = transform_data(
+            df, AggregationPeriod.ANNUALLY, fiscal_end_month="December"
+        )
         self.assertEqual(result["Date"].iloc[0], pd.to_datetime("2020-01-01"))
 
     def test_transform_annual_yoy_growth(self):
         df = pd.DataFrame(self.two_year_data)
         result = transform_data(
             df,
-            "Annually",
+            AggregationPeriod.ANNUALLY,
             fiscal_end_month="December",
-            correlation_metric="YOY_GROWTH",
+            correlation_metric=CorrelationMetric.YOY_GROWTH,
         )
         self.assertAlmostEqual(result["Value"].iloc[0], 1)
 
-    def test_invalid_time_increment(self):
-        df = pd.DataFrame(self.test_data)
-        with self.assertRaises(ValueError):
-            transform_data(df, "Invalid")
-
     def test_transform_data_with_start_date(self):
         df = pd.DataFrame(self.test_data)
-        result = transform_data(df, "Monthly", start_date=datetime(2020, 6, 1))
-        self.assertEqual(result["Value"].iloc[0], 6)
-        self.assertEqual(result["Value"].iloc[-1], 12)
-        self.assertEqual(result["Value"].size, 7)
+        result = transform_data(
+            df,
+            AggregationPeriod.QUARTERLY,
+            start_date=datetime(2020, 6, 1),
+            fiscal_end_month="December",
+        )
+        self.assertEqual(result["Value"].iloc[0], 24)
+        self.assertEqual(result["Value"].iloc[-1], 33)
+        self.assertEqual(result["Value"].size, 2)
 
     def test_transform_quarterly_with_start_date(self):
         df = pd.DataFrame(self.quarterly_data)
         result = transform_data(
             df,
-            "Quarterly",
+            AggregationPeriod.QUARTERLY,
             fiscal_end_month="December",
             start_date=datetime(2020, 6, 1),
         )

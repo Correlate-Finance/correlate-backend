@@ -5,6 +5,7 @@ import pandas as pd
 import re
 import numpy as np
 from datetime import datetime
+from datasets.models import CorrelationMetric, AggregationPeriod
 
 
 def transform_data_base(df: pd.DataFrame):
@@ -20,9 +21,9 @@ def transform_data_base(df: pd.DataFrame):
 
 def transform_data(
     df: pd.DataFrame,
-    time_increment,
+    time_increment: AggregationPeriod,
     fiscal_end_month=None,
-    correlation_metric="RAW_VALUE",
+    correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
     start_date: datetime | None = None,
 ) -> pd.DataFrame:
     if df.empty:
@@ -38,13 +39,8 @@ def transform_data(
     if start_date is not None:
         df = df[df["Date"] >= start_date]
 
-    # Monthly: Do nothing
-    if time_increment == "Monthly":
-        if correlation_metric == "YOY_GROWTH":
-            df["Value"] = df["Value"].pct_change(periods=12)
-
     # Quarterly
-    elif time_increment == "Quarterly":
+    if time_increment == AggregationPeriod.QUARTERLY:
         if fiscal_end_month is None:
             raise ValueError(
                 "fiscal_end_month is required for Quarterly time increment"
@@ -72,7 +68,7 @@ def transform_data(
 
         granularity = "monthly"
         if abs(df["Date"].iloc[0].month - df["Date"].iloc[1].month) != 1:
-            granularity = "quarterly"
+            granularity = AggregationPeriod.QUARTERLY
 
         df["Date"] = df["Date"].dt.to_period(fiscal_month_code[fiscal_end_month])
 
@@ -94,16 +90,16 @@ def transform_data(
 
         # Group by Fiscal_Quarter and sum the values
         df = df.groupby("Date").sum().reset_index()
-        if correlation_metric == "YOY_GROWTH":
+        if correlation_metric == CorrelationMetric.YOY_GROWTH:
             df["Value"] = df["Value"].pct_change(periods=4)
 
     # Annually
-    elif time_increment == "Annually":
+    elif time_increment == AggregationPeriod.ANNUALLY:
         # Sum only the 'Value' column (or other numeric columns) after grouping by year
         df = df.groupby(df["Date"].dt.year)["Value"].sum().reset_index()
         # Reconstruct the 'Date' column to represent the first day of each year
         df["Date"] = pd.to_datetime(df["Date"].astype(str) + "-1-1", errors="coerce")
-        if correlation_metric == "YOY_GROWTH":
+        if correlation_metric == CorrelationMetric.YOY_GROWTH:
             df["Value"] = df["Value"].pct_change(periods=1)
 
     else:

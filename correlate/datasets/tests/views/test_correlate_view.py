@@ -7,6 +7,7 @@ from users.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 import pandas as pd
+from datasets.models import AggregationPeriod, CorrelationMetric
 
 
 class CorrelateViewTests(APITestCase):
@@ -46,11 +47,11 @@ class CorrelateViewTests(APITestCase):
         params = {
             "stock": "AAPL",
             "start_year": 2020,
-            "aggregation_period": "Annually",
+            "aggregation_period": AggregationPeriod.ANNUALLY,
             "lag_periods": "3",
             "high_level_only": "true",
             "show_negatives": "false",
-            "correlation_metric": "RAW_VALUE",
+            "correlation_metric": CorrelationMetric.RAW_VALUE,
         }
 
         response = self.client.get(self.url, params)
@@ -135,15 +136,24 @@ class CorrelateViewGoldenTests(APITestCase):
         params = {
             "stock": "AAPL",
             "start_year": 2020,
-            "aggregation_period": "Quarterly",
+            "aggregation_period": AggregationPeriod.QUARTERLY,
             "lag_periods": "3",
             "high_level_only": "false",
             "show_negatives": "false",
-            "correlation_metric": "RAW_VALUE",
+            "correlation_metric": CorrelationMetric.RAW_VALUE,
         }
 
         response = self.client.get(self.url, params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(
-            response.json()["data"][0]["pearson_value"], 0.8944271909999159
+        self.assertAlmostEqual(
+            response.json()["data"][0]["pearson_value"], 0.8944271909999159, places=5
+        )
+        self.assertAlmostEqual(
+            response.json()["data"][1]["pearson_value"], 0.8660254037844387, places=5
+        )
+        self.assertAlmostEqual(
+            response.json()["data"][2]["pearson_value"], 0.8660254037844386, places=5
+        )
+        self.assertAlmostEqual(
+            response.json()["data"][3]["pearson_value"], 0.8280786712108251, places=5
         )

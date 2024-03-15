@@ -1,5 +1,16 @@
 from django.db import models
 from pydantic import BaseModel
+from enum import Enum
+
+
+class AggregationPeriod(str, Enum):
+    QUARTERLY = "Quarterly"
+    ANNUALLY = "Annually"
+
+
+class CorrelationMetric(str, Enum):
+    RAW_VALUE = "RAW_VALUE"
+    YOY_GROWTH = "YOY_GROWTH"
 
 
 class CorrelateDataPoint(BaseModel):
@@ -19,7 +30,7 @@ class CorrelateDataPoint(BaseModel):
 class CorrelateData(BaseModel):
     # These are in camel case since they are sent to the frontend
     data: list[CorrelateDataPoint]
-    aggregationPeriod: str
+    aggregationPeriod: AggregationPeriod
     correlationMetric: str
     fiscalYearEnd: str = "December"
 

@@ -2,6 +2,7 @@ import unittest
 from core.main_logic import create_index
 from unittest import mock
 import pandas as pd
+from datasets.models import CorrelationMetric, AggregationPeriod
 
 DATES = [
     "2020-01-01",
@@ -51,30 +52,16 @@ class TestCreateIndex(unittest.TestCase):
             },
         ):
             index = create_index(
-                {"test": 0.5, "test2": 0.5}, "RAW_VALUE", "Quarterly", "December"
+                {"test": 0.5, "test2": 0.5},
+                CorrelationMetric.RAW_VALUE,
+                AggregationPeriod.QUARTERLY,
+                "December",
             )
             self.assertIsNotNone(index)
             assert index is not None  # required for type checker
             self.assertEqual(len(index), 8)
             self.assertAlmostEqual(index["Value"].iloc[0], 0.086956, 3)
             self.assertAlmostEqual(index["Value"].iloc[1], 0.217391, 3)
-
-    def test_create_index_monthly_raw_value(self):
-        with mock.patch(
-            "core.main_logic.get_all_dfs",
-            return_value={
-                "test": pd.DataFrame(TEST_DATA),
-                "test2": pd.DataFrame(TEST_DATA_2),
-            },
-        ):
-            index = create_index(
-                {"test": 0.5, "test2": 0.5}, "RAW_VALUE", "Monthly", "December"
-            )
-            self.assertIsNotNone(index)
-            assert index is not None  # required for type checker
-            self.assertEqual(len(index), 24)
-            self.assertAlmostEqual(index["Value"].iloc[0], 1 / 24, 3)
-            self.assertAlmostEqual(index["Value"].iloc[1], 2 / 24, 3)
 
     def test_create_index_quarterly_yoy_growth(self):
         with mock.patch(
@@ -85,7 +72,10 @@ class TestCreateIndex(unittest.TestCase):
             },
         ):
             index = create_index(
-                {"test": 0.5, "test2": 0.5}, "YOY_GROWTH", "Quarterly", "December"
+                {"test": 0.5, "test2": 0.5},
+                CorrelationMetric.YOY_GROWTH,
+                AggregationPeriod.QUARTERLY,
+                "December",
             )
 
             self.assertIsNotNone(index)
@@ -95,56 +85,15 @@ class TestCreateIndex(unittest.TestCase):
             self.assertAlmostEqual(index["Value"].iloc[1], 2.4, 3)
             self.assertAlmostEqual(index["Value"].iloc[-1], 1.0909, 3)
 
-    def test_create_index_monthly_yoy_growth(self):
-        with mock.patch(
-            "core.main_logic.get_all_dfs",
-            return_value={
-                "test": pd.DataFrame(TEST_DATA),
-                "test2": pd.DataFrame(TEST_DATA_2),
-            },
-        ):
-            index = create_index(
-                {"test": 0.5, "test2": 0.5}, "YOY_GROWTH", "Monthly", "December"
-            )
-            self.assertIsNotNone(index)
-            assert index is not None  # required for type checker
-            self.assertEqual(len(index), 12)
-            self.assertAlmostEqual(index["Value"].iloc[0], 12, 3)
-            self.assertAlmostEqual(index["Value"].iloc[1], 6, 3)
-
-    def test_create_index_monthly_yoy_growth_three_datasets(self):
-        with mock.patch(
-            "core.main_logic.get_all_dfs",
-            return_value={
-                "test": pd.DataFrame(TEST_DATA),
-                "test2": pd.DataFrame(TEST_DATA_2),
-                "test3": pd.DataFrame(
-                    {
-                        "Date": DATES,
-                        "Value": [1] * 12 + [5] * 12,
-                    }
-                ),
-            },
-        ):
-            index = create_index(
-                {"test": 0.2, "test2": 0.3, "test3": 0.5},
-                "YOY_GROWTH",
-                "Monthly",
-                "December",
-            )
-            self.assertIsNotNone(index)
-            assert index is not None  # required for type checker
-            self.assertEqual(len(index), 12)
-            self.assertAlmostEqual(index["Value"].iloc[0], 8, 3)
-            self.assertAlmostEqual(index["Value"].iloc[1], 5, 3)
-
     # Edge cases
     def test_create_index_quarterly_raw_value_empty(self):
         with mock.patch(
             "core.main_logic.get_all_dfs",
             return_value={},
         ):
-            index = create_index({}, "RAW_VALUE", "Quarterly", "December")
+            index = create_index(
+                {}, CorrelationMetric.RAW_VALUE, AggregationPeriod.QUARTERLY, "December"
+            )
             self.assertIsNone(index)
 
     def test_create_index_no_weights(self):
@@ -155,5 +104,7 @@ class TestCreateIndex(unittest.TestCase):
                 "test2": pd.DataFrame(TEST_DATA_2),
             },
         ):
-            index = create_index({}, "RAW_VALUE", "Monthly", "December")
+            index = create_index(
+                {}, CorrelationMetric.RAW_VALUE, AggregationPeriod.QUARTERLY, "December"
+            )
             self.assertIsNone(index)

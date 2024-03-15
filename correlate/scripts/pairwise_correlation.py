@@ -6,6 +6,7 @@ from datasets.dataset_orm import (
     get_all_dfs,
 )
 from core.main_logic import calculate_correlation
+from datasets.models import AggregationPeriod
 
 
 def calculate_pairwise_correlation():
@@ -16,7 +17,7 @@ def calculate_pairwise_correlation():
 
     for title, df in dfs.items():
         sorted_correlations = calculate_correlation(
-            "Quarterly", "December", dfs=dfs, test_data=df
+            AggregationPeriod.QUARTERLY, "December", dfs=dfs, test_data=df
         )
         correlations = [dp.pearson_value for dp in sorted_correlations]
         if len(correlations) == 0:
