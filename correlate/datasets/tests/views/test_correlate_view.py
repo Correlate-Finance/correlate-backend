@@ -132,7 +132,6 @@ class CorrelateViewGoldenTests(APITestCase):
     )
     def test_correlation(self, mock_fetch_stock_revenues, mock_run_correlations):
         # Test the view with valid parameters
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         params = {
             "stock": "AAPL",
             "start_year": 2020,

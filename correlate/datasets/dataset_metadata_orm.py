@@ -1,7 +1,7 @@
 from datasets.models import CorrelateDataPoint, DatasetMetadata
 
 
-def augment_with_external_title(
+def augment_with_metadata(
     datasets: list[CorrelateDataPoint],
 ) -> list[CorrelateDataPoint]:
     dataset_metadatas = DatasetMetadata.objects.filter(
@@ -11,9 +11,12 @@ def augment_with_external_title(
 
     for dataset in datasets:
         metadata = dataset_mapping.get(dataset.title, None)
-        if metadata is None or metadata.external_name is None:
+        if metadata is None:
             continue
-        dataset.title = metadata.external_name
+        if metadata.external_name is not None:
+            dataset.title = metadata.external_name
+        dataset.source = metadata.source
+        dataset.description = metadata.description
     return datasets
 
 

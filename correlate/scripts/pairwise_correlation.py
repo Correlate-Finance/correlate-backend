@@ -7,6 +7,7 @@ from datasets.dataset_orm import (
 )
 from core.main_logic import calculate_correlation
 from datasets.models import AggregationPeriod
+import time
 
 
 def calculate_pairwise_correlation():
@@ -15,7 +16,10 @@ def calculate_pairwise_correlation():
     average = {}
     top_correlations = {}
 
+    f = open("pairwise_correlation.csv", "w")
+
     for title, df in dfs.items():
+        start_time = time.time()
         sorted_correlations = calculate_correlation(
             AggregationPeriod.QUARTERLY, "December", dfs=dfs, test_data=df
         )
@@ -24,10 +28,20 @@ def calculate_pairwise_correlation():
             print(title, "no correlations")
             continue
         average[title] = sum(correlations) / len(correlations)
-        top_correlations[title] = [
-            dp for dp in sorted_correlations if dp.pearson_value > 0.9
+        top_correlation = [
+            (dp.title, dp.pearson_value)
+            for dp in sorted_correlations
+            if dp.pearson_value > 0.97 and dp.title != title
         ]
-        print(f"Finished {title}. {len(average)/len(dfs) * 100:.2f} % completed")
+        if top_correlation:
+            top_correlations[title] = top_correlation
+            f.write(f"{title},{",".join([str(t) for t in top_correlation])}\n")
+            f.flush()
+            print(f"{title},{",".join([str(t) for t in top_correlation])}\n")
+
+        print(
+            f"Finished {title}. {len(average)/len(dfs) * 100:.2f} % completed in {time.time() - start_time:.2f} seconds."
+        )
 
     print(average)
     print(top_correlations)

@@ -16,7 +16,7 @@ def correlate_datasets(
     df: pd.DataFrame,
     df_title: str,
     lag_periods: int = 0,
-):
+) -> list[CorrelateDataPoint] | None:
     """Correlate two datasets."""
     merged = pd.merge(df, test_df, on="Date")
     test_points = merged["Value_y"].values
@@ -44,6 +44,7 @@ def correlate_datasets(
         results.append(
             CorrelateDataPoint(
                 title=df_title,
+                internal_name=df_title,
                 pearson_value=correlation_value,
                 lag=lag,
                 p_value=0,
@@ -64,7 +65,7 @@ def calculate_correlation(
     lag_periods: int = 0,
     test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
     correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
-):
+) -> list[CorrelateDataPoint]:
     if test_data is None:
         test_data = TEST_DATA
 

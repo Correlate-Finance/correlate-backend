@@ -26,6 +26,10 @@ class CorrelateDataPoint(BaseModel):
     input_data: list[float]
     dataset_data: list[float]
 
+    # Optional Metadata
+    source: str | None = None
+    description: str | None = None
+
 
 class CorrelateData(BaseModel):
     # These are in camel case since they are sent to the frontend

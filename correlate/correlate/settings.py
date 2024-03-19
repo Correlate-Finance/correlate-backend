@@ -16,6 +16,10 @@ import dj_database_url
 import environ
 
 import sentry_sdk
+import warnings
+
+# Ignore pandas warnings
+warnings.filterwarnings("ignore")
 
 
 env = environ.Env()
