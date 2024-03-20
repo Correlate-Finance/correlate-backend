@@ -33,6 +33,7 @@ from datasets.dataset_orm import get_all_dfs, get_df
 from datasets.mongo_operations import HIGH_LEVEL_TABLES
 from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric
+from ddtrace import tracer
 
 
 TOP_CORRELATIONS_TO_RETURN = 50
@@ -336,6 +337,7 @@ class CorrelateIndex(APIView):
         )
 
 
+@tracer.wrap("run_correlations")
 def run_correlations(
     time_increment: AggregationPeriod,
     fiscal_end_month: str,

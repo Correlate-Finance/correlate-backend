@@ -12,6 +12,7 @@ from datasets.mongo_operations import (
     get_all_mongo_dfs,
     get_mongo_df,
 )
+from ddtrace import tracer
 
 CACHED_DFS = None
 
@@ -83,6 +84,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
     return results
 
 
+@tracer.wrap("get_all_postgres_dfs")
 def get_all_postgres_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
@@ -122,6 +124,7 @@ def get_all_postgres_dfs(
     return frozendict(dfs)
 
 
+@tracer.wrap("get_postgres_df")
 def get_postgres_df(title: str) -> pd.DataFrame | None:
     if CACHED_DFS:
         return CACHED_DFS.get(title)
