@@ -21,6 +21,11 @@ def correlate_datasets(
     merged = pd.merge(df, test_df, on="Date")
     test_points = merged["Value_y"].values
     dataset_points = merged["Value_x"].values
+
+    # Convert to list once so we don't do it in the loop
+    test_points_list = list(test_points)
+    dataset_points_list = list(dataset_points)
+
     dates = list(merged["Date"].astype(str))
 
     if len(merged.index) < 4:
@@ -47,9 +52,8 @@ def correlate_datasets(
                 internal_name=df_title,
                 pearson_value=correlation_value,
                 lag=lag,
-                p_value=0,
-                input_data=list(test_points),
-                dataset_data=list(dataset_points),
+                input_data=test_points_list,
+                dataset_data=dataset_points_list,
                 dates=dates,
             )
         )

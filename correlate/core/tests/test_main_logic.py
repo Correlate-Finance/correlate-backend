@@ -1,8 +1,8 @@
 import unittest
-from core.main_logic import create_index
+from core.main_logic import create_index, correlate_datasets
 from unittest import mock
 import pandas as pd
-from datasets.models import CorrelationMetric, AggregationPeriod
+from datasets.models import CorrelationMetric, AggregationPeriod, CorrelateDataPoint
 
 DATES = [
     "2020-01-01",
@@ -40,6 +40,53 @@ TEST_DATA_2 = {
     "Date": DATES,
     "Value": list(range(2, 49, 2)),
 }
+
+
+class TestCorrelateDatasets(unittest.TestCase):
+    def test_correct_correlation_with_self(self):
+        test_df = pd.DataFrame(TEST_DATA)
+
+        result = correlate_datasets(test_df, test_df, "Test Dataset", lag_periods=0)
+
+        assert result is not None  # required for type checker
+        self.assertIsInstance(result, list)
+        self.assertIsInstance(result[0], CorrelateDataPoint)
+
+        # Since it's the same dataset, the correlation should be 1.0
+        self.assertAlmostEqual(result[0].pearson_value, 1.0)
+
+        self.assertEqual(result[0].lag, 0)
+        self.assertEqual(result[0].title, "Test Dataset")
+        self.assertEqual(result[0].internal_name, "Test Dataset")
+        self.assertEqual(result[0].input_data, list(range(1, 25)))
+        self.assertEqual(result[0].dataset_data, list(range(1, 25)))
+
+    def test_correct_correlation_with_lag(self):
+        test_df = pd.DataFrame(TEST_DATA)
+        test_df_2 = pd.DataFrame(TEST_DATA_2)
+
+        result = correlate_datasets(test_df, test_df_2, "Test Dataset", lag_periods=3)
+
+        assert result is not None
+        self.assertIsInstance(result, list)
+        self.assertIsInstance(result[0], CorrelateDataPoint)
+        self.assertEqual(len(result), 4)
+
+        for i, point in enumerate(result):
+            self.assertEqual(point.lag, i)
+            self.assertEqual(point.title, "Test Dataset")
+            self.assertEqual(point.internal_name, "Test Dataset")
+            self.assertEqual(point.input_data, list(range(1, 25)))
+            self.assertEqual(point.dataset_data, list(range(2, 49, 2)))
+            self.assertAlmostEqual(point.pearson_value, 1.0, places=4)
+
+    def test_insufficient_data(self):
+        test_df = pd.DataFrame(TEST_DATA).iloc[:3]  # Taking only 3 rows
+        df = pd.DataFrame(TEST_DATA_2).iloc[:3]
+
+        result = correlate_datasets(test_df, df, "Test Dataset", lag_periods=0)
+
+        self.assertIsNone(result)
 
 
 class TestCreateIndex(unittest.TestCase):

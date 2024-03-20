@@ -16,7 +16,7 @@ def calculate_pairwise_correlation():
     average = {}
     top_correlations = {}
 
-    f = open("pairwise_correlation.csv", "w")
+    # f = open("pairwise_correlation.csv", "w")
 
     for title, df in dfs.items():
         start_time = time.time()
@@ -29,15 +29,15 @@ def calculate_pairwise_correlation():
             continue
         average[title] = sum(correlations) / len(correlations)
         top_correlation = [
-            (dp.title, dp.pearson_value)
+            dp.title
             for dp in sorted_correlations
-            if dp.pearson_value > 0.97 and dp.title != title
+            if dp.pearson_value > 0.99 and dp.title != title
         ]
         if top_correlation:
             top_correlations[title] = top_correlation
-            f.write(f"{title},{",".join([str(t) for t in top_correlation])}\n")
-            f.flush()
-            print(f"{title},{",".join([str(t) for t in top_correlation])}\n")
+            # f.write(f"{title},{",".join(top_correlation)}\n")
+            # f.flush()
+            # print(f"{title},{",".join([str(t) for t in top_correlation])}\n")
 
         print(
             f"Finished {title}. {len(average)/len(dfs) * 100:.2f} % completed in {time.time() - start_time:.2f} seconds."

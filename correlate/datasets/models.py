@@ -18,7 +18,7 @@ class CorrelateDataPoint(BaseModel):
     internal_name: str | None = None
 
     pearson_value: float
-    p_value: float
+    p_value: float = 0
     lag: int = 0
 
     # Data points
