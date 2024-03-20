@@ -109,11 +109,12 @@ def get_all_postgres_dfs(
     else:
         datasets = Dataset.objects.all().prefetch_related("metadata")
 
+    datasets = datasets.values_list("metadata__internal_name", "date", "value")
     for dataset in datasets:
-        title = dataset.metadata.internal_name
+        title = dataset[0]
         if title not in dfs:
             dfs[title] = []
-        dfs[title].append((dataset.date, dataset.value))
+        dfs[title].append((dataset[1], dataset[2]))
 
     for title, data in dfs.items():
         dfs[title] = pd.DataFrame(data, columns=["Date", "Value"])
