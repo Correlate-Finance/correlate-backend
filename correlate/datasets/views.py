@@ -35,6 +35,9 @@ from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric
 
 
+TOP_CORRELATIONS_TO_RETURN = 50
+
+
 @cache
 def fetch_stock_revenues(
     stock: str,
@@ -362,7 +365,9 @@ def run_correlations(
 
     return JsonResponse(
         CorrelateData(
-            data=augment_with_metadata(sorted_correlations[:100]),
+            data=augment_with_metadata(
+                sorted_correlations[:TOP_CORRELATIONS_TO_RETURN]
+            ),
             aggregationPeriod=time_increment,
             correlationMetric=correlation_metric,
         ).model_dump()
