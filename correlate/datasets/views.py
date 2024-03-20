@@ -4,6 +4,7 @@ from django.http import (
     HttpResponse,
     JsonResponse,
     HttpResponseBadRequest,
+    HttpResponseNotFound,
 )
 from rest_framework.request import Request
 import urllib.parse
@@ -131,6 +132,26 @@ class DatasetView(APIView):
         df["Date"] = df["Date"].dt.strftime("%m-%d-%Y")
 
         return JsonResponse(df.to_json(orient="records"), safe=False)
+
+
+class DatasetMetadataView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        name = request.GET.get("name")
+        metadata = get_metadata_from_name(name)
+        if metadata is None:
+            return HttpResponseNotFound("Metadata not found")
+
+        return JsonResponse(
+            {
+                "series_id": metadata.internal_name,
+                "title": metadata.external_name,
+                "source": metadata.source,
+                "description": metadata.description,
+            },
+            safe=False,
+        )
 
 
 class RawDatasetView(APIView):

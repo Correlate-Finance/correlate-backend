@@ -19,6 +19,9 @@ urlpatterns = [
     path("raw-dataset/", views.RawDatasetView.as_view(), name="rawdataset"),
     path("dataset", views.DatasetView.as_view(), name="dataset"),
     path("dataset/", views.DatasetView.as_view(), name="dataset"),
+    path(
+        "dataset-metadata/", views.DatasetMetadataView.as_view(), name="datasetMetadata"
+    ),
     path("correlate-index", views.CorrelateIndex.as_view(), name="correlateindex"),
     path("correlate-index/", views.CorrelateIndex.as_view(), name="correlateindex"),
     path(
