@@ -17,6 +17,8 @@ import environ
 
 import sentry_sdk
 import warnings
+import ddtrace.auto  # type: ignore
+
 
 # Ignore pandas warnings
 warnings.filterwarnings("ignore")
@@ -43,6 +45,21 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
     environment="development" if LOCAL_DEV else "production",
 )
+
+from datadog import initialize, statsd
+
+options = {"statsd_host": "127.0.0.1", "statsd_port": 8125}
+
+initialize(**options)
+
+LOGGING = {
+    "loggers": {
+        "ddtrace": {
+            "handlers": ["console"],
+            "level": "WARNING",
+        },
+    },
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -74,6 +91,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "django_extensions",
+    "ddtrace.contrib.django",
     "users",
     "datasets",
 ]
