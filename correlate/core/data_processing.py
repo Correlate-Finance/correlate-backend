@@ -7,6 +7,7 @@ import numpy as np
 from datetime import datetime
 from datasets.models import CorrelationMetric, AggregationPeriod
 from ddtrace import tracer
+from pandas.core.dtypes.dtypes import DatetimeTZDtype
 
 
 @tracer.wrap("transform_data_base")
@@ -36,7 +37,7 @@ def transform_data(
     # Short circuit if df is empty
 
     # if its not a datetime type, convert it
-    if df["Date"].dtype != "<M8[ns]":
+    if not isinstance(df["Date"].dtype, DatetimeTZDtype):
         transform_data_base(df)
 
     if start_date is not None:
