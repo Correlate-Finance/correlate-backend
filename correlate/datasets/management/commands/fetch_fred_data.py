@@ -33,7 +33,7 @@ class Command(BaseCommand):
                 }
                 for series in series_response
             }
-            series = [series["id"] for series in series_response[:1]]
+            series = [series["id"] for series in series_response]
 
         for series_id in series:
             self.stdout.write(f"Fetching data for series {series_id}")
@@ -60,6 +60,8 @@ class Command(BaseCommand):
                         "external_name": metadata[series_id]["title"],
                         "source": "FRED",
                         "description": metadata[series_id]["description"],
+                        "popularity": metadata[series_id]["popularity"],
+                        "group_popularity": metadata[series_id]["group_popularity"],
                     },
                 )
                 total_new = add_dataset(records, dataset_metadata)
