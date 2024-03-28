@@ -13,10 +13,17 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("--series_id", type=str, help="The series id to fetch")
         parser.add_argument("--tag", type=str, nargs="+", help="The tags to fetch")
+        parser.add_argument(
+            "--skip_existing",
+            action="store_true",
+            help="Skip existing data",
+            default=True,
+        )
 
     def handle(self, *args, **options):
         series_id = options["series_id"]
         tags = options["tag"]
+        skip_existing = options["skip_existing"]
 
         series = []
         metadata = {}
@@ -34,6 +41,13 @@ class Command(BaseCommand):
                 series.append(s["id"])
 
         for series_id in series:
+            if (
+                skip_existing
+                and DatasetMetadata.objects.filter(internal_name=series_id).exists()
+            ):
+                self.stdout.write(f"Skipping series {series_id}")
+                continue
+
             self.stdout.write(f"Fetching data for series {series_id}")
 
             # Fetch the data from FRED
@@ -82,6 +96,10 @@ def fetch_fred_data(series_id, stdout=None) -> list[tuple[datetime, float]]:
                 tzinfo=pytz.utc
             )
             value = float(observation["value"])
+
+            # skip dates before 2000
+            if date < datetime(2000, 1, 1, tzinfo=pytz.utc):
+                continue
             records.append((date, value))
         except ValueError:
             if stdout:
