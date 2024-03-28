@@ -24,16 +24,13 @@ class Command(BaseCommand):
             series = [series_id]
         elif tags:
             series_response = fetch_fred_series(tags)
-            metadata = {
-                series["id"]: {
-                    "title": series["title"],
-                    "description": series["notes"],
-                    "popularity": series["popularity"],
-                    "group_popularity": series["group_popularity"],
+            for s in series_response:
+                metadata[s["id"]] = {
+                    "title": s["title"],
+                    "description": s.get("notes"),
+                    "popularity": s.get("popularity"),
+                    "group_popularity": s.get("group_popularity"),
                 }
-                for series in series_response
-            }
-            series = [series["id"] for series in series_response]
 
         for series_id in series:
             self.stdout.write(f"Fetching data for series {series_id}")
