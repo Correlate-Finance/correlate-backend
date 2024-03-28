@@ -11,21 +11,59 @@ class Command(BaseCommand):
     help = "Fetches the latest data from FRED and updates the database."
 
     def add_arguments(self, parser):
-        parser.add_argument("series_id", type=str, help="The series id to fetch")
+        parser.add_argument("--series_id", type=str, help="The series id to fetch")
+        parser.add_argument("--tag", type=str, nargs="+", help="The tags to fetch")
 
     def handle(self, *args, **options):
         series_id = options["series_id"]
-        self.stdout.write(f"Fetching data for series {series_id}")
+        tags = options["tag"]
 
-        # Fetch the data from FRED
-        records = fetch_fred_data(series_id, self.stdout)
-        title = fetch_fred_title(series_id)
-        dataset_metadata, _ = DatasetMetadata.objects.get_or_create(
-            internal_name=series_id,
-            defaults={"external_name": title, "source": "FRED"},
-        )
-        total_new = add_dataset(records, dataset_metadata)
-        self.stdout.write(f"Added {total_new} new records to the database")
+        series = []
+        metadata = {}
+        if series_id:
+            series = [series_id]
+        elif tags:
+            series_response = fetch_fred_series(tags)
+            metadata = {
+                series["id"]: {
+                    "title": series["title"],
+                    "description": series["notes"],
+                    "popularity": series["popularity"],
+                    "group_popularity": series["group_popularity"],
+                }
+                for series in series_response
+            }
+            series = [series["id"] for series in series_response[:1]]
+
+        for series_id in series:
+            self.stdout.write(f"Fetching data for series {series_id}")
+
+            # Fetch the data from FRED
+            records = fetch_fred_data(series_id, self.stdout)
+
+            if len(metadata) == 0:
+                series_metadata = fetch_fred_metadata(series_id)
+                dataset_metadata, _ = DatasetMetadata.objects.get_or_create(
+                    internal_name=series_id,
+                    defaults={
+                        "external_name": series_metadata["title"],
+                        "source": "FRED",
+                        "description": series_metadata["notes"],
+                    },
+                )
+                total_new = add_dataset(records, dataset_metadata)
+                self.stdout.write(f"Added {total_new} new records to the database")
+            else:
+                dataset_metadata, _ = DatasetMetadata.objects.get_or_create(
+                    internal_name=series_id,
+                    defaults={
+                        "external_name": metadata[series_id]["title"],
+                        "source": "FRED",
+                        "description": metadata[series_id]["description"],
+                    },
+                )
+                total_new = add_dataset(records, dataset_metadata)
+                self.stdout.write(f"Added {total_new} new records to the database")
 
 
 def fetch_fred_data(series_id, stdout=None) -> list[tuple[datetime, float]]:
@@ -54,11 +92,27 @@ def fetch_fred_data(series_id, stdout=None) -> list[tuple[datetime, float]]:
     return records
 
 
-def fetch_fred_title(series_id):
+def fetch_fred_metadata(series_id):
     BASE_URL = "https://api.stlouisfed.org/fred/series?series_id="
     API_KEY = settings.FRED_API_KEY
     url = f"{BASE_URL}{series_id}&api_key={API_KEY}&file_type=json"
 
     response = requests.get(url)
     data = response.json()
-    return data["seriess"][0]["title"]
+    return data["seriess"][0]
+
+
+def fetch_fred_series(tags: list[str]):
+    BASE_URL = "https://api.stlouisfed.org/fred/tags/series?tag_names="
+    API_KEY = "b1161c8cd782fd6e42684d6578b08d83"
+    tag_string = ""
+    for i, tag in enumerate(tags):
+        if i != 0:
+            tag_string += ";"
+        tag_string += tag
+
+    url = f"{BASE_URL}{tag_string}&api_key={API_KEY}&file_type=json"
+
+    response = requests.get(url)
+    data = response.json()
+    return data["seriess"]

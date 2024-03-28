@@ -132,11 +132,12 @@ class CorrelateViewGoldenTests(APITestCase):
     )
     def test_correlation(self, mock_fetch_stock_revenues, mock_run_correlations):
         # Test the view with valid parameters
+        lags = 3
         params = {
             "stock": "AAPL",
             "start_year": 2020,
             "aggregation_period": AggregationPeriod.QUARTERLY,
-            "lag_periods": "3",
+            "lag_periods": str(lags),
             "high_level_only": "false",
             "show_negatives": "false",
             "correlation_metric": CorrelationMetric.RAW_VALUE,
@@ -144,15 +145,23 @@ class CorrelateViewGoldenTests(APITestCase):
 
         response = self.client.get(self.url, params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        response = response.json()
+
         self.assertAlmostEqual(
-            response.json()["data"][0]["pearson_value"], 0.8944271909999159, places=5
+            response["data"][0]["pearson_value"], 0.8944271909999159, places=5
         )
         self.assertAlmostEqual(
-            response.json()["data"][1]["pearson_value"], 0.8660254037844387, places=5
+            response["data"][1]["pearson_value"], 0.8660254037844387, places=5
         )
         self.assertAlmostEqual(
-            response.json()["data"][2]["pearson_value"], 0.8660254037844386, places=5
+            response["data"][2]["pearson_value"], 0.8660254037844386, places=5
         )
         self.assertAlmostEqual(
-            response.json()["data"][3]["pearson_value"], 0.8280786712108251, places=5
+            response["data"][3]["pearson_value"], 0.8280786712108251, places=5
         )
+        sort_by_lags = sorted(response["data"], key=lambda x: x["lag"])
+
+        for i, data in enumerate(sort_by_lags):
+            self.assertEqual(data["lag"], i)
+            self.assertEqual(len(data["input_data"]), 6)
+            self.assertEqual(len(data["dataset_data"]), 6)
