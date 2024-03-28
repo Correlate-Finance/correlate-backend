@@ -31,6 +31,7 @@ class Command(BaseCommand):
                     "popularity": s.get("popularity"),
                     "group_popularity": s.get("group_popularity"),
                 }
+                series.append(s["id"])
 
         for series_id in series:
             self.stdout.write(f"Fetching data for series {series_id}")
