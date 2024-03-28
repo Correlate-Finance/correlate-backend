@@ -62,6 +62,9 @@ class DatasetMetadata(models.Model):
     )
     high_level = models.BooleanField(default=False)
 
+    popularity = models.IntegerField(blank=True, null=True)
+    group_popularity = models.IntegerField(blank=True, null=True)
+
     def __str__(self):
         return f"{self.name}"
 
