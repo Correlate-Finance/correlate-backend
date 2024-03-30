@@ -17,13 +17,27 @@ class Command(BaseCommand):
             "--skip_existing",
             action="store_true",
             help="Skip existing data",
-            default=True,
+            default=False,
+        )
+        parser.add_argument(
+            "--set_hidden",
+            action="store_true",
+            help="Mark ingested data as hidden",
+            default=False,
+        )
+        parser.add_argument(
+            "--sub_source",
+            type=str,
+            help="Set the sub source",
+            default=None,
         )
 
     def handle(self, *args, **options):
         series_id = options["series_id"]
         tags = options["tag"]
         skip_existing = options["skip_existing"]
+        set_hidden = options["set_hidden"]
+        sub_source = options["sub_source"]
 
         series = []
         metadata = {}
@@ -66,15 +80,19 @@ class Command(BaseCommand):
                 total_new = add_dataset(records, dataset_metadata)
                 self.stdout.write(f"Added {total_new} new records to the database")
             else:
+                defaults = {
+                    "external_name": metadata[series_id]["title"],
+                    "source": "FRED",
+                    "description": metadata[series_id]["description"],
+                    "popularity": metadata[series_id]["popularity"],
+                    "group_popularity": metadata[series_id]["group_popularity"],
+                    "hidden": set_hidden,
+                }
+                if sub_source:
+                    defaults["sub_source"] = sub_source
                 dataset_metadata, _ = DatasetMetadata.objects.get_or_create(
                     internal_name=series_id,
-                    defaults={
-                        "external_name": metadata[series_id]["title"],
-                        "source": "FRED",
-                        "description": metadata[series_id]["description"],
-                        "popularity": metadata[series_id]["popularity"],
-                        "group_popularity": metadata[series_id]["group_popularity"],
-                    },
+                    defaults=defaults,
                 )
                 total_new = add_dataset(records, dataset_metadata)
                 self.stdout.write(f"Added {total_new} new records to the database")
