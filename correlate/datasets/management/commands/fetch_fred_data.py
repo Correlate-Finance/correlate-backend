@@ -140,15 +140,21 @@ def fetch_fred_metadata(series_id):
 
 def fetch_fred_series(tags: list[str]):
     BASE_URL = "https://api.stlouisfed.org/fred/tags/series?tag_names="
-    API_KEY = "b1161c8cd782fd6e42684d6578b08d83"
+    API_KEY = settings.FRED_API_KEY
     tag_string = ""
     for i, tag in enumerate(tags):
         if i != 0:
             tag_string += ";"
         tag_string += tag
 
-    url = f"{BASE_URL}{tag_string}&api_key={API_KEY}&file_type=json"
+    series = []
+    while True:
+        url = f"{BASE_URL}{tag_string}&api_key={API_KEY}&file_type=json&offset={len(series)}"
 
-    response = requests.get(url)
-    data = response.json()
-    return data["seriess"]
+        response = requests.get(url)
+        data = response.json()
+        if len(data["seriess"]) == 0:
+            break
+        series.extend(data["seriess"])
+
+    return series
