@@ -53,6 +53,8 @@ class DatasetMetadata(models.Model):
     )
     description = models.TextField(blank=True, null=True)
     source = models.CharField(max_length=255, blank=True, null=True)
+    # For example within FRED we can have BLS as well
+    sub_source = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -64,6 +66,8 @@ class DatasetMetadata(models.Model):
 
     popularity = models.IntegerField(blank=True, null=True)
     group_popularity = models.IntegerField(blank=True, null=True)
+    hidden = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f"{self.name}"
