@@ -107,7 +107,14 @@ def get_all_postgres_dfs(
             metadata__internal_name__in=selected_names
         ).prefetch_related("metadata")
     else:
-        datasets = Dataset.objects.all().prefetch_related("metadata")
+        dataset_metadatas = (
+            DatasetMetadata.objects.all()
+            .order_by("created_at")
+            .values_list("id", flat=True)[:2000]
+        )
+        datasets = Dataset.objects.filter(
+            metadata_id__in=dataset_metadatas
+        ).prefetch_related("metadata")
 
     datasets = datasets.values_list("metadata__internal_name", "date", "value")
     for dataset in datasets:
