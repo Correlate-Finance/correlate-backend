@@ -45,6 +45,7 @@ def fetch_stock_revenues(
     stock: str,
     start_year: int,
     aggregation_period: AggregationPeriod = AggregationPeriod.ANNUALLY,
+    end_year: int | None = None,
 ) -> tuple[dict, str | None]:
     if aggregation_period == AggregationPeriod.ANNUALLY:
         url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
@@ -65,6 +66,9 @@ def fetch_stock_revenues(
             date = year + "-01-01"
             if int(year) < start_year:
                 continue
+            if end_year and int(year) > end_year:
+                continue
+
             revenues[date] = report[i]["revenue"]
         return revenues, fiscal_year_end
     elif aggregation_period == AggregationPeriod.QUARTERLY:
@@ -99,6 +103,8 @@ def fetch_stock_revenues(
             year: str = report[i]["calendarYear"]
             date: str = year + report[i]["period"]
             if int(year) < start_year:
+                continue
+            if end_year and int(year) > end_year:
                 continue
             revenues[date] = report[i]["revenue"]
         return revenues, fiscal_year_end
@@ -191,15 +197,21 @@ class RevenueView(APIView):
 
     def get(self, request: Request) -> HttpResponse:
         stock = request.GET.get("stock")
-        start_year = int(request.GET.get("startYear", 2010))
+        start_year = int(request.GET.get("start_year", 2010))
+        end_year = request.GET.get("end_year", None)
+        if end_year is not None:
+            end_year = int(end_year)
+
         aggregation_period = request.GET.get(
-            "aggregationPeriod", AggregationPeriod.ANNUALLY
+            "aggregation_period", AggregationPeriod.ANNUALLY
         )
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
-        revenues, _ = fetch_stock_revenues(stock, start_year, aggregation_period)
+        revenues, _ = fetch_stock_revenues(
+            stock, start_year, aggregation_period, end_year=end_year
+        )
         json_revenues = [
             {"date": date, "value": str(value)} for date, value in revenues.items()
         ]
@@ -212,6 +224,10 @@ class CorrelateView(APIView):
     def get(self, request: Request) -> HttpResponse:
         stock = request.GET.get("stock")
         start_year = int(request.GET.get("start_year", 2010))
+        end_year = request.GET.get("end_year", None)
+        if end_year is not None:
+            end_year = int(end_year)
+
         aggregation_period = request.GET.get(
             "aggregation_period", AggregationPeriod.ANNUALLY
         )
@@ -226,7 +242,7 @@ class CorrelateView(APIView):
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
         revenues, fiscal_end_month = fetch_stock_revenues(
-            stock, start_year, aggregation_period
+            stock, start_year, aggregation_period, end_year=end_year
         )
         if fiscal_end_month is None:
             return JsonResponse(
