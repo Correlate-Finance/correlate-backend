@@ -121,16 +121,16 @@ def fetch_all_eia_series() -> list[str]:
     return [facet["id"] for facet in facets]
 
 
-def fetch_and_store_eia_series(series_id: str, stdout):
-    stdout.write(f"Fetching data for series {series_id}")
+def fetch_and_store_eia_series(series_id: str, stdout=None):
+    print(f"Fetching data for series {series_id}")
     # Fetch the data from EIA
     data = fetch_eia_data(series_id)
 
     if len(data["data"]) == 0:
-        stdout.write(f"No data found for series {series_id}")
+        print(f"No data found for series {series_id}")
         return
 
-    records = fetch_records_from_eia_data(data["data"], series_id, stdout)
+    records = fetch_records_from_eia_data(data["data"], series_id)
 
     dataset_metadata, _ = DatasetMetadata.objects.get_or_create(
         internal_name=series_id,
@@ -142,7 +142,7 @@ def fetch_and_store_eia_series(series_id: str, stdout):
     )
 
     total_new = add_dataset(records, dataset_metadata)
-    stdout.write(f"Added {total_new} new records to the database")
+    print(f"Added {total_new} new records to the database")
 
 
 def fetch_eia_data(series_id) -> dict[str, list[dict]]:

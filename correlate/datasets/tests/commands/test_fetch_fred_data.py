@@ -27,7 +27,9 @@ class FetchFredTest(TestCase):
     def test_fetch_fred_title_success(self, mock_get: MagicMock):
         # Mock the API response
         mock_get.return_value.json.return_value = {"seriess": [{"title": "Test Title"}]}
-        title = fetch_fred_metadata("test_series_id")["title"]
+        metadata = fetch_fred_metadata("test_series_id")
+        assert metadata
+        title = metadata["title"]
         self.assertEqual(title, "Test Title")
 
     @patch("requests.get")

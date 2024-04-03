@@ -31,6 +31,16 @@ def add_dataset(records: list[tuple[datetime, float]], metadata: DatasetMetadata
     return total_new
 
 
+def add_dataset_bulk(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
+    to_add = []
+    for record in records:
+        date = record[0]
+        value = record[1]
+        to_add.append(Dataset(metadata=metadata, date=date, value=value))
+    added = len(Dataset.objects.bulk_create(to_add))
+    return added
+
+
 def parse_excel_file_for_datasets(excel_file: UploadedFile):
     workbook = openpyxl.load_workbook(filename=excel_file, data_only=True)
 
