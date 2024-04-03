@@ -68,9 +68,8 @@ class DatasetMetadata(models.Model):
     group_popularity = models.IntegerField(blank=True, null=True)
     hidden = models.BooleanField(default=False)
 
-
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.source} -- {self.internal_name}: {self.name}"
 
     @property
     def name(self):
