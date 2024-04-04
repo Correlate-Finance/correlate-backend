@@ -29,12 +29,17 @@ import calendar
 from datetime import datetime
 from functools import cache
 import pandas as pd
-from core.data_processing import parse_input_dataset, transform_data
+from core.data_processing import (
+    parse_input_dataset,
+    transform_data,
+    transform_data_base,
+)
 from datasets.dataset_orm import get_all_dfs, get_df
 from datasets.mongo_operations import HIGH_LEVEL_TABLES
 from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric
 from ddtrace import tracer
+from dateutil.parser import parse
 
 
 TOP_CORRELATIONS_TO_RETURN = 50
@@ -255,7 +260,7 @@ class CorrelateView(APIView):
         test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
         return run_correlations(
-            time_increment=aggregation_period,
+            aggregation_period=aggregation_period,
             fiscal_end_month=fiscal_end_month,
             test_data=test_data,
             lag_periods=lag_periods,
@@ -288,13 +293,13 @@ class CorrelateInputDataView(APIView):
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
 
-        return run_correlations(
+        return run_correlations_rust(
             aggregation_period,
             fiscal_end_month,
             test_data=test_data,
             lag_periods=lag_periods,
-            high_level_only=high_level_only,
-            show_negatives=show_negatives,
+            _high_level_only=high_level_only,
+            _show_negatives=show_negatives,
             correlation_metric=correlation_metric,
             test_correlation_metric=CorrelationMetric.RAW_VALUE,
         )
@@ -376,7 +381,7 @@ class CorrelateIndex(APIView):
 
 @tracer.wrap("run_correlations")
 def run_correlations(
-    time_increment: AggregationPeriod,
+    aggregation_period: AggregationPeriod,
     fiscal_end_month: str,
     test_data: dict,
     lag_periods: int,
@@ -388,7 +393,7 @@ def run_correlations(
     dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
 
     sorted_correlations = calculate_correlation(
-        time_increment,
+        aggregation_period,
         fiscal_end_month,
         dfs=dfs,
         test_data=test_data,
@@ -407,7 +412,47 @@ def run_correlations(
             data=augment_with_metadata(
                 sorted_correlations[:TOP_CORRELATIONS_TO_RETURN]
             ),
-            aggregationPeriod=time_increment,
+            aggregationPeriod=aggregation_period,
             correlationMetric=correlation_metric,
         ).model_dump()
     )
+
+
+@tracer.wrap("run_correlations_rust")
+def run_correlations_rust(
+    aggregation_period: AggregationPeriod,
+    fiscal_end_month: str,
+    test_data: dict,
+    lag_periods: int,
+    _high_level_only: bool,
+    _show_negatives: bool,
+    correlation_metric: CorrelationMetric,
+    test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
+) -> JsonResponse:
+    test_df = pd.DataFrame(test_data)
+    transform_data_base(test_df)
+    test_df = transform_data(
+        test_df, aggregation_period, fiscal_end_month, test_correlation_metric
+    )
+
+    test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
+    records = test_df.to_json(orient="records", default_handler=str)
+
+    start_year = parse(min(test_data["Date"])).year
+    end_year = parse(max(test_data["Date"])).year
+
+    url = "http://localhost:8001/correlate_input?"
+    request_paramters = {
+        "aggregation_period": aggregation_period,
+        "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,
+        "lag_periods": lag_periods,
+        "correlation_metric": correlation_metric,
+        "start_year": start_year,
+        "end_year": end_year,
+    }
+
+    query_string = urllib.parse.urlencode(request_paramters)
+
+    response = requests.post(url + query_string, data=records)
+
+    return JsonResponse(response.json())
