@@ -4,7 +4,7 @@ from .views import (
     LoginView,
     LogoutView,
     AddWatchListView,
-    IsClickedView,
+    WatchlistedView,
     DeleteWatchListView,
 )
 
@@ -15,7 +15,7 @@ urlpatterns = [
     path("login/", LoginView.as_view()),
     path("logout", LogoutView.as_view(), name="logout"),
     path("logout/", LogoutView.as_view(), name="logout"),
-    path("is_clicked", IsClickedView.as_view(), name="is-clicked"),
+    path("watchlisted", WatchlistedView.as_view(), name="is-clicked"),
     path("addwatchlist", AddWatchListView.as_view(), name="add-watchlist"),
     path("addwatchlist/", AddWatchListView.as_view(), name="add-watchlist"),
     path("deletewatchlist", DeleteWatchListView.as_view(), name="delete-watchlist"),

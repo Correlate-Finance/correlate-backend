@@ -64,20 +64,21 @@ class LogoutView(APIView):
         )
         return response
 
-class IsClickedView(APIView):
+class WatchlistedView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request: Request) -> HttpResponse:
         user = request.user
-        dataset_name: str = request.data.get("dataset", "")  # type: ignore
-        dataset = dataset_metadata_orm.get_metadata_from_external_name(dataset_name)
+        dataset_names: str[] = request.data.get("datasets", [])  # type: ignore
+        datasets = [dataset_metadata_orm.get_metadata_from_external_name(dataset_name) for dataset_name in dataset_names]
 
-        if dataset is None:
+        if not datasets:
             return Response({"message": "Dataset not found"}, status=404)
 
-        if WatchList.objects.filter(user=user, dataset=dataset).exists():
-            return Response({"is_clicked": True})
-        return Response({"is_clicked": False})
+        result = []
+        for dataset in datasets:
+            result.append(WatchList.objects.filter(user=user, dataset=dataset).exists())
+        return Response({"watchlisted": result})
 
 class AddWatchListView(APIView):
     permission_classes = (IsAuthenticated,)
