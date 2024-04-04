@@ -8,6 +8,7 @@ from datetime import datetime
 from datasets.models import CorrelationMetric, AggregationPeriod
 from ddtrace import tracer
 from pandas.core.dtypes.dtypes import DatetimeTZDtype
+from datasets.lib import VALID_DATE_PATTERNS
 
 
 @tracer.wrap("transform_data_base")
@@ -128,13 +129,6 @@ def compute_correlations(test_df, dfs):
     return sorted_correlations
 
 
-def convert_to_four_digit_year(year: str, max_year: int = 2029):
-    if int(year) < (max_year % 100):
-        return "20" + year
-    else:
-        return "19" + year
-
-
 def parse_input_dataset(data: str) -> dict[str, list[str | int]] | None:
     rows = data.split("\n")
     table = list(map(lambda row: row.split(), rows))
@@ -148,22 +142,13 @@ def parse_input_dataset(data: str) -> dict[str, list[str | int]] | None:
     dates = [row[0] for row in table]
     values = [row[1] for row in table]
 
-    valid_date_patterns = {
-        # 2014Q1 -> Accepted pattern, do nothing
-        r"^(\d{4})Q([1-4])": lambda x: x,
-        # Q1'14 -> Convert to 2014Q1
-        r"^Q([1-4])\'(\d{2})$": lambda match: (
-            convert_to_four_digit_year(match.group(2)) + "Q" + match.group(1)
-        ),
-    }
-
     if len(dates) <= 0:
         return None
 
-    for pattern, processor in valid_date_patterns.items():
+    for pattern, functors in VALID_DATE_PATTERNS.items():
         for i in range(len(dates)):
             if match := re.match(pattern, dates[i]):
-                dates[i] = processor(match)
+                dates[i] = functors["processor"](match)
 
     for i in range(len(values)):
         value = values[i]

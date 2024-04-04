@@ -16,6 +16,7 @@ from core.data_trends import (
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
 )
+from datasets.lib import parse_year_from_date
 from datasets.serializers import CorrelateIndexRequestBody
 from datasets.dataset_metadata_orm import (
     augment_with_metadata,
@@ -69,12 +70,15 @@ def fetch_stock_revenues(
         for i in range(len(report)):
             year = report[i]["calendarYear"]
             date = year + "-01-01"
+            revenue = report[i]["revenue"]
             if int(year) < start_year:
                 continue
             if end_year and int(year) > end_year:
                 continue
+            if revenue == 0:
+                continue
 
-            revenues[date] = report[i]["revenue"]
+            revenues[date] = revenue
         return revenues, fiscal_year_end
     elif aggregation_period == AggregationPeriod.QUARTERLY:
         url = f"https://discountingcashflows.com/api/income-statement/quarterly/{stock}/?key=e787734f-59d8-4809-8955-1502cb22ba36"
@@ -107,11 +111,15 @@ def fetch_stock_revenues(
         for i in range(len(report)):
             year: str = report[i]["calendarYear"]
             date: str = year + report[i]["period"]
+            revenue = report[i]["revenue"]
             if int(year) < start_year:
                 continue
             if end_year and int(year) > end_year:
                 continue
-            revenues[date] = report[i]["revenue"]
+            if revenue == 0:
+                continue
+            revenues[date] = revenue
+
         return revenues, fiscal_year_end
     else:
         raise ValueError("Invalid aggregation period")
@@ -259,13 +267,13 @@ class CorrelateView(APIView):
             )
         test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
-        return run_correlations(
+        return run_correlations_rust(
             aggregation_period=aggregation_period,
             fiscal_end_month=fiscal_end_month,
             test_data=test_data,
             lag_periods=lag_periods,
-            high_level_only=high_level_only,
-            show_negatives=show_negatives,
+            _high_level_only=high_level_only,
+            _show_negatives=show_negatives,
             correlation_metric=correlation_metric,
             test_correlation_metric=correlation_metric,
         )
@@ -438,8 +446,11 @@ def run_correlations_rust(
     test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
     records = test_df.to_json(orient="records", default_handler=str)
 
-    start_year = parse(min(test_data["Date"])).year
-    end_year = parse(max(test_data["Date"])).year
+    start_year = parse_year_from_date(min(test_data["Date"]))
+    end_year = parse_year_from_date(max(test_data["Date"]))
+
+    if start_year is None or end_year is None:
+        return JsonResponse({"error": "Invalid date format"})
 
     url = "https://api2.correlatefinance.com/correlate_input?"
     request_paramters = {
