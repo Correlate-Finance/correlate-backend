@@ -441,7 +441,7 @@ def run_correlations_rust(
     start_year = parse(min(test_data["Date"])).year
     end_year = parse(max(test_data["Date"])).year
 
-    url = "http://localhost:8001/correlate_input?"
+    url = "https://api2.correlatefinance.com/correlate_input?"
     request_paramters = {
         "aggregation_period": aggregation_period,
         "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,
