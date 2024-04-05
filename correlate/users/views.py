@@ -70,14 +70,10 @@ class WatchlistedView(APIView):
     def get(self, request: Request) -> HttpResponse:
         user = request.user
         dataset_names: str[] = request.data.get("datasets", [])  # type: ignore
-        datasets = [dataset_metadata_orm.get_metadata_from_external_name(dataset_name) for dataset_name in dataset_names]
 
-        if not datasets:
-            return Response({"message": "Dataset not found"}, status=404)
-
-        result = []
-        for dataset in datasets:
-            result.append(WatchList.objects.filter(user=user, dataset=dataset).exists())
+        watchlists = WatchList.objects.filter(user=user, dataset__external_name__in=dataset_names).prefetch_related("dataset")
+        watchlist_map = {w.dataset.external_name: w for w in watchlists}
+        result = [dataset in watchlist_map for dataset in dataset_names]
         return Response({"watchlisted": result})
 
 class AddWatchListView(APIView):
