@@ -40,9 +40,9 @@ def convert_csv_to_workbook(filename: str):
                     "Date",
                     "Value",
                 ]
-                output_df.iloc[
-                    6:
-                ] = data.values  # Insert the data starting from the 5th row
+                output_df.iloc[6:] = (
+                    data.values
+                )  # Insert the data starting from the 5th row
 
                 # Write to a new sheet in the Excel file
                 sheet_name = f"{name} - {metric}"

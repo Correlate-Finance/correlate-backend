@@ -13,6 +13,16 @@ class CorrelationMetric(str, Enum):
     YOY_GROWTH = "YOY_GROWTH"
 
 
+class CompanyMetric(str, Enum):
+    REVENUE = "revenue"
+    COST_OF_REVENUE = "costOfRevenue"
+    GROSS_PROFIT = "grossProfit"
+    OPERATING_INCOME = "operatingIncome"
+    NET_INCOME = "netIncome"
+    EBITDA = "ebitda"
+    EPS = "eps"
+
+
 class CorrelateDataPoint(BaseModel):
     title: str
     internal_name: str | None = None

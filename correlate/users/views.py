@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from .models import User, WatchList, Allowlist
-from datetime import datetime, timedelta
 import environ
 from datasets import dataset_metadata_orm
 from rest_framework.status import HTTP_403_FORBIDDEN

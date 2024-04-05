@@ -9,7 +9,7 @@ from django.http import (
 from rest_framework.request import Request
 import urllib.parse
 from rest_framework.permissions import IsAuthenticated
-from core.main_logic import calculate_correlation, correlate_datasets, create_index
+from core.main_logic import correlate_datasets, create_index
 from core.data_trends import (
     calculate_average_monthly_growth,
     calculate_trailing_months,
@@ -19,7 +19,6 @@ from core.data_trends import (
 from datasets.lib import parse_year_from_date
 from datasets.serializers import CorrelateIndexRequestBody
 from datasets.dataset_metadata_orm import (
-    augment_with_metadata,
     get_internal_name_from_external_name,
     get_metadata_from_external_name,
     get_metadata_from_name,
@@ -35,23 +34,19 @@ from core.data_processing import (
     transform_data,
     transform_data_base,
 )
-from datasets.dataset_orm import get_all_dfs, get_df
-from datasets.mongo_operations import HIGH_LEVEL_TABLES
+from datasets.dataset_orm import get_df
 from datasets.models import DatasetMetadata
-from datasets.models import AggregationPeriod, CorrelationMetric
+from datasets.models import AggregationPeriod, CorrelationMetric, CompanyMetric
 from ddtrace import tracer
-from dateutil.parser import parse
-
-
-TOP_CORRELATIONS_TO_RETURN = 50
 
 
 @cache
-def fetch_stock_revenues(
+def fetch_stock_data(
     stock: str,
     start_year: int,
     aggregation_period: AggregationPeriod = AggregationPeriod.ANNUALLY,
     end_year: int | None = None,
+    company_metric: CompanyMetric = CompanyMetric.REVENUE,
 ) -> tuple[dict, str | None]:
     if aggregation_period == AggregationPeriod.ANNUALLY:
         url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
@@ -65,21 +60,21 @@ def fetch_stock_revenues(
         reporting_date_month = datetime.strptime(report[0]["date"], "%Y-%m-%d")
         fiscal_year_end = calendar.month_name[reporting_date_month.month]
 
-        revenues = {}
+        values = {}
 
         for i in range(len(report)):
             year = report[i]["calendarYear"]
             date = year + "-01-01"
-            revenue = report[i]["revenue"]
+            metric = report[i][company_metric]
             if int(year) < start_year:
                 continue
             if end_year and int(year) > end_year:
                 continue
-            if revenue == 0:
+            if metric == 0:
                 continue
 
-            revenues[date] = revenue
-        return revenues, fiscal_year_end
+            values[date] = metric
+        return values, fiscal_year_end
     elif aggregation_period == AggregationPeriod.QUARTERLY:
         url = f"https://discountingcashflows.com/api/income-statement/quarterly/{stock}/?key=e787734f-59d8-4809-8955-1502cb22ba36"
         response = requests.get(url)
@@ -107,20 +102,20 @@ def fetch_stock_revenues(
 
         fiscal_year_end = calendar.month_name[updated_month]
 
-        revenues = {}
+        values = {}
         for i in range(len(report)):
             year: str = report[i]["calendarYear"]
             date: str = year + report[i]["period"]
-            revenue = report[i]["revenue"]
+            metric = report[i][company_metric]
             if int(year) < start_year:
                 continue
             if end_year and int(year) > end_year:
                 continue
-            if revenue == 0:
+            if metric == 0:
                 continue
-            revenues[date] = revenue
+            values[date] = metric
 
-        return revenues, fiscal_year_end
+        return values, fiscal_year_end
     else:
         raise ValueError("Invalid aggregation period")
 
@@ -222,8 +217,43 @@ class RevenueView(APIView):
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
-        revenues, _ = fetch_stock_revenues(
+        revenues, _ = fetch_stock_data(
             stock, start_year, aggregation_period, end_year=end_year
+        )
+        json_revenues = [
+            {"date": date, "value": str(value)} for date, value in revenues.items()
+        ]
+        return JsonResponse(json_revenues, safe=False)
+
+
+class CompanyDataView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        stock = request.GET.get("stock")
+        try:
+            company_metric = CompanyMetric[request.GET.get("company_metric")]
+        except KeyError:
+            return HttpResponseBadRequest("Invalid company metric")
+
+        start_year = int(request.GET.get("start_year", 2010))
+        end_year = request.GET.get("end_year", None)
+        if end_year is not None:
+            end_year = int(end_year)
+
+        aggregation_period = request.GET.get(
+            "aggregation_period", AggregationPeriod.ANNUALLY
+        )
+
+        if stock is None or len(stock) < 1:
+            return HttpResponseBadRequest("Pass a valid stock ticker")
+
+        revenues, _ = fetch_stock_data(
+            stock,
+            start_year,
+            aggregation_period,
+            end_year=end_year,
+            company_metric=company_metric,
         )
         json_revenues = [
             {"date": date, "value": str(value)} for date, value in revenues.items()
@@ -250,12 +280,20 @@ class CorrelateView(APIView):
         correlation_metric = request.GET.get(
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
+        try:
+            company_metric = CompanyMetric[request.GET.get("company_metric", "REVENUE")]
+        except KeyError:
+            return HttpResponseBadRequest("Invalid company metric")
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
-        revenues, fiscal_end_month = fetch_stock_revenues(
-            stock, start_year, aggregation_period, end_year=end_year
+        revenues, fiscal_end_month = fetch_stock_data(
+            stock,
+            start_year,
+            aggregation_period,
+            end_year=end_year,
+            company_metric=company_metric,
         )
         if fiscal_end_month is None:
             return JsonResponse(
@@ -385,45 +423,6 @@ class CorrelateIndex(APIView):
                 correlationMetric=correlation_metric,
             ).model_dump()
         )
-
-
-@tracer.wrap("run_correlations")
-def run_correlations(
-    aggregation_period: AggregationPeriod,
-    fiscal_end_month: str,
-    test_data: dict,
-    lag_periods: int,
-    high_level_only: bool,
-    show_negatives: bool,
-    correlation_metric: CorrelationMetric,
-    test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
-) -> JsonResponse:
-    dfs = get_all_dfs(selected_names=HIGH_LEVEL_TABLES if high_level_only else None)
-
-    sorted_correlations = calculate_correlation(
-        aggregation_period,
-        fiscal_end_month,
-        dfs=dfs,
-        test_data=test_data,
-        lag_periods=lag_periods,
-        correlation_metric=correlation_metric,
-        test_correlation_metric=test_correlation_metric,
-    )
-
-    if not show_negatives:
-        sorted_correlations = list(
-            filter(lambda x: x.pearson_value > 0, sorted_correlations)
-        )
-
-    return JsonResponse(
-        CorrelateData(
-            data=augment_with_metadata(
-                sorted_correlations[:TOP_CORRELATIONS_TO_RETURN]
-            ),
-            aggregationPeriod=aggregation_period,
-            correlationMetric=correlation_metric,
-        ).model_dump()
-    )
 
 
 @tracer.wrap("run_correlations_rust")
