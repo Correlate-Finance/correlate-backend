@@ -308,6 +308,7 @@ class CorrelateView(APIView):
         return run_correlations_rust(
             aggregation_period=aggregation_period,
             fiscal_end_month=fiscal_end_month,
+            test_df=pd.DataFrame(test_data),
             test_data=test_data,
             lag_periods=lag_periods,
             _high_level_only=high_level_only,
@@ -339,9 +340,18 @@ class CorrelateInputDataView(APIView):
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
 
+        test_df = pd.DataFrame(test_data)
+        test_df = transform_data(
+            test_df,
+            aggregation_period,
+            correlation_metric=correlation_metric,
+            fiscal_end_month=fiscal_end_month,
+        )
+
         return run_correlations_rust(
             aggregation_period,
             fiscal_end_month,
+            test_df=test_df,
             test_data=test_data,
             lag_periods=lag_periods,
             _high_level_only=high_level_only,
@@ -429,6 +439,7 @@ class CorrelateIndex(APIView):
 def run_correlations_rust(
     aggregation_period: AggregationPeriod,
     fiscal_end_month: str,
+    test_df: pd.DataFrame,
     test_data: dict,
     lag_periods: int,
     _high_level_only: bool,
@@ -436,12 +447,6 @@ def run_correlations_rust(
     correlation_metric: CorrelationMetric,
     test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
 ) -> JsonResponse:
-    test_df = pd.DataFrame(test_data)
-    transform_data_base(test_df)
-    test_df = transform_data(
-        test_df, aggregation_period, fiscal_end_month, test_correlation_metric
-    )
-
     test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
     records = test_df.to_json(orient="records", default_handler=str)
 
