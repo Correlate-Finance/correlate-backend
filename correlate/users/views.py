@@ -129,6 +129,12 @@ class ChangePasswordView(APIView):
     def post(self, request: Request) -> HttpResponse:
         email = request.data.get("email", "")
         password = request.data.get("password", "")
-        user = User.objects.get(email=email)
-        user.set_password(password)
+        if not password:
+            return Response({"message": "Password is required"}, status=400)
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(password)
+            user.save()
+        except User.DoesNotExist:
+            return Response({"message": "User not found"}, status=404)
         return Response({"message": "Password changed"})
