@@ -124,3 +124,11 @@ class VerifyOTPView(APIView):
             return Response({"message": "OTP is incorrect"}, status=400)
 
         return Response({"message": "OTP is correct"})
+
+class ChangePasswordView(APIView):
+    def post(self, request: Request) -> HttpResponse:
+        email = request.data.get("email", "")
+        password = request.data.get("password", "")
+        user = User.objects.get(email=email)
+        user.set_password(password)
+        return Response({"message": "Password changed"})
