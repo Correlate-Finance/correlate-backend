@@ -104,23 +104,16 @@ class DeleteWatchListView(APIView):
 class SendOTPView(APIView):
     def post(self, request: Request) -> HttpResponse:
         email = request.data.get("email", "")
-        if not User.objects.filter(email=email).exists():
-            return Response({"message": "User not found"}, status=404)
-
-        send_otp_via_email(email)
-
+        if User.objects.filter(email=email).exists():
+            send_otp_via_email(email)
         return Response({"message": "OTP sent via email"})
 
 class VerifyOTPView(APIView):
     def post(self, request: Request) -> HttpResponse:
         email = request.data.get("email", "")
-        otp = request.data.get("otp", "")
-        try:
-            user = User.objects.get(email=email)
-        except User.DoesNotExist:
-            return Response({"message": "User not found"}, status=404)
-
-        if user.otp != otp:
+        otp = request.data.get("otp", "")   
+        user = User.objects.filter(email=email).first()
+        if not user or user.otp != otp:
             return Response({"message": "OTP is incorrect"}, status=400)
 
         return Response({"message": "OTP is correct"})

@@ -21,6 +21,6 @@ class SendOTPViewTests(TestCase):
 
     def test_send_otp_with_non_existing_user(self):
         response = self.client.post(self.send_otp_url, {"email": "non_existing_user@example.com"})
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(response.data["message"], "User not found")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data["message"], "OTP sent via email")
         self.assertEqual(len(mail.outbox), 0)

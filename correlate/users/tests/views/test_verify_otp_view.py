@@ -22,6 +22,6 @@ class VerifyOTPViewTests(TestCase):
         self.assertEqual(response.data["message"], "OTP is incorrect")
 
     def test_verify_otp_with_non_existing_user(self):
-        response = self.client.post(self.verify_otp_url, {"email": "non_existing_user@example.com", "otp": "1234"})
-        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
-        self.assertEqual(response.data["message"], "User not found")
+        response = self.client.post(self.verify_otp_url, {"email": "non_existing_user@example.com", "otp": "123456"})
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(response.data["message"], "OTP is incorrect")
