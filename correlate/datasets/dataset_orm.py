@@ -83,7 +83,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
         dataset_metadata, created = DatasetMetadata.objects.get_or_create(
             internal_name=sheet.title,
             defaults=dict(
-                external_name=metadata.get("Title", None),
+                external_name=metadata.get("Title", sheet.title),
                 source=metadata.get("Source", None),
                 description=metadata.get("Description", None),
             ),
