@@ -32,7 +32,7 @@ import pandas as pd
 from core.data_processing import (
     parse_input_dataset,
     transform_data,
-    transform_data_base,
+    transform_metric,
 )
 from datasets.dataset_orm import get_df
 from datasets.models import DatasetMetadata
@@ -305,10 +305,17 @@ class CorrelateView(APIView):
             )
         test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
 
+        test_df = pd.DataFrame(test_data)
+        test_df = transform_metric(
+            test_df,
+            aggregation_period,
+            correlation_metric=correlation_metric,
+        )
+
         return run_correlations_rust(
             aggregation_period=aggregation_period,
             fiscal_end_month=fiscal_end_month,
-            test_df=pd.DataFrame(test_data),
+            test_df=test_df,
             test_data=test_data,
             lag_periods=lag_periods,
             _high_level_only=high_level_only,
