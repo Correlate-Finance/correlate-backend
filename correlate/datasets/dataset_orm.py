@@ -126,9 +126,9 @@ def get_all_postgres_dfs(
         ).prefetch_related("metadata")
     else:
         dataset_metadatas = (
-            DatasetMetadata.objects.all()
+            DatasetMetadata.objects.filter(hidden=False)
             .order_by("created_at")
-            .values_list("id", flat=True)[:2000]
+            .values_list("id", flat=True)
         )
         datasets = Dataset.objects.filter(
             metadata_id__in=dataset_metadatas

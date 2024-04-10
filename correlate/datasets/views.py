@@ -468,7 +468,7 @@ class GetAllDatasetMetadata(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request: Request) -> HttpResponse:
-        metadata = DatasetMetadata.objects.all()
+        metadata = DatasetMetadata.objects.filter(hidden=False)
         return JsonResponse(
             [
                 {"series_id": m.internal_name, "title": m.external_name}
