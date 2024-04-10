@@ -53,7 +53,15 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
         dataset: list[tuple[datetime, float]] = []
         data_start = False
         for row in sheet.iter_rows():
-            if row[0].value.lower() == "date" and row[1].value.lower() == "value":  # type: ignore
+            col1 = row[0].value
+            col2 = row[1].value
+
+            if (
+                isinstance(col1, str)
+                and col1.lower() == "date"
+                and isinstance(col2, str)
+                and col2.lower() == "value"
+            ):
                 data_start = True  # Found the dataset header
                 continue
 
@@ -66,7 +74,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
                     metadata[key] = value
 
             else:
-                raw_date, value = str(row[0].value), row[1].value
+                raw_date, value = str(col1), col2
 
                 if raw_date and value:  # Check if both date and value are present
                     date = (
@@ -76,7 +84,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
                     )
                     dataset.append((date, float(value)))  # type:ignore
 
-                if not row[0].value and not row[1].value:
+                if not col1 and not col2:
                     # Stop parsing if we find an empty row after the dataset
                     break
 
