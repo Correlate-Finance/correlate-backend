@@ -53,7 +53,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
         dataset: list[tuple[datetime, float]] = []
         data_start = False
         for row in sheet.iter_rows():
-            if row[0].value == "Date" and row[1].value == "Value":
+            if row[0].value.lower() == "date" and row[1].value.lower() == "value":  # type: ignore
                 data_start = True  # Found the dataset header
                 continue
 
