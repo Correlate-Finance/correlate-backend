@@ -38,6 +38,7 @@ from datasets.dataset_orm import get_df
 from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric, CompanyMetric
 from ddtrace import tracer
+from collections import defaultdict
 
 
 @cache
@@ -120,6 +121,141 @@ def fetch_stock_data(
         raise ValueError("Invalid aggregation period")
 
 
+@cache
+def fetch_segment_data(
+    stock: str,
+    start_year: int,
+    aggregation_period: AggregationPeriod = AggregationPeriod.ANNUALLY,
+    end_year: int | None = None,
+):
+    if aggregation_period == AggregationPeriod.ANNUALLY:
+        url = f"https://discountingcashflows.com/api/revenue-analysis/{stock}/product/?key=e787734f-59d8-4809-8955-1502cb22ba36"
+        response = requests.get(url)
+    else:
+        url = f"https://discountingcashflows.com/api/revenue-analysis/{stock}/product/quarter/?key=e787734f-59d8-4809-8955-1502cb22ba36"
+        response = requests.get(url)
+
+    report = response.json()["report"]
+    segments = defaultdict(dict)
+
+    for categories in report:
+        date = categories["date"]
+        year = int(date.split("-")[0])
+        if year < start_year or (end_year and year > end_year):
+            continue
+        for category in categories.keys():
+            if category == "date":
+                continue
+
+            value = categories[category]
+            if value == 0:
+                continue
+
+            segments[category][date] = value
+
+    return segments
+
+
+class RevenueView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        stock = request.GET.get("stock")
+        start_year = int(request.GET.get("start_year", 2010))
+        end_year = request.GET.get("end_year", None)
+        if end_year is not None:
+            end_year = int(end_year)
+
+        aggregation_period = request.GET.get(
+            "aggregation_period", AggregationPeriod.ANNUALLY
+        )
+
+        if stock is None or len(stock) < 1:
+            return HttpResponseBadRequest("Pass a valid stock ticker")
+
+        revenues, _ = fetch_stock_data(
+            stock, start_year, aggregation_period, end_year=end_year
+        )
+        json_revenues = [
+            {"date": date, "value": str(value)} for date, value in revenues.items()
+        ]
+        return JsonResponse(json_revenues, safe=False)
+
+
+class CompanyDataView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        stock = request.GET.get("stock")
+        try:
+            company_metric = CompanyMetric[request.GET.get("company_metric")]
+        except KeyError:
+            return HttpResponseBadRequest("Invalid company metric")
+
+        start_year = int(request.GET.get("start_year", 2010))
+        end_year = request.GET.get("end_year", None)
+        if end_year is not None:
+            end_year = int(end_year)
+
+        aggregation_period = request.GET.get(
+            "aggregation_period", AggregationPeriod.ANNUALLY
+        )
+
+        if stock is None or len(stock) < 1:
+            return HttpResponseBadRequest("Pass a valid stock ticker")
+
+        revenues, _ = fetch_stock_data(
+            stock,
+            start_year,
+            aggregation_period,
+            end_year=end_year,
+            company_metric=company_metric,
+        )
+        json_revenues = [
+            {"date": date, "value": str(value)} for date, value in revenues.items()
+        ]
+        return JsonResponse(json_revenues, safe=False)
+
+
+class SegmentDataView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        stock = request.GET.get("stock")
+        start_year = int(request.GET.get("start_year", 2010))
+        end_year = request.GET.get("end_year", None)
+        if end_year is not None:
+            end_year = int(end_year)
+
+        aggregation_period = request.GET.get(
+            "aggregation_period", AggregationPeriod.ANNUALLY
+        )
+
+        if stock is None or len(stock) < 1:
+            return HttpResponseBadRequest("Pass a valid stock ticker")
+
+        segments = fetch_segment_data(
+            stock,
+            start_year,
+            aggregation_period,
+            end_year=end_year,
+        )
+
+        json_segments = []
+        for segment, values in segments.items():
+            json_segments.append(
+                {
+                    "segment": segment,
+                    "data": [
+                        {"date": date, "value": str(value)}
+                        for date, value in values.items()
+                    ],
+                }
+            )
+
+        return JsonResponse(json_segments, safe=False)
+
+
 class DatasetView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -200,67 +336,6 @@ class RawDatasetView(APIView):
         )
 
 
-class RevenueView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request: Request) -> HttpResponse:
-        stock = request.GET.get("stock")
-        start_year = int(request.GET.get("start_year", 2010))
-        end_year = request.GET.get("end_year", None)
-        if end_year is not None:
-            end_year = int(end_year)
-
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.ANNUALLY
-        )
-
-        if stock is None or len(stock) < 1:
-            return HttpResponseBadRequest("Pass a valid stock ticker")
-
-        revenues, _ = fetch_stock_data(
-            stock, start_year, aggregation_period, end_year=end_year
-        )
-        json_revenues = [
-            {"date": date, "value": str(value)} for date, value in revenues.items()
-        ]
-        return JsonResponse(json_revenues, safe=False)
-
-
-class CompanyDataView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request: Request) -> HttpResponse:
-        stock = request.GET.get("stock")
-        try:
-            company_metric = CompanyMetric[request.GET.get("company_metric")]
-        except KeyError:
-            return HttpResponseBadRequest("Invalid company metric")
-
-        start_year = int(request.GET.get("start_year", 2010))
-        end_year = request.GET.get("end_year", None)
-        if end_year is not None:
-            end_year = int(end_year)
-
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.ANNUALLY
-        )
-
-        if stock is None or len(stock) < 1:
-            return HttpResponseBadRequest("Pass a valid stock ticker")
-
-        revenues, _ = fetch_stock_data(
-            stock,
-            start_year,
-            aggregation_period,
-            end_year=end_year,
-            company_metric=company_metric,
-        )
-        json_revenues = [
-            {"date": date, "value": str(value)} for date, value in revenues.items()
-        ]
-        return JsonResponse(json_revenues, safe=False)
-
-
 class CorrelateView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -285,8 +360,18 @@ class CorrelateView(APIView):
         except KeyError:
             return HttpResponseBadRequest("Invalid company metric")
 
+        segment = request.GET.get("segment", None)
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
+
+        segment_data = None
+        if segment is not None:
+            segment_data = fetch_segment_data(
+                stock,
+                start_year,
+                aggregation_period,
+                end_year=end_year,
+            )[segment]
 
         revenues, fiscal_end_month = fetch_stock_data(
             stock,
@@ -303,13 +388,24 @@ class CorrelateView(APIView):
                     correlationMetric=correlation_metric,
                 ).model_dump()
             )
-        test_data = {"Date": list(revenues.keys()), "Value": list(revenues.values())}
+
+        if segment_data is not None:
+            test_data = {
+                "Date": list(segment_data.keys()),
+                "Value": list(segment_data.values()),
+            }
+        elif revenues is not None:
+            test_data = {
+                "Date": list(revenues.keys()),
+                "Value": list(revenues.values()),
+            }
 
         test_df = pd.DataFrame(test_data)
-        test_df = transform_metric(
+        test_df = transform_data(
             test_df,
             aggregation_period,
             correlation_metric=correlation_metric,
+            fiscal_end_month=fiscal_end_month,
         )
 
         return run_correlations_rust(
