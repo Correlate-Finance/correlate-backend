@@ -34,6 +34,7 @@ from datasets.dataset_orm import get_df
 from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric, CompanyMetric
 from collections import defaultdict
+from django.conf import settings
 
 
 @cache
@@ -350,6 +351,7 @@ class CorrelateView(APIView):
         correlation_metric = request.GET.get(
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
+        selected_datasets = request.GET.getlist("selected_datasets")
         try:
             company_metric = CompanyMetric[request.GET.get("company_metric", "REVENUE")]
         except KeyError:
@@ -416,6 +418,7 @@ class CorrelateView(APIView):
             _show_negatives=show_negatives,
             correlation_metric=correlation_metric,
             test_correlation_metric=correlation_metric,
+            selected_datasets=selected_datasets,
         )
 
 
@@ -571,7 +574,7 @@ def run_correlations_rust(
     if start_year is None or end_year is None:
         return JsonResponse({"error": "Invalid date format"})
 
-    url = "http://localhost:8001/correlate_input?"
+    url = f"{settings.RUST_ENGINE_URL}/correlate_input?"
     request_paramters = {
         "aggregation_period": aggregation_period,
         "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,

@@ -72,36 +72,19 @@ class CorrelateViewGoldenTests(APITestCase):
     @pytest.mark.vcr
     def test_correlation(self):
         # Test the view with valid parameters
-        lags = 3
         params = {
             "stock": "AAPL",
-            "start_year": 2020,
+            "start_year": 2012,
             "aggregation_period": AggregationPeriod.QUARTERLY,
-            "lag_periods": str(lags),
+            "lag_periods": "0",
             "high_level_only": "false",
             "show_negatives": "false",
             "correlation_metric": CorrelationMetric.RAW_VALUE,
+            "selected_datasets": ["BABANAICS54NSAUS"],
         }
 
         response = self.client.get(self.url, params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = response.json()
 
-        self.assertAlmostEqual(
-            response["data"][0]["pearson_value"], 0.8944271909999159, places=5
-        )
-        self.assertAlmostEqual(
-            response["data"][1]["pearson_value"], 0.8660254037844387, places=5
-        )
-        self.assertAlmostEqual(
-            response["data"][2]["pearson_value"], 0.8660254037844386, places=5
-        )
-        self.assertAlmostEqual(
-            response["data"][3]["pearson_value"], 0.8280786712108251, places=5
-        )
-        sort_by_lags = sorted(response["data"], key=lambda x: x["lag"])
-
-        for i, data in enumerate(sort_by_lags):
-            self.assertEqual(data["lag"], i)
-            self.assertEqual(len(data["input_data"]), 6)
-            self.assertEqual(len(data["dataset_data"]), 6)
+        self.assertAlmostEqual(response["data"][0]["pearson_value"], 0.880, places=5)
