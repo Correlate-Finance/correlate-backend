@@ -80,11 +80,13 @@ class CorrelateViewGoldenTests(APITestCase):
             "high_level_only": "false",
             "show_negatives": "false",
             "correlation_metric": CorrelationMetric.RAW_VALUE,
-            "selected_datasets": ["BABANAICS54NSAUS"],
+            "selected_datasets": ["CEU4349200001"],
         }
 
         response = self.client.get(self.url, params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = response.json()
 
-        self.assertAlmostEqual(response["data"][0]["pearson_value"], 0.880, places=5)
+        self.assertAlmostEqual(
+            response["data"][0]["pearson_value"], 0.9220995, places=5
+        )
