@@ -29,6 +29,9 @@ def transform_metric(
     if df.empty:
         return df
 
+    # Always sort to make sure that dates are sorted in ascending order
+    df = df.sort_values("Date")
+
     # Quarterly
     if time_increment == AggregationPeriod.QUARTERLY:
         if correlation_metric == CorrelationMetric.YOY_GROWTH:
