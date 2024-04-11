@@ -6,12 +6,7 @@ import pytz
 import pandas as pd
 from dateutil.parser import parse
 from frozendict import frozendict
-from django.conf import settings
 from core.data_processing import transform_data_base
-from datasets.mongo_operations import (
-    get_all_mongo_dfs,
-    get_mongo_df,
-)
 from ddtrace import tracer
 
 CACHED_DFS = None
@@ -102,8 +97,8 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
     return results
 
 
-@tracer.wrap("get_all_postgres_dfs")
-def get_all_postgres_dfs(
+@tracer.wrap("get_all_dfs")
+def get_all_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
     global CACHED_DFS
@@ -150,8 +145,8 @@ def get_all_postgres_dfs(
     return frozendict(dfs)
 
 
-@tracer.wrap("get_postgres_df")
-def get_postgres_df(title: str) -> pd.DataFrame | None:
+@tracer.wrap("get_df")
+def get_df(title: str) -> pd.DataFrame | None:
     if CACHED_DFS:
         return CACHED_DFS.get(title)
     dataset = list(Dataset.objects.filter(metadata__internal_name=title).all())
@@ -159,21 +154,3 @@ def get_postgres_df(title: str) -> pd.DataFrame | None:
         return None
     data = [(d.date, d.value) for d in dataset]
     return pd.DataFrame(data, columns=["Date", "Value"])
-
-
-def get_all_dfs(
-    selected_names: list[str] | None = None,
-) -> frozendict[str, pd.DataFrame]:
-    return (
-        get_all_postgres_dfs(selected_names)
-        if settings.USE_POSTGRES_DATASETS
-        else get_all_mongo_dfs(selected_names)
-    )
-
-
-def get_df(title: str) -> pd.DataFrame | None:
-    return (
-        get_postgres_df(title)
-        if settings.USE_POSTGRES_DATASETS
-        else get_mongo_df(title)
-    )

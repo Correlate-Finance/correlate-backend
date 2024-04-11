@@ -195,6 +195,3 @@ EMAIL_TIMEOUT = 15
 # API KEYS
 FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
 EIA_API_KEY = env.str("EIA_API_KEY", default="")  # type:ignore
-
-# Flags
-USE_POSTGRES_DATASETS = env.bool("USE_POSTGRES_DATASETS", default=False)  # type:ignore
