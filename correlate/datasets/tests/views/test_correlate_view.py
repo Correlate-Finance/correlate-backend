@@ -6,7 +6,7 @@ from rest_framework.test import APITestCase
 from users.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
-import pandas as pd
+import pytest
 from datasets.models import AggregationPeriod, CorrelationMetric
 
 
@@ -69,33 +69,8 @@ class CorrelateViewGoldenTests(APITestCase):
         self.url = reverse("correlate")
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
 
-    @patch(
-        "datasets.views.fetch_stock_data",
-        return_value=(
-            {
-                "2020-07-01": 7,
-                "2020-08-01": 8,
-                "2020-09-01": 9,
-                "2020-10-01": 10,
-                "2020-11-01": 11,
-                "2020-12-01": 12,
-                "2021-01-01": 13,
-                "2021-02-01": 14,
-                "2021-03-01": 15,
-                "2021-04-01": 16,
-                "2021-05-01": 17,
-                "2021-06-01": 18,
-                "2021-07-01": 19,
-                "2021-08-01": 20,
-                "2021-09-01": 21,
-                "2021-10-01": 22,
-                "2021-11-01": 23,
-                "2021-12-01": 24,
-            },
-            "December",
-        ),
-    )
-    def test_correlation(self, mock_fetch_stock_data):
+    @pytest.mark.vcr
+    def test_correlation(self):
         # Test the view with valid parameters
         lags = 3
         params = {

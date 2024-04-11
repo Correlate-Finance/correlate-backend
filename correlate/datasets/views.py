@@ -29,10 +29,7 @@ import calendar
 from datetime import datetime
 from functools import cache
 import pandas as pd
-from core.data_processing import (
-    parse_input_dataset,
-    transform_data,
-)
+from core.data_processing import parse_input_dataset, transform_data, transform_metric
 from datasets.dataset_orm import get_df
 from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric, CompanyMetric
@@ -392,19 +389,22 @@ class CorrelateView(APIView):
                 "Date": list(segment_data.keys()),
                 "Value": list(segment_data.values()),
             }
+            test_df = transform_data(
+                pd.DataFrame(test_data),
+                aggregation_period,
+                correlation_metric=correlation_metric,
+                fiscal_end_month=fiscal_end_month,
+            )
         elif revenues is not None:
             test_data = {
                 "Date": list(revenues.keys()),
                 "Value": list(revenues.values()),
             }
-
-        test_df = pd.DataFrame(test_data)
-        test_df = transform_data(
-            test_df,
-            aggregation_period,
-            correlation_metric=correlation_metric,
-            fiscal_end_month=fiscal_end_month,
-        )
+            test_df = transform_metric(
+                pd.DataFrame(test_data),
+                aggregation_period,
+                correlation_metric=correlation_metric,
+            )
 
         return run_correlations_rust(
             aggregation_period=aggregation_period,
@@ -441,13 +441,23 @@ class CorrelateInputDataView(APIView):
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
 
-        test_df = pd.DataFrame(test_data)
-        test_df = transform_data(
-            test_df,
-            aggregation_period,
-            correlation_metric=correlation_metric,
-            fiscal_end_month=fiscal_end_month,
-        )
+        dates: list[str] = test_data["Date"]  # type: ignore
+        if len(dates) == 0:
+            return HttpResponseBadRequest("Invalid data format")
+
+        if "Q" in dates[0]:
+            test_df = transform_metric(
+                pd.DataFrame(test_data),
+                aggregation_period,
+                correlation_metric=correlation_metric,
+            )
+        else:
+            test_df = transform_data(
+                pd.DataFrame(test_data),
+                aggregation_period,
+                correlation_metric=correlation_metric,
+                fiscal_end_month=fiscal_end_month,
+            )
 
         return run_correlations_rust(
             aggregation_period,
@@ -545,10 +555,15 @@ def run_correlations_rust(
     _high_level_only: bool,
     _show_negatives: bool,
     correlation_metric: CorrelationMetric,
+    selected_datasets: list[str] | None = None,
     test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
 ) -> JsonResponse:
     test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
     records = test_df.to_json(orient="records", default_handler=str)
+    body = {
+        "manual_input_dataset": json.loads(records),
+        "selected_datasets": selected_datasets or [],
+    }
 
     start_year = parse_year_from_date(min(test_data["Date"]))
     end_year = parse_year_from_date(max(test_data["Date"]))
@@ -556,7 +571,7 @@ def run_correlations_rust(
     if start_year is None or end_year is None:
         return JsonResponse({"error": "Invalid date format"})
 
-    url = "https://api2.correlatefinance.com/correlate_input?"
+    url = "http://localhost:8001/correlate_input?"
     request_paramters = {
         "aggregation_period": aggregation_period,
         "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,
@@ -568,6 +583,6 @@ def run_correlations_rust(
 
     query_string = urllib.parse.urlencode(request_paramters)
 
-    response = requests.post(url + query_string, data=records)
+    response = requests.post(url + query_string, data=json.dumps(body))
 
     return JsonResponse(response.json())
