@@ -35,13 +35,14 @@ class CorrelateViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
     @patch(
-        "datasets.views.fetch_stock_revenues",
+        "datasets.views.fetch_stock_data",
         return_value=({"2020-01-01": 1}, "December"),
     )
     @patch(
-        "datasets.views.run_correlations", return_value=JsonResponse({"test": "test"})
+        "datasets.views.run_correlations_rust",
+        return_value=JsonResponse({"test": "test"}),
     )
-    def test_valid_request(self, mock_fetch_stock_revenues, mock_run_correlations):
+    def test_valid_request(self, mock_fetch_stock_data, mock_run_correlations):
         # Test the view with valid parameters
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         params = {
@@ -69,7 +70,7 @@ class CorrelateViewGoldenTests(APITestCase):
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
 
     @patch(
-        "datasets.views.fetch_stock_revenues",
+        "datasets.views.fetch_stock_data",
         return_value=(
             {
                 "2020-07-01": 7,
@@ -94,43 +95,7 @@ class CorrelateViewGoldenTests(APITestCase):
             "December",
         ),
     )
-    @patch(
-        "datasets.views.get_all_dfs",
-        return_value={
-            "test": pd.DataFrame(
-                {
-                    "Date": [
-                        "2020-01-01",
-                        "2020-02-01",
-                        "2020-03-01",
-                        "2020-04-01",
-                        "2020-05-01",
-                        "2020-06-01",
-                        "2020-07-01",
-                        "2020-08-01",
-                        "2020-09-01",
-                        "2020-10-01",
-                        "2020-11-01",
-                        "2020-12-01",
-                        "2021-01-01",
-                        "2021-02-01",
-                        "2021-03-01",
-                        "2021-04-01",
-                        "2021-05-01",
-                        "2021-06-01",
-                        "2021-07-01",
-                        "2021-08-01",
-                        "2021-09-01",
-                        "2021-10-01",
-                        "2021-11-01",
-                        "2021-12-01",
-                    ],
-                    "Value": [1] * 12 + [2] * 12,
-                }
-            )
-        },
-    )
-    def test_correlation(self, mock_fetch_stock_revenues, mock_run_correlations):
+    def test_correlation(self, mock_fetch_stock_data):
         # Test the view with valid parameters
         lags = 3
         params = {

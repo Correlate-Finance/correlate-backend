@@ -6,12 +6,10 @@ import re
 import numpy as np
 from datetime import datetime
 from datasets.models import CorrelationMetric, AggregationPeriod
-from ddtrace import tracer
 from pandas.core.dtypes.dtypes import DatetimeTZDtype
 from datasets.lib import VALID_DATE_PATTERNS
 
 
-@tracer.wrap("transform_data_base")
 def transform_data_base(df: pd.DataFrame):
     if df.empty:
         return df
@@ -49,7 +47,6 @@ def transform_metric(
     return df
 
 
-@tracer.wrap("transform_data")
 def transform_data(
     df: pd.DataFrame,
     time_increment: AggregationPeriod,

@@ -1,8 +1,6 @@
 from datasets.models import CorrelateDataPoint, DatasetMetadata
-from ddtrace import tracer
 
 
-@tracer.wrap("augment_with_metadata")
 def augment_with_metadata(
     datasets: list[CorrelateDataPoint],
 ) -> list[CorrelateDataPoint]:

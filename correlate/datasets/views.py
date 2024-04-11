@@ -32,12 +32,10 @@ import pandas as pd
 from core.data_processing import (
     parse_input_dataset,
     transform_data,
-    transform_metric,
 )
 from datasets.dataset_orm import get_df
 from datasets.models import DatasetMetadata
 from datasets.models import AggregationPeriod, CorrelationMetric, CompanyMetric
-from ddtrace import tracer
 from collections import defaultdict
 
 
@@ -538,7 +536,6 @@ class CorrelateIndex(APIView):
         )
 
 
-@tracer.wrap("run_correlations_rust")
 def run_correlations_rust(
     aggregation_period: AggregationPeriod,
     fiscal_end_month: str,

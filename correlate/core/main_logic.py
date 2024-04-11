@@ -9,10 +9,8 @@ import math
 from datasets.models import CorrelateDataPoint, AggregationPeriod, CorrelationMetric
 import numpy as np
 from frozendict import frozendict
-from ddtrace import tracer
 
 
-@tracer.wrap("main_logic.correlate_datasets")
 def correlate_datasets(
     test_df: pd.DataFrame,
     df: pd.DataFrame,
@@ -63,7 +61,6 @@ def correlate_datasets(
     return results
 
 
-@tracer.wrap("main_logic.calculate_correlation")
 def calculate_correlation(
     time_increment: AggregationPeriod,
     fiscal_end_month: str,
@@ -116,7 +113,6 @@ def calculate_correlation(
     return sorted_correlations
 
 
-@tracer.wrap("main_logic.create_index")
 def create_index(
     dataset_weights: dict[str, float],
     correlation_metric: CorrelationMetric,

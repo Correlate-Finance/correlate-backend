@@ -7,7 +7,6 @@ import pandas as pd
 from dateutil.parser import parse
 from frozendict import frozendict
 from core.data_processing import transform_data_base
-from ddtrace import tracer
 
 CACHED_DFS = None
 
@@ -97,7 +96,6 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
     return results
 
 
-@tracer.wrap("get_all_dfs")
 def get_all_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
@@ -145,7 +143,6 @@ def get_all_dfs(
     return frozendict(dfs)
 
 
-@tracer.wrap("get_df")
 def get_df(title: str) -> pd.DataFrame | None:
     if CACHED_DFS:
         return CACHED_DFS.get(title)
