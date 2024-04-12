@@ -28,3 +28,11 @@ class UserAuthenticationSerializer(serializers.Serializer):
 
     def validate_email(self, value: str):
         return value.lower()
+
+
+class IndexSerializer(serializers.Serializer):
+    name = serializers.CharField(required=True, allow_blank=False, max_length=255)
+    datasets = serializers.ListField(child=serializers.DictField())
+
+    def validate_name(self, value: str):
+        return value.lower()

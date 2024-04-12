@@ -2,11 +2,11 @@ from django.http import HttpResponse
 from rest_framework.request import Request
 from rest_framework.views import APIView
 from rest_framework.authtoken.models import Token
-from .serializers import UserSerializer, UserAuthenticationSerializer
+from .serializers import UserSerializer, UserAuthenticationSerializer, IndexSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
-from .models import User, WatchList, Allowlist
+from .models import User, WatchList, Allowlist, IndexDataset, Index
 import environ
 from datasets import dataset_metadata_orm
 from rest_framework.status import HTTP_403_FORBIDDEN
@@ -115,3 +115,37 @@ class DeleteWatchListView(APIView):
             )
 
         return Response({"message": "Deleted from watchlist"})
+
+
+class SaveIndexView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: Request) -> HttpResponse:
+        user = request.user
+        datasets: List[dict] = request.data.get("datasets", [])  # type: ignore
+        name: str = request.data.get("name", "")  # type: ignore
+
+        datasets_list = []
+        for dataset in datasets:
+            external_name = dataset.get("title", "")
+            weight = dataset.get("weight", 0.0)
+            dataset = dataset_metadata_orm.get_metadata_from_external_name(external_name)
+            
+            if dataset is None:
+                return Response({"message": "Dataset not found"}, status=404)
+            
+            IndexDataset.objects.create(dataset=dataset, weight=weight)
+            datasets_list.append(dataset)
+            
+        Index.objects.create(name=name, user=user, datasets=datasets_list)
+        return Response({"message": "Index saved"})
+
+
+class GetIndexView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        user = request.user
+        indices = Index.objects.filter(user=user)
+        serializer = IndexSerializer(indices, many=True)
+        return Response(serializer.data)

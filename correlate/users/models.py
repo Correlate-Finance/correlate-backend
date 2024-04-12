@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.postgres.fields import ArrayField
 from datasets.models import DatasetMetadata
 
 
@@ -31,3 +32,23 @@ class Allowlist(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class IndexDataset(models.Model):
+    id = models.AutoField(primary_key=True)
+    dataset = models.ForeignKey(DatasetMetadata, on_delete=models.CASCADE)
+    weight = models.FloatField()
+
+    def __str__(self):
+        return f"{self.dataset.name}"
+
+
+class Index(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    datasets = ArrayField(IndexDataset)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.email} - {self.dataset.name}"
