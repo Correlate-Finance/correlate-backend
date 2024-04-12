@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, IndexDataset, Index
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -30,11 +30,22 @@ class UserAuthenticationSerializer(serializers.Serializer):
         return value.lower()
 
 
-class IndexSerializer(serializers.Serializer):
-    name = serializers.CharField(required=True, allow_blank=False, max_length=255)
-    datasets = serializers.ListField(child=serializers.DictField())
-    aggregation_period = serializers.CharField(required=True, allow_blank=True, max_length=255)
-    correlation_metric = serializers.CharField(required=True, allow_blank=True, max_length=255)
+class IndexDatasetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IndexDataset
+        fields = ['dataset', 'weight']
 
-    def validate_name(self, value: str):
-        return value.lower()
+
+class IndexSerializer(serializers.ModelSerializer):
+    index_datasets = IndexDatasetSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Index
+        fields = ['id', 'name', 'user', 'aggregation_period', 'correlation_metric', 'created_at', 'datasets']
+
+    def create(self, validated_data):
+        index_datasets_data = validated_data.pop('index_datasets')
+        index = Index.objects.create(**validated_data)
+        for index_dataset_data in index_datasets_data:
+            IndexDataset.objects.create(index=index, **index_dataset_data)
+        return index

@@ -126,8 +126,14 @@ class SaveIndexView(APIView):
         name: str = request.data.get("name", "")
         aggregation_period: str = request.data.get("aggregation_period", "")
         correlation_metric: str = request.data.get("correlation_metric", "")
+        
+        index = Index.objects.create(
+            name=name,
+            user=user,
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+        )
 
-        datasets_list = []
         for dataset in datasets:
             external_name = dataset.get("title", "")
             weight = dataset.get("weight", 0.0)
@@ -136,16 +142,12 @@ class SaveIndexView(APIView):
             if dataset is None:
                 return Response({"message": "Dataset not found"}, status=404)
             
-            IndexDataset.objects.create(dataset=dataset, weight=weight)
-            datasets_list.append(dataset)
-            
-        Index.objects.create(
-            name=name,
-            user=user,
-            datasets=datasets_list,
-            aggregation_period=aggregation_period,
-            correlation_metric=correlation_metric,
-        )
+            IndexDataset.objects.create(
+                dataset=dataset,
+                weight=weight,
+                index=index,
+            )
+
         return Response({"message": "Index saved"})
 
 
@@ -155,5 +157,5 @@ class GetIndexView(APIView):
     def get(self, request: Request) -> HttpResponse:
         user = request.user
         indices = Index.objects.filter(user=user)
-        serializer = IndexSerializer(indices, many=True)
-        return Response(serializer.data)
+        index_serializer = IndexSerializer(indices, many=True)
+        return Response(index_serializer.data)
