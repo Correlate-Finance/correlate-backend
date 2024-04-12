@@ -48,6 +48,8 @@ class Index(models.Model):
     name = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     datasets = ArrayField(IndexDataset)
+    aggregation_period = models.CharField(max_length=255)
+    correlation_metric = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

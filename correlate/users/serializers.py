@@ -33,6 +33,8 @@ class UserAuthenticationSerializer(serializers.Serializer):
 class IndexSerializer(serializers.Serializer):
     name = serializers.CharField(required=True, allow_blank=False, max_length=255)
     datasets = serializers.ListField(child=serializers.DictField())
+    aggregation_period = serializers.CharField(required=True, allow_blank=True, max_length=255)
+    correlation_metric = serializers.CharField(required=True, allow_blank=True, max_length=255)
 
     def validate_name(self, value: str):
         return value.lower()

@@ -123,7 +123,9 @@ class SaveIndexView(APIView):
     def post(self, request: Request) -> HttpResponse:
         user = request.user
         datasets: List[dict] = request.data.get("datasets", [])  # type: ignore
-        name: str = request.data.get("name", "")  # type: ignore
+        name: str = request.data.get("name", "")
+        aggregation_period: str = request.data.get("aggregation_period", "")
+        correlation_metric: str = request.data.get("correlation_metric", "")
 
         datasets_list = []
         for dataset in datasets:
@@ -137,7 +139,13 @@ class SaveIndexView(APIView):
             IndexDataset.objects.create(dataset=dataset, weight=weight)
             datasets_list.append(dataset)
             
-        Index.objects.create(name=name, user=user, datasets=datasets_list)
+        Index.objects.create(
+            name=name,
+            user=user,
+            datasets=datasets_list,
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+        )
         return Response({"message": "Index saved"})
 
 
