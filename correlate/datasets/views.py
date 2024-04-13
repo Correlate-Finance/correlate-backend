@@ -443,6 +443,7 @@ class CorrelateInputDataView(APIView):
         correlation_metric = request.GET.get(
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
+        selected_datasets = request.GET.getlist("selected_datasets")
 
         dates: list[str] = test_data["Date"]  # type: ignore
         if len(dates) == 0:
@@ -472,6 +473,7 @@ class CorrelateInputDataView(APIView):
             _show_negatives=show_negatives,
             correlation_metric=correlation_metric,
             test_correlation_metric=CorrelationMetric.RAW_VALUE,
+            selected_datasets=selected_datasets,
         )
 
 
