@@ -31,4 +31,8 @@ urlpatterns = [
         views.GetAllDatasetMetadata.as_view(),
         name="get_all_dataset_metadata",
     ),
+    path("save-index", views.SaveIndexView.as_view(), name="save-index"),
+    path("save-index/", views.SaveIndexView.as_view(), name="save-index"),
+    path("get-index", views.GetIndicesView.as_view(), name="get-index"),
+    path("get-index/", views.GetIndicesView.as_view(), name="get-index"),
 ]

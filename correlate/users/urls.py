@@ -6,8 +6,6 @@ from .views import (
     AddWatchListView,
     WatchlistedView,
     DeleteWatchListView,
-    SaveIndexView,
-    GetIndexView,
 )
 
 urlpatterns = [
@@ -22,8 +20,4 @@ urlpatterns = [
     path("addwatchlist/", AddWatchListView.as_view(), name="add-watchlist"),
     path("deletewatchlist", DeleteWatchListView.as_view(), name="delete-watchlist"),
     path("deletewatchlist/", DeleteWatchListView.as_view(), name="delete-watchlist"),
-    path("save-index", SaveIndexView.as_view(), name="save-index"),
-    path("save-index/", SaveIndexView.as_view(), name="save-index"),
-    path("get-index", GetIndexView.as_view(), name="get-index"),
-    path("get-index/", GetIndexView.as_view(), name="get-index"),
 ]
