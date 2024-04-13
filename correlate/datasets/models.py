@@ -109,7 +109,7 @@ class Dataset(models.Model):
 class Index(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
     aggregation_period = models.CharField(max_length=255)
     correlation_metric = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
