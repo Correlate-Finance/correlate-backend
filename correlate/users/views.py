@@ -11,6 +11,7 @@ from .emails import send_otp_via_email
 import environ
 from datasets import dataset_metadata_orm
 from rest_framework.status import HTTP_403_FORBIDDEN
+from typing import List
 
 
 env = environ.Env()
@@ -63,6 +64,21 @@ class LogoutView(APIView):
             domain=".correlatefinance.com" if not env.bool("LOCAL_DEV") else None,
         )
         return response
+
+
+class WatchlistedView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        user = request.user
+        dataset_names: List[str] = request.data.get("datasets", [])  # type: ignore
+
+        watchlists = WatchList.objects.filter(
+            user=user, dataset__external_name__in=dataset_names
+        ).prefetch_related("dataset")
+        watchlist_map = {w.dataset.external_name: w for w in watchlists}
+        result = [dataset in watchlist_map for dataset in dataset_names]
+        return Response({"watchlisted": result})
 
 
 class AddWatchListView(APIView):

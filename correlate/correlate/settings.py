@@ -17,7 +17,6 @@ import environ
 
 import sentry_sdk
 import warnings
-from datadog import initialize
 
 
 # Ignore pandas warnings
@@ -45,9 +44,6 @@ sentry_sdk.init(
     profiles_sample_rate=1.0,
     environment="development" if LOCAL_DEV else "production",
 )
-
-options = {"statsd_host": "127.0.0.1", "statsd_port": 8125}
-initialize(**options)
 
 
 # Quick-start development settings - unsuitable for production
@@ -196,5 +192,5 @@ EMAIL_TIMEOUT = 15
 FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
 EIA_API_KEY = env.str("EIA_API_KEY", default="")  # type:ignore
 
-# Flags
-USE_POSTGRES_DATASETS = env.bool("USE_POSTGRES_DATASETS", default=False)  # type:ignore
+# Rust Engine
+RUST_ENGINE_URL = env.str("RUST_ENGINE_URL", default="https://api2.correlatefinance.com")  # type:ignore

@@ -19,7 +19,7 @@ TEST_ALL_FACETS_RESPONSE = {
         ],
     },
     "request": {
-        "command": "\/v2\/total-energy\/facet\/msn\/",  # type: ignore
+        "command": "",
         "params": {"api_key": "3zjKYxV86AqtJWSRoAECir1wQFscVu6lxXnRVKG8"},
     },
     "apiVersion": "2.1.6",

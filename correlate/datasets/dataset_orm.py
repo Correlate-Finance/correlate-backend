@@ -1,43 +1,34 @@
 from .models import DatasetMetadata, Dataset
-from datetime import datetime
+from datetime import datetime, UTC
 import openpyxl
 from django.core.files.uploadedfile import UploadedFile
 import pytz
 import pandas as pd
 from dateutil.parser import parse
 from frozendict import frozendict
-from django.conf import settings
 from core.data_processing import transform_data_base
-from datasets.mongo_operations import (
-    get_all_mongo_dfs,
-    get_mongo_df,
-)
-from ddtrace import tracer
 
 CACHED_DFS = None
 
 
-def add_dataset(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
-    total_new = 0
-    for record in records:
-        date = record[0]
-        value = record[1]
-        _, created = Dataset.objects.get_or_create(
-            metadata=metadata, date=date, value=value
-        )
-        if created:
-            total_new += 1
-
-    return total_new
-
-
 def add_dataset_bulk(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
     to_add = []
+
+    existing_datasets = Dataset.objects.filter(metadata=metadata).values_list(
+        "date", "value"
+    )
+    existing_ds_map = {ds[0]: ds[1] for ds in existing_datasets}
     for record in records:
         date = record[0]
+        date = date.replace(tzinfo=UTC)
         value = record[1]
+
+        if existing_ds_map.get(date, None) == value:
+            # Record already exists skip
+            continue
+
         to_add.append(Dataset(metadata=metadata, date=date, value=value))
-    added = len(Dataset.objects.bulk_create(to_add))
+    added = len(Dataset.objects.bulk_create(to_add, ignore_conflicts=True))
     return added
 
 
@@ -53,7 +44,15 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
         dataset: list[tuple[datetime, float]] = []
         data_start = False
         for row in sheet.iter_rows():
-            if row[0].value == "Date" and row[1].value == "Value":
+            col1 = row[0].value
+            col2 = row[1].value
+
+            if (
+                isinstance(col1, str)
+                and col1.lower() == "date"
+                and isinstance(col2, str)
+                and col2.lower() == "value"
+            ):
                 data_start = True  # Found the dataset header
                 continue
 
@@ -66,7 +65,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
                     metadata[key] = value
 
             else:
-                raw_date, value = str(row[0].value), row[1].value
+                raw_date, value = str(col1), col2
 
                 if raw_date and value:  # Check if both date and value are present
                     date = (
@@ -76,26 +75,25 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
                     )
                     dataset.append((date, float(value)))  # type:ignore
 
-                if not row[0].value and not row[1].value:
+                if not col1 and not col2:
                     # Stop parsing if we find an empty row after the dataset
                     break
 
         dataset_metadata, created = DatasetMetadata.objects.get_or_create(
             internal_name=sheet.title,
             defaults=dict(
-                external_name=metadata.get("Title", None),
+                external_name=metadata.get("Title", sheet.title),
                 source=metadata.get("Source", None),
                 description=metadata.get("Description", None),
             ),
         )
 
-        total_new = add_dataset(dataset, dataset_metadata)
+        total_new = add_dataset_bulk(dataset, dataset_metadata)
         results.append((sheet.title, created, total_new))
     return results
 
 
-@tracer.wrap("get_all_postgres_dfs")
-def get_all_postgres_dfs(
+def get_all_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
     global CACHED_DFS
@@ -118,9 +116,9 @@ def get_all_postgres_dfs(
         ).prefetch_related("metadata")
     else:
         dataset_metadatas = (
-            DatasetMetadata.objects.all()
+            DatasetMetadata.objects.filter(hidden=False)
             .order_by("created_at")
-            .values_list("id", flat=True)[:2000]
+            .values_list("id", flat=True)
         )
         datasets = Dataset.objects.filter(
             metadata_id__in=dataset_metadatas
@@ -142,8 +140,7 @@ def get_all_postgres_dfs(
     return frozendict(dfs)
 
 
-@tracer.wrap("get_postgres_df")
-def get_postgres_df(title: str) -> pd.DataFrame | None:
+def get_df(title: str) -> pd.DataFrame | None:
     if CACHED_DFS:
         return CACHED_DFS.get(title)
     dataset = list(Dataset.objects.filter(metadata__internal_name=title).all())
@@ -151,21 +148,3 @@ def get_postgres_df(title: str) -> pd.DataFrame | None:
         return None
     data = [(d.date, d.value) for d in dataset]
     return pd.DataFrame(data, columns=["Date", "Value"])
-
-
-def get_all_dfs(
-    selected_names: list[str] | None = None,
-) -> frozendict[str, pd.DataFrame]:
-    return (
-        get_all_postgres_dfs(selected_names)
-        if settings.USE_POSTGRES_DATASETS
-        else get_all_mongo_dfs(selected_names)
-    )
-
-
-def get_df(title: str) -> pd.DataFrame | None:
-    return (
-        get_postgres_df(title)
-        if settings.USE_POSTGRES_DATASETS
-        else get_mongo_df(title)
-    )

@@ -32,4 +32,4 @@ jobs:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
         run: |
           cd correlate
-          python manage.py test # run the tests
+          pytest # run the tests

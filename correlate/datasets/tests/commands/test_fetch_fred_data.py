@@ -51,7 +51,7 @@ class CommandTest(TransactionTestCase):
     @patch("datasets.management.commands.fetch_fred_data.fetch_fred_metadata")
     def test_command(self, mock_fetch_metadata: MagicMock, mock_fetch_data: MagicMock):
         # Setup mock responses
-        mock_fetch_data.return_value = [("2020-01-01", 100.0)]
+        mock_fetch_data.return_value = [(datetime(year=2020, month=1, day=1), 100.0)]
         mock_fetch_metadata.return_value = {
             "title": "Test Title",
             "notes": "Description",

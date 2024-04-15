@@ -6,7 +6,7 @@ import re
 VALID_DATE_PATTERNS = {
     # 2014Q1 -> Accepted pattern, do nothing
     r"^(\d{4})Q([1-4])": {
-        "processor": lambda x: x,
+        "processor": lambda match: match.group(1) + "Q" + match.group(2),
         "year_extractor": lambda match: match.group(1),
     },
     # Q1'14 -> Convert to 2014Q1

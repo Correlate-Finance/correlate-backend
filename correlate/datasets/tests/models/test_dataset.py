@@ -1,6 +1,6 @@
 from django.test import TransactionTestCase
 from datasets.models import Dataset, DatasetMetadata
-from datetime import datetime
+from datetime import datetime, UTC
 from django.core.exceptions import ValidationError
 
 
@@ -9,9 +9,9 @@ class DatasetModelTest(TransactionTestCase):
         # Set up non-modified objects used by all test methods
         self.metadata = DatasetMetadata.objects.create(internal_name="Test Metadata")
         Dataset.objects.create(
-            metadata=self.metadata, date=datetime.utcnow(), value=123.45
+            metadata=self.metadata, date=datetime.now(UTC), value=123.45
         )
-        self.date = datetime.utcnow()
+        self.date = datetime.now(UTC)
 
     def test_metadata_label(self):
         dataset = Dataset.objects.get(metadata=self.metadata)

@@ -6,12 +6,10 @@ import re
 import numpy as np
 from datetime import datetime
 from datasets.models import CorrelationMetric, AggregationPeriod
-from ddtrace import tracer
 from pandas.core.dtypes.dtypes import DatetimeTZDtype
 from datasets.lib import VALID_DATE_PATTERNS
 
 
-@tracer.wrap("transform_data_base")
 def transform_data_base(df: pd.DataFrame):
     if df.empty:
         return df
@@ -23,7 +21,35 @@ def transform_data_base(df: pd.DataFrame):
     df["Value"] = df["Value"].astype(float)  # Convert to float
 
 
-@tracer.wrap("transform_data")
+def transform_metric(
+    df: pd.DataFrame,
+    time_increment: AggregationPeriod,
+    correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
+) -> pd.DataFrame:
+    if df.empty:
+        return df
+
+    # Always sort to make sure that dates are sorted in ascending order
+    df = df.sort_values("Date")
+
+    # Quarterly
+    if time_increment == AggregationPeriod.QUARTERLY:
+        if correlation_metric == CorrelationMetric.YOY_GROWTH:
+            df["Value"] = df["Value"].pct_change(periods=4)
+
+    # Annually
+    elif time_increment == AggregationPeriod.ANNUALLY:
+        if correlation_metric == CorrelationMetric.YOY_GROWTH:
+            df["Value"] = df["Value"].pct_change(periods=1)
+
+    else:
+        raise ValueError("Invalid time_increment")
+
+    df.replace([np.inf, -np.inf], np.nan, inplace=True)
+    df.dropna(inplace=True)
+    return df
+
+
 def transform_data(
     df: pd.DataFrame,
     time_increment: AggregationPeriod,

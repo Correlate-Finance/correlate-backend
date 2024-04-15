@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand, CommandParser
 from django.conf import settings
 from datasets.models import DatasetMetadata
-from datasets.dataset_orm import add_dataset
+from datasets.dataset_orm import add_dataset_bulk
 import requests
 from datetime import datetime
 import pytz
@@ -141,7 +141,7 @@ def fetch_and_store_eia_series(series_id: str, stdout=None):
         },
     )
 
-    total_new = add_dataset(records, dataset_metadata)
+    total_new = add_dataset_bulk(records, dataset_metadata)
     print(f"Added {total_new} new records to the database")
 
 
