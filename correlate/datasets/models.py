@@ -1,6 +1,7 @@
 from django.db import models
 from pydantic import BaseModel
 from enum import Enum
+from django.contrib.postgres.fields import ArrayField
 
 
 class AggregationPeriod(str, Enum):
@@ -80,6 +81,8 @@ class DatasetMetadata(models.Model):
 
     units = models.CharField(max_length=255, blank=True, null=True)
     units_short = models.CharField(max_length=255, blank=True, null=True)
+
+    tags = ArrayField(models.CharField(max_length=50), null=True, blank=True)
 
     def __str__(self):
         return f"{self.source} -- {self.internal_name}: {self.name}"
