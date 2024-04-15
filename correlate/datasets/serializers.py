@@ -22,7 +22,7 @@ class IndexSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Index
-        fields = ['id', 'name', 'user', 'aggregation_period', 'correlation_metric', 'created_at', 'datasets']
+        fields = ['id', 'name', 'user', 'aggregation_period', 'correlation_metric', 'created_at', 'index_datasets']
 
     def create(self, validated_data):
         index_datasets_data = validated_data.pop('index_datasets')
