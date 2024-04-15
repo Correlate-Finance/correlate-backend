@@ -7,6 +7,7 @@ from django.http import (
     HttpResponseNotFound,
 )
 from rest_framework.request import Request
+from rest_framework.response import Response
 import urllib.parse
 from rest_framework.permissions import IsAuthenticated
 from core.main_logic import correlate_datasets, create_index
@@ -17,7 +18,7 @@ from core.data_trends import (
     calculate_yearly_stacks,
 )
 from datasets.lib import parse_year_from_date
-from datasets.serializers import CorrelateIndexRequestBody
+from datasets.serializers import CorrelateIndexRequestBody, IndexSerializer
 from datasets.dataset_metadata_orm import (
     get_internal_name_from_external_name,
     get_metadata_from_external_name,
@@ -31,8 +32,14 @@ from functools import cache
 import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data, transform_metric
 from datasets.dataset_orm import get_df
-from datasets.models import DatasetMetadata
-from datasets.models import AggregationPeriod, CorrelationMetric, CompanyMetric
+from datasets.models import (
+    DatasetMetadata,
+    AggregationPeriod,
+    CorrelationMetric,
+    CompanyMetric,
+    Index,
+    IndexDataset,
+)
 from collections import defaultdict
 from django.conf import settings
 
@@ -591,3 +598,42 @@ def run_correlations_rust(
     response = requests.post(url + query_string, data=json.dumps(body))
 
     return JsonResponse(response.json())
+
+
+class SaveIndexView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: Request) -> HttpResponse:
+        user = request.user
+        datasets: List[dict] = request.data.get("datasets", [])  # type: ignore
+        name: str = request.data.get("name", "")
+        aggregation_period: str = request.data.get("aggregation_period", "")
+        correlation_metric: str = request.data.get("correlation_metric", "")
+        
+        index = Index.objects.create(
+            name=name,
+            user=user,
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+        )
+
+        IndexDataset.objects.bulk_create([
+            IndexDataset(
+                dataset=get_metadata_from_external_name(dataset.get("title", "")),
+                weight=dataset.get("weight", 0.0),
+                index=index,
+            )
+            for dataset in datasets
+        ])
+
+        return Response({"message": "Index saved"})
+
+
+class GetIndicesView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        user = request.user
+        indices = Index.objects.filter(user=user)
+        index_serializer = IndexSerializer(indices, many=True)
+        return Response(index_serializer.data)
