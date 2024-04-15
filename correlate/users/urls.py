@@ -6,6 +6,9 @@ from .views import (
     AddWatchListView,
     WatchlistedView,
     DeleteWatchListView,
+    SendOTPView,
+    VerifyOTPView,
+    ChangePasswordView,
 )
 
 urlpatterns = [
@@ -20,4 +23,10 @@ urlpatterns = [
     path("addwatchlist/", AddWatchListView.as_view(), name="add-watchlist"),
     path("deletewatchlist", DeleteWatchListView.as_view(), name="delete-watchlist"),
     path("deletewatchlist/", DeleteWatchListView.as_view(), name="delete-watchlist"),
+    path("send-otp", SendOTPView.as_view(), name="send-otp"),
+    path("send-otp/", SendOTPView.as_view(), name="send-otp"),
+    path("verify-otp", VerifyOTPView.as_view(), name="verify-otp"),
+    path("verify-otp/", VerifyOTPView.as_view(), name="verify-otp"),
+    path ("change-password", ChangePasswordView.as_view(), name="change-password"),
+    path ("change-password/", ChangePasswordView.as_view(), name="change-password"),
 ]
