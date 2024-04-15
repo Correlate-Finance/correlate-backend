@@ -615,19 +615,14 @@ class SaveIndexView(APIView):
             correlation_metric=correlation_metric,
         )
 
-        for dataset in datasets:
-            external_name = dataset.get("title", "")
-            weight = dataset.get("weight", 0.0)
-            dataset = get_metadata_from_external_name(external_name)
-            
-            if dataset is None:
-                return Response({"message": "Dataset not found"}, status=404)
-            
-            IndexDataset.objects.create(
-                dataset=dataset,
-                weight=weight,
+        IndexDataset.objects.bulk_create([
+            IndexDataset(
+                dataset=get_metadata_from_external_name(dataset.get("title", "")),
+                weight=dataset.get("weight", 0.0),
                 index=index,
             )
+            for dataset in datasets
+        ])
 
         return Response({"message": "Index saved"})
 
