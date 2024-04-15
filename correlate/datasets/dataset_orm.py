@@ -1,5 +1,5 @@
 from .models import DatasetMetadata, Dataset
-from datetime import datetime
+from datetime import datetime, UTC
 import openpyxl
 from django.core.files.uploadedfile import UploadedFile
 import pytz
@@ -11,27 +11,24 @@ from core.data_processing import transform_data_base
 CACHED_DFS = None
 
 
-def add_dataset(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
-    total_new = 0
-    for record in records:
-        date = record[0]
-        value = record[1]
-        _, created = Dataset.objects.get_or_create(
-            metadata=metadata, date=date, value=value
-        )
-        if created:
-            total_new += 1
-
-    return total_new
-
-
 def add_dataset_bulk(records: list[tuple[datetime, float]], metadata: DatasetMetadata):
     to_add = []
+
+    existing_datasets = Dataset.objects.filter(metadata=metadata).values_list(
+        "date", "value"
+    )
+    existing_ds_map = {ds[0]: ds[1] for ds in existing_datasets}
     for record in records:
         date = record[0]
+        date = date.replace(tzinfo=UTC)
         value = record[1]
+
+        if existing_ds_map.get(date, None) == value:
+            # Record already exists skip
+            continue
+
         to_add.append(Dataset(metadata=metadata, date=date, value=value))
-    added = len(Dataset.objects.bulk_create(to_add))
+    added = len(Dataset.objects.bulk_create(to_add, ignore_conflicts=True))
     return added
 
 
@@ -91,7 +88,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
             ),
         )
 
-        total_new = add_dataset(dataset, dataset_metadata)
+        total_new = add_dataset_bulk(dataset, dataset_metadata)
         results.append((sheet.title, created, total_new))
     return results
 

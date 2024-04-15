@@ -1,11 +1,11 @@
 from django.test import TransactionTestCase
 from datasets.models import Dataset, DatasetMetadata
 from datasets.dataset_orm import (
-    add_dataset,
+    add_dataset_bulk,
     parse_excel_file_for_datasets,
     get_all_dfs,
 )
-from datetime import datetime
+from datetime import datetime, UTC
 
 from django.test import TestCase
 from io import BytesIO
@@ -23,16 +23,16 @@ class AddDatasetTest(TransactionTestCase):
 
     def test_add_new_dataset(self):
         records = [(datetime(2020, 1, 1), 100.0), (datetime(2020, 1, 2), 200.0)]
-        total_new = add_dataset(records, self.metadata)
+        total_new = add_dataset_bulk(records, self.metadata)
         self.assertEqual(total_new, 2)
         self.assertEqual(Dataset.objects.count(), 2)
 
     def test_add_duplicate_dataset(self):
         records = [(datetime(2020, 1, 1), 100.0)]
-        add_dataset(records, self.metadata)  # First addition
+        add_dataset_bulk(records, self.metadata)  # First addition
 
         # Attempt to add the same record again
-        total_new = add_dataset(records, self.metadata)
+        total_new = add_dataset_bulk(records, self.metadata)
         self.assertEqual(total_new, 0)  # No new record should be added
         self.assertEqual(
             Dataset.objects.count(), 1
@@ -40,7 +40,7 @@ class AddDatasetTest(TransactionTestCase):
 
     def test_mixed_new_and_duplicate_datasets(self):
         Dataset.objects.create(
-            metadata=self.metadata, date=datetime(2020, 1, 1), value=100.0
+            metadata=self.metadata, date=datetime(2020, 1, 1, tzinfo=UTC), value=100.0
         )
 
         records = [
@@ -48,7 +48,7 @@ class AddDatasetTest(TransactionTestCase):
             (datetime(2020, 1, 2), 200.0),  # New
             (datetime(2020, 1, 3), 300.0),  # New
         ]
-        total_new = add_dataset(records, self.metadata)
+        total_new = add_dataset_bulk(records, self.metadata)
         self.assertEqual(total_new, 2)  # Only two new records should be added
         self.assertEqual(
             Dataset.objects.count(), 3
@@ -86,7 +86,7 @@ class ParseExcelFileForDatasetsTest(TestCase):
         self.assertTrue(results[0][1])  # created should be True
         self.assertEqual(results[0][2], 2)  # total_new should be 2
 
-        # Verify that add_dataset was called with the correct arguments
+        # Verify that add_dataset_bulk was called with the correct arguments
         expected_dataset = [
             (datetime(2020, 1, 1, tzinfo=pytz.utc), 123.45),
             (datetime(2020, 1, 2, tzinfo=pytz.utc), 678.90),

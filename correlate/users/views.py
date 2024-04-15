@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework.permissions import IsAuthenticated
 from .models import User, WatchList, Allowlist
+from .emails import send_otp_via_email
 import environ
 from datasets import dataset_metadata_orm
 from rest_framework.status import HTTP_403_FORBIDDEN
@@ -115,3 +116,34 @@ class DeleteWatchListView(APIView):
             )
 
         return Response({"message": "Deleted from watchlist"})
+
+class SendOTPView(APIView):
+    def post(self, request: Request) -> HttpResponse:
+        email = request.data.get("email", "")
+        if User.objects.filter(email=email).exists():
+            send_otp_via_email(email)
+        return Response({"message": "OTP sent via email"})
+
+class VerifyOTPView(APIView):
+    def post(self, request: Request) -> HttpResponse:
+        email = request.data.get("email", "")
+        otp = request.data.get("otp", "")   
+        user = User.objects.filter(email=email).first()
+        if not user or user.otp != otp:
+            return Response({"message": "OTP is incorrect"}, status=400)
+
+        return Response({"message": "OTP is correct"})
+
+class ChangePasswordView(APIView):
+    def post(self, request: Request) -> HttpResponse:
+        email = request.data.get("email", "")
+        password = request.data.get("password", "")
+        if not password:
+            return Response({"message": "Password is required"}, status=400)
+        try:
+            user = User.objects.get(email=email)
+            user.set_password(password)
+            user.save()
+        except User.DoesNotExist:
+            return Response({"message": "User not found"}, status=404)
+        return Response({"message": "Password changed"})

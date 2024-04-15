@@ -1,6 +1,7 @@
 from django.db import models
 from pydantic import BaseModel
 from enum import Enum
+from django.contrib.postgres.fields import ArrayField
 
 
 class AggregationPeriod(str, Enum):
@@ -49,7 +50,16 @@ class CorrelateData(BaseModel):
     fiscalYearEnd: str = "December"
 
 
-# Create your models here.
+class Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(null=True, blank=True)
+    popularity = models.IntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f"{self.name} -- {self.description}"
+
+
 class DatasetMetadata(models.Model):
     class Categories(models.TextChoices):
         DEFENSE = "DEFENSE", "Defense"
@@ -80,6 +90,8 @@ class DatasetMetadata(models.Model):
 
     units = models.CharField(max_length=255, blank=True, null=True)
     units_short = models.CharField(max_length=255, blank=True, null=True)
+
+    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return f"{self.source} -- {self.internal_name}: {self.name}"
