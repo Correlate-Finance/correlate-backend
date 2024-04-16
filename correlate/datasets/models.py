@@ -73,6 +73,9 @@ class DatasetMetadata(models.Model):
     )
     description = models.TextField(blank=True, null=True)
     source = models.CharField(max_length=255, blank=True, null=True)
+    url = models.URLField(blank=True, null=True)
+    release = models.CharField(max_length=255, blank=True, null=True)
+
     # For example within FRED we can have BLS as well
     sub_source = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
