@@ -96,7 +96,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
 def parse_metadata_from_excel(excel_file: UploadedFile):
     workbook = openpyxl.load_workbook(filename=excel_file, data_only=True)
     total = 0
-    results = {}
+    results = []
     for sheet in workbook:
         headers = []
         first_row = True
@@ -114,14 +114,18 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
 
             updates = {}
             dm = None
+            name = ""
+            skip_row = False
             for i, cell in enumerate(row):
                 if i == 0:
                     if cell.value is None:
-                        continue
+                        skip_row = True
+                        break
 
                     dm = DatasetMetadata.objects.filter(
                         **{filter_field: cell.value, "hidden": False}
                     )
+                    name = cell.value
 
                 else:
                     if headers[i] == "categories":
@@ -131,18 +135,21 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
                     else:
                         updates[headers[i]] = cell.value
 
+            if skip_row:
+                continue
+
             # Make sure that the Dataset Metadata was correctly fetched
             if dm is None:
-                raise ValueError(f"Invalid row after {total}")
+                results.append((name, "Invalid row"))
             elif dm.count() > 1:
-                raise ValueError(f"Multiple metadata found for {cell.value}")
+                results.append((name, "Multiple metadata found"))
             elif not dm.exists():
-                raise ValueError(f"Metadata not found for {cell.value}")
+                results.append((name, "Metadata not found"))
+            else:
+                dm.update(**updates)
+                total += 1
 
-            dm.update(**updates)
-            total += 1
-
-    return total
+    return [("success", f"Updated {total} metadata records")] + results
 
 
 def get_all_dfs(

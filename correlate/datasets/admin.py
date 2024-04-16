@@ -101,8 +101,14 @@ class DatasetAdmin(admin.ModelAdmin):
             form = ExcelUploadForm(request.POST, request.FILES)
             if form.is_valid():
                 excel_file = request.FILES["excel_file"]
-                total = parse_metadata_from_excel(excel_file)
-                context["message"] = f"Metadata updated for {total} datasets"
+                results = parse_metadata_from_excel(excel_file)
+
+                html = """<div>"""
+                for status, message in results:
+                    html += f"<p style='color: {'green' if status == 'success' else 'red'}'>{message}</p>"
+                html += "</div>"
+
+                context["message"] = html
                 return render(
                     request,
                     "admin/excel_form.html",
