@@ -59,10 +59,10 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
             if not data_start:
                 # Until data starts we keep parsing metadata
                 key, value = [
-                    cell.value for cell in row[:2]
+                    str(cell.value) for cell in row[:2]
                 ]  # Assuming key-value in first two columns
                 if key and value:  # Check if both key and value are present
-                    metadata[key] = value
+                    metadata[key.lower()] = value
 
             else:
                 raw_date, value = str(col1), col2
@@ -82,9 +82,9 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
         dataset_metadata, created = DatasetMetadata.objects.get_or_create(
             internal_name=sheet.title,
             defaults=dict(
-                external_name=metadata.get("Title", sheet.title),
-                source=metadata.get("Source", None),
-                description=metadata.get("Description", None),
+                external_name=metadata.get("name", sheet.title),
+                source=metadata.get("source", None),
+                description=metadata.get("description", None),
             ),
         )
 
