@@ -128,8 +128,8 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
                         updates[headers[i]] = cell.value
 
             # Make sure that the Dataset Metadata was correctly fetched
-            if not dm:
-                raise ValueError("Invalid row")
+            if dm is None:
+                raise ValueError(f"Invalid row after {total}")
             elif dm.count() > 1:
                 raise ValueError(f"Multiple metadata found for {cell.value}")
             elif not dm.exists():
