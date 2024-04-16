@@ -93,6 +93,49 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
     return results
 
 
+def parse_metadata_from_excel(excel_file: UploadedFile):
+    workbook = openpyxl.load_workbook(filename=excel_file, data_only=True)
+    total = 0
+    for sheet in workbook:
+        headers = []
+        first_row = True
+        filter_field = "internal_name"
+        for row in sheet.iter_rows():
+            if first_row:
+                headers = [str(cell.value) for cell in row]
+                first_row = False
+                filter_field = (
+                    "external_name"
+                    if headers[0] == "External Name"
+                    else "internal_name"
+                )
+                continue
+
+            updates = {}
+            dm = None
+            for i, cell in enumerate(row):
+                if i == 0:
+                    dm = DatasetMetadata.objects.filter(
+                        **{filter_field: cell.value, "hidden": False}
+                    )
+
+                else:
+                    updates[headers[i]] = cell.value
+
+            # Make sure that the Dataset Metadata was correctly fetched
+            if not dm:
+                raise ValueError("Invalid row")
+            elif dm.count() > 1:
+                raise ValueError(f"Multiple metadata found for {cell.value}")
+            elif not dm.exists():
+                raise ValueError(f"Metadata not found for {cell.value}")
+
+            dm.update(**updates)
+            total += 1
+
+    return total
+
+
 def get_all_dfs(
     selected_names: list[str] | None = None,
 ) -> frozendict[str, pd.DataFrame]:
