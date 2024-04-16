@@ -50,16 +50,6 @@ class CorrelateData(BaseModel):
     fiscalYearEnd: str = "December"
 
 
-class Tag(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50, unique=True)
-    description = models.TextField(null=True, blank=True)
-    popularity = models.IntegerField(blank=True, null=True)
-
-    def __str__(self):
-        return f"{self.name} -- {self.description}"
-
-
 class DatasetMetadata(models.Model):
     class Categories(models.TextChoices):
         DEFENSE = "DEFENSE", "Defense"
@@ -85,6 +75,10 @@ class DatasetMetadata(models.Model):
     category = models.CharField(
         choices=Categories.choices, max_length=255, blank=True, null=True
     )
+    categories = ArrayField(
+        models.CharField(max_length=100, blank=True, null=True), blank=True, null=True
+    )
+
     high_level = models.BooleanField(default=False)
 
     popularity = models.IntegerField(blank=True, null=True)
@@ -93,8 +87,6 @@ class DatasetMetadata(models.Model):
 
     units = models.CharField(max_length=255, blank=True, null=True)
     units_short = models.CharField(max_length=255, blank=True, null=True)
-
-    tags = models.ManyToManyField(Tag)
 
     def __str__(self):
         return f"{self.source} -- {self.internal_name}: {self.name}"
@@ -130,7 +122,7 @@ class Index(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.email} - {self.dataset.name}"
+        return f"{self.user.email} - {self.name}"
 
 
 class IndexDataset(models.Model):

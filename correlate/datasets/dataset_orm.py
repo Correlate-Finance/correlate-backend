@@ -120,7 +120,12 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
                     )
 
                 else:
-                    updates[headers[i]] = cell.value
+                    if headers[i] == "categories":
+                        updates[headers[i]] = [
+                            category.strip() for category in str(cell.value).split(",")
+                        ]
+                    else:
+                        updates[headers[i]] = cell.value
 
             # Make sure that the Dataset Metadata was correctly fetched
             if not dm:
