@@ -102,11 +102,11 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
         filter_field = "internal_name"
         for row in sheet.iter_rows():
             if first_row:
-                headers = [str(cell.value) for cell in row]
+                headers = [str(cell.value).lower() for cell in row]
                 first_row = False
                 filter_field = (
                     "external_name"
-                    if headers[0] == "External Name"
+                    if headers[0] == "external_name"
                     else "internal_name"
                 )
                 continue
