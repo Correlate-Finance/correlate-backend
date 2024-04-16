@@ -96,6 +96,7 @@ def parse_excel_file_for_datasets(excel_file: UploadedFile):
 def parse_metadata_from_excel(excel_file: UploadedFile):
     workbook = openpyxl.load_workbook(filename=excel_file, data_only=True)
     total = 0
+    results = {}
     for sheet in workbook:
         headers = []
         first_row = True
@@ -115,6 +116,9 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
             dm = None
             for i, cell in enumerate(row):
                 if i == 0:
+                    if cell.value is None:
+                        continue
+
                     dm = DatasetMetadata.objects.filter(
                         **{filter_field: cell.value, "hidden": False}
                     )
