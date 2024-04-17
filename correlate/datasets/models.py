@@ -117,8 +117,8 @@ class Index(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     user = models.ForeignKey("users.User", on_delete=models.CASCADE)
-    aggregation_period = models.CharField(max_length=255)
-    correlation_metric = models.CharField(max_length=255)
+    aggregation_period = models.CharField(max_length=255, blank=True, null=True)
+    correlation_metric = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
