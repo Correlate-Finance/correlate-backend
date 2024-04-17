@@ -103,7 +103,12 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
         filter_field = "internal_name"
         for row in sheet.iter_rows():
             if first_row:
-                headers = [str(cell.value).lower() for cell in row]
+                headers = []
+                for cell in row:
+                    if cell is None:
+                        break
+                    headers.append(str(cell.value).lower())
+
                 first_row = False
                 filter_field = (
                     "external_name"
@@ -116,7 +121,8 @@ def parse_metadata_from_excel(excel_file: UploadedFile):
             dm = None
             name = ""
             skip_row = False
-            for i, cell in enumerate(row):
+            for i in range(len(headers)):
+                cell = row[i]
                 if i == 0:
                     if cell.value is None:
                         skip_row = True
