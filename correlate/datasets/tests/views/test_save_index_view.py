@@ -33,13 +33,13 @@ class SaveIndexViewTests(TestCase):
         }
 
         # Set the token in the request headers
-        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
         response = self.client.post(reverse("save-index"), data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(Index.objects.count(), 1)
         self.assertEqual(IndexDataset.objects.count(), 2)
-        self.assertEqual(response.data, {"message": "Index saved"})
+        self.assertEqual(response.data, {"message": "Index saved"})  # type: ignore
 
     def test_save_index_unauthenticated(self):
         # No token provided, simulating unauthenticated state

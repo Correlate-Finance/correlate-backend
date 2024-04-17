@@ -18,7 +18,11 @@ from core.data_trends import (
     calculate_yearly_stacks,
 )
 from datasets.lib import parse_year_from_date
-from datasets.serializers import CorrelateIndexRequestBody, IndexSerializer
+from datasets.serializers import (
+    CorrelateIndexRequestBody,
+    DatasetMetadataSerializer,
+    IndexSerializer,
+)
 from datasets.dataset_metadata_orm import (
     get_internal_name_from_external_name,
     get_metadata_from_external_name,
@@ -488,13 +492,11 @@ class CorrelateInputDataView(APIView):
 class GetAllDatasetMetadata(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request: Request) -> HttpResponse:
+    def get(self, _: Request) -> HttpResponse:
         metadata = DatasetMetadata.objects.filter(hidden=False)
+        serialized = DatasetMetadataSerializer(metadata, many=True)
         return JsonResponse(
-            [
-                {"series_id": m.internal_name, "title": m.external_name}
-                for m in metadata
-            ],
+            serialized.data,
             safe=False,
         )
 

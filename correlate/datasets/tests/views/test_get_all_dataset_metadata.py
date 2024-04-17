@@ -7,6 +7,8 @@ import json
 
 
 class TestGetAllDatasetMetadata(APITestCase):
+    maxDiff = None
+
     def setUp(self) -> None:
         self.user = User.objects.create(email="testuser", password="testpassword")
         self.token, _ = Token.objects.get_or_create(user=self.user)
@@ -18,6 +20,31 @@ class TestGetAllDatasetMetadata(APITestCase):
             external_name="Title",
             source="Source",
             description="Description",
+            release="Release",
+            url="URL",
+            units="Units",
+            popularity=5,
+        )
+
+        DatasetMetadata.objects.create(
+            internal_name="table_name_2",
+            external_name="Title 2",
+            source="Source",
+            description="Description",
+            release="Release",
+            url="URL",
+            units="Units",
+            popularity=10,
+            categories=["a", "b"],
+        )
+
+        # Should not be displayed
+        DatasetMetadata.objects.create(
+            internal_name="table_name3",
+            external_name="Title 3",
+            source="Source",
+            description="Description",
+            hidden=True,
         )
 
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
@@ -27,5 +54,28 @@ class TestGetAllDatasetMetadata(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
             json_data,
-            [{"series_id": "table_name", "title": "Title"}],
+            [
+                {
+                    "internal_name": "table_name",
+                    "external_name": "Title",
+                    "source": "Source",
+                    "description": "Description",
+                    "release": "Release",
+                    "url": "URL",
+                    "units": "Units",
+                    "popularity": 5,
+                    "categories": None,
+                },
+                {
+                    "internal_name": "table_name_2",
+                    "external_name": "Title 2",
+                    "source": "Source",
+                    "description": "Description",
+                    "release": "Release",
+                    "url": "URL",
+                    "units": "Units",
+                    "popularity": 10,
+                    "categories": ["a", "b"],
+                },
+            ],
         )
