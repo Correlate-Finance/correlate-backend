@@ -7,6 +7,7 @@ from datasets.models import Index, IndexDataset, DatasetMetadata
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
 
+
 class SaveIndexViewTests(TestCase):
     def setUp(self):
         # Create a user and obtain a token
@@ -20,12 +21,15 @@ class SaveIndexViewTests(TestCase):
     @patch("datasets.views.get_metadata_from_external_name")
     def test_save_index_success(self, mock_get_metadata):
         mock_get_metadata.return_value = self.dataset
-        
+
         data = {
-            "name": "Test Index",
+            "index_name": "Test Index",
             "aggregation_period": "Quarterly",
             "correlation_metric": "RAW_VALUE",
-            "datasets": [{"title": "Dataset 1", "weight": 0.5}, {"title": "Dataset 2", "weight": 0.5}]
+            "datasets": [
+                {"title": "Dataset 1", "weight": 0.5},
+                {"title": "Dataset 2", "weight": 0.5},
+            ],
         }
 
         # Set the token in the request headers
@@ -43,7 +47,10 @@ class SaveIndexViewTests(TestCase):
             "name": "Test Index",
             "aggregation_period": "Quarterly",
             "correlation_metric": "RAW_VALUE",
-            "datasets": [{"title": "Dataset 1", "weight": 0.5}, {"title": "Dataset 2", "weight": 0.5}]
+            "datasets": [
+                {"title": "Dataset 1", "weight": 0.5},
+                {"title": "Dataset 2", "weight": 0.5},
+            ],
         }
 
         response = self.client.post(reverse("save-index"), data, format="json")

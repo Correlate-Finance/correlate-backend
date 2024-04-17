@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import DatasetMetadata, Dataset
+from .models import DatasetMetadata, Dataset, Index, IndexDataset
 from datasets.dataset_orm import (
     parse_excel_file_for_datasets,
     parse_metadata_from_excel,
@@ -116,3 +116,7 @@ class DatasetAdmin(admin.ModelAdmin):
                 )
 
         return render(request, "admin/excel_form.html", context)
+
+
+admin.site.register(Index)
+admin.site.register(IndexDataset)

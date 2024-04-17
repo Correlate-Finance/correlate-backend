@@ -63,7 +63,7 @@ class ParseExcelFileForDatasetsTest(TestCase):
         assert sheet
 
         sheet.title = "Test Sheet"
-        sheet.append(["Title", "Test Data Title"])  # type:ignore
+        sheet.append(["Name", "Test Data Title"])  # type:ignore
         sheet.append(["Source", "Test Data Source"])  # type:ignore
         sheet.append(["Description", "Test Data Description"])  # type:ignore
         sheet.append(["Date", "Value"])  # type:ignore

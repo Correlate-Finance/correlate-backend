@@ -42,6 +42,7 @@ from datasets.models import (
 )
 from collections import defaultdict
 from django.conf import settings
+from typing import List
 
 
 @cache
@@ -606,10 +607,14 @@ class SaveIndexView(APIView):
     def post(self, request: Request) -> HttpResponse:
         user = request.user
         datasets: List[dict] = request.data.get("datasets", [])  # type: ignore
-        name: str = request.data.get("name", "")
-        aggregation_period: str = request.data.get("aggregation_period", "")
-        correlation_metric: str = request.data.get("correlation_metric", "")
-        
+        name: str = request.data.get("index_name", "")  # type: ignore
+
+        if name is None or len(name) == 0:
+            return Response({"message": "Index name cannot be empty"}, status=400)
+
+        aggregation_period: str | None = request.data.get("aggregation_period", None)  # type: ignore
+        correlation_metric: str | None = request.data.get("correlation_metric", None)  # type: ignore
+
         index = Index.objects.create(
             name=name,
             user=user,
@@ -617,14 +622,16 @@ class SaveIndexView(APIView):
             correlation_metric=correlation_metric,
         )
 
-        IndexDataset.objects.bulk_create([
-            IndexDataset(
-                dataset=get_metadata_from_external_name(dataset.get("title", "")),
-                weight=dataset.get("weight", 0.0),
-                index=index,
-            )
-            for dataset in datasets
-        ])
+        IndexDataset.objects.bulk_create(
+            [
+                IndexDataset(
+                    dataset=get_metadata_from_external_name(dataset.get("title", "")),
+                    weight=dataset.get("weight", 0.0),
+                    index=index,
+                )
+                for dataset in datasets
+            ]
+        )
 
         return Response({"message": "Index saved"})
 
