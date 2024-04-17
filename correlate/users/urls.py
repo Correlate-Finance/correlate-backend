@@ -18,7 +18,8 @@ urlpatterns = [
     path("login/", LoginView.as_view()),
     path("logout", LogoutView.as_view(), name="logout"),
     path("logout/", LogoutView.as_view(), name="logout"),
-    path("watchlisted", WatchlistedView.as_view(), name="is-clicked"),
+    path("watchlisted", WatchlistedView.as_view(), name="watchlisted"),
+    path("watchlisted/", WatchlistedView.as_view(), name="watchlisted"),
     path("addwatchlist", AddWatchListView.as_view(), name="add-watchlist"),
     path("addwatchlist/", AddWatchListView.as_view(), name="add-watchlist"),
     path("deletewatchlist", DeleteWatchListView.as_view(), name="delete-watchlist"),
@@ -27,6 +28,6 @@ urlpatterns = [
     path("send-otp/", SendOTPView.as_view(), name="send-otp"),
     path("verify-otp", VerifyOTPView.as_view(), name="verify-otp"),
     path("verify-otp/", VerifyOTPView.as_view(), name="verify-otp"),
-    path ("change-password", ChangePasswordView.as_view(), name="change-password"),
-    path ("change-password/", ChangePasswordView.as_view(), name="change-password"),
+    path("change-password", ChangePasswordView.as_view(), name="change-password"),
+    path("change-password/", ChangePasswordView.as_view(), name="change-password"),
 ]

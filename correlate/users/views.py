@@ -69,7 +69,7 @@ class LogoutView(APIView):
 class WatchlistedView(APIView):
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request: Request) -> HttpResponse:
+    def post(self, request: Request) -> HttpResponse:
         user = request.user
         dataset_names: List[str] = request.data.get("datasets", [])  # type: ignore
 
@@ -117,6 +117,7 @@ class DeleteWatchListView(APIView):
 
         return Response({"message": "Deleted from watchlist"})
 
+
 class SendOTPView(APIView):
     def post(self, request: Request) -> HttpResponse:
         email = request.data.get("email", "")
@@ -124,15 +125,17 @@ class SendOTPView(APIView):
             send_otp_via_email(email)
         return Response({"message": "OTP sent via email"})
 
+
 class VerifyOTPView(APIView):
     def post(self, request: Request) -> HttpResponse:
         email = request.data.get("email", "")
-        otp = request.data.get("otp", "")   
+        otp = request.data.get("otp", "")
         user = User.objects.filter(email=email).first()
         if not user or user.otp != otp:
             return Response({"message": "OTP is incorrect"}, status=400)
 
         return Response({"message": "OTP is correct"})
+
 
 class ChangePasswordView(APIView):
     def post(self, request: Request) -> HttpResponse:
