@@ -1,4 +1,5 @@
 import json
+from typing import List
 from rest_framework.views import APIView
 from django.http import (
     HttpResponse,
@@ -627,6 +628,32 @@ class SaveIndexView(APIView):
         ])
 
         return Response({"message": "Index saved"})
+    
+    def put(self, request: Request) -> HttpResponse:
+        user = request.user
+        datasets: List[dict] = request.data.get("datasets", [])
+        name: str = request.data.get("name", "")
+        aggregation_period: str = request.data.get("aggregation_period", "")
+        correlation_metric: str = request.data.get("correlation_metric", "")
+        index_id: int = request.data.get("id", 0)
+
+        index = Index.objects.get(user=user, id=index_id)
+        index.name = name
+        index.aggregation_period = aggregation_period
+        index.correlation_metric = correlation_metric
+        index.save()
+
+        IndexDataset.objects.filter(index=index).delete()
+        IndexDataset.objects.bulk_create([
+            IndexDataset(
+                dataset=get_metadata_from_external_name(dataset.get("title", "")),
+                weight=dataset.get("weight", 0.0),
+                index=index,
+            )
+            for dataset in datasets
+        ])
+        
+        return Response({"message": "Index updated"})
 
 
 class GetIndicesView(APIView):
