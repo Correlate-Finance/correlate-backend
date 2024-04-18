@@ -35,4 +35,9 @@ urlpatterns = [
     path("save-index/", views.SaveIndexView.as_view(), name="save-index"),
     path("get-indices", views.GetIndicesView.as_view(), name="get-indices"),
     path("get-indices/", views.GetIndicesView.as_view(), name="get-indices"),
+    path(
+        "get-dataset-filters",
+        views.GetDatasetFilters.as_view(),
+        name="get-dataset-filters",
+    ),
 ]

@@ -35,7 +35,7 @@ from datetime import datetime
 from functools import cache
 import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data, transform_metric
-from datasets.dataset_orm import get_df
+from datasets.dataset_orm import get_dataset_filters, get_df
 from datasets.models import (
     DatasetMetadata,
     AggregationPeriod,
@@ -646,3 +646,11 @@ class GetIndicesView(APIView):
         indices = Index.objects.filter(user=user)
         index_serializer = IndexSerializer(indices, many=True)
         return Response(index_serializer.data)
+
+
+class GetDatasetFilters(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, _: Request) -> HttpResponse:
+        filters = get_dataset_filters()
+        return JsonResponse(filters)

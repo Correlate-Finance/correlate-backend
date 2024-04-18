@@ -159,3 +159,37 @@ class GetAllDatasetDfsTest(TransactionTestCase):
         df2 = dfs["Test Data 2"]
         self.assertIsInstance(df2, pd.DataFrame)
         self.assertEqual(len(df2), 1)  # One row for 'Test Data 2'
+
+
+class GetDatasetFiltersTest(TransactionTestCase):
+    def setUp(self):
+        DatasetMetadata.objects.create(
+            internal_name="Test Data 1",
+            source="Source 1",
+            release="Release 1",
+            categories=["Category 1", "Category 2"],
+        )
+        DatasetMetadata.objects.create(
+            internal_name="Test Data 2",
+            source="Source 2",
+            release="Release 2",
+            categories=["Category 3", "Category 2"],
+        )
+        DatasetMetadata.objects.create(
+            internal_name="Test Data 3",
+            source="Source 3",
+            categories=["Category 1"],
+        )
+
+    def test_get_dataset_filters(self):
+        # Call the function
+        filters = dataset_orm.get_dataset_filters()
+
+        # Verify the filters
+        self.assertEqual(
+            set(filters["source"]), set(["Source 1", "Source 2", "Source 3"])
+        )
+        self.assertEqual(set(filters["release"]), set(["Release 1", "Release 2"]))
+        self.assertEqual(
+            set(filters["categories"]), set(["Category 1", "Category 2", "Category 3"])
+        )

@@ -7,6 +7,8 @@ import pandas as pd
 from dateutil.parser import parse
 from frozendict import frozendict
 from core.data_processing import transform_data_base
+from functools import cache
+from django.db.models import Func, F
 
 CACHED_DFS = None
 
@@ -213,3 +215,30 @@ def get_df(title: str) -> pd.DataFrame | None:
         return None
     data = [(d.date, d.value) for d in dataset]
     return pd.DataFrame(data, columns=["Date", "Value"])
+
+
+@cache
+def get_dataset_filters():
+    unique_sources = (
+        DatasetMetadata.objects.filter(hidden=False)
+        .values_list("source", flat=True)
+        .distinct()
+    )
+    unique_releases = (
+        DatasetMetadata.objects.filter(hidden=False)
+        .values_list("release", flat=True)
+        .distinct()
+    )
+    unique_categories = (
+        DatasetMetadata.objects.filter(hidden=False)
+        .annotate(categories_elm=Func(F("categories"), function="unnest"))
+        .values_list("categories_elm", flat=True)
+        .distinct()
+    )
+
+    filters = {
+        "source": [s for s in unique_sources if s is not None],
+        "release": [r for r in unique_releases if r is not None],
+        "categories": [c for c in unique_categories if c is not None],
+    }
+    return filters
