@@ -28,14 +28,19 @@ from datasets.dataset_metadata_orm import (
     get_metadata_from_external_name,
     get_metadata_from_name,
 )
-from datasets.models import CorrelateData
+from datasets.models import CorrelateData, CorrelateDataPoint
 import requests
 import calendar
 from datetime import datetime
 from functools import cache
 from django.db import transaction
 import pandas as pd
-from core.data_processing import parse_input_dataset, transform_data, transform_metric
+from core.data_processing import (
+    parse_input_dataset,
+    transform_data,
+    transform_metric,
+    transform_quarterly,
+)
 from datasets.dataset_orm import get_dataset_filters, get_df
 from datasets.models import (
     DatasetMetadata,
@@ -365,6 +370,8 @@ class CorrelateView(APIView):
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
         selected_datasets = request.GET.getlist("selected_datasets")
+        selected_indexes = request.GET.getlist("selected_indexes")
+
         try:
             company_metric = CompanyMetric[request.GET.get("company_metric", "REVENUE")]
         except KeyError:
@@ -394,8 +401,8 @@ class CorrelateView(APIView):
             return JsonResponse(
                 CorrelateData(
                     data=[],
-                    aggregationPeriod=aggregation_period,
-                    correlationMetric=correlation_metric,
+                    aggregation_period=aggregation_period,
+                    correlation_metric=correlation_metric,
                 ).model_dump()
             )
 
@@ -421,18 +428,27 @@ class CorrelateView(APIView):
                 correlation_metric=correlation_metric,
             )
 
-        return run_correlations_rust(
-            aggregation_period=aggregation_period,
-            fiscal_end_month=fiscal_end_month,
-            test_df=test_df,
-            test_data=test_data,
-            lag_periods=lag_periods,
-            _high_level_only=high_level_only,
-            _show_negatives=show_negatives,
-            correlation_metric=correlation_metric,
-            test_correlation_metric=correlation_metric,
-            selected_datasets=selected_datasets,
-        )
+        if selected_indexes:
+            return correlate_indexes(
+                indexes=list(Index.objects.filter(id__in=selected_indexes)),
+                aggregation_period=aggregation_period,
+                correlation_metric=correlation_metric,
+                fiscal_end_month=fiscal_end_month,
+                test_df=test_df,
+            )
+        else:
+            return run_correlations_rust(
+                aggregation_period=aggregation_period,
+                fiscal_end_month=fiscal_end_month,
+                test_df=test_df,
+                test_data=test_data,
+                lag_periods=lag_periods,
+                _high_level_only=high_level_only,
+                _show_negatives=show_negatives,
+                correlation_metric=correlation_metric,
+                test_correlation_metric=correlation_metric,
+                selected_datasets=selected_datasets,
+            )
 
 
 class CorrelateInputDataView(APIView):
@@ -457,6 +473,7 @@ class CorrelateInputDataView(APIView):
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
         selected_datasets = request.GET.getlist("selected_datasets")
+        selected_indexes = request.GET.getlist("selected_indexes")
 
         dates: list[str] = test_data["Date"]  # type: ignore
         if len(dates) == 0:
@@ -476,18 +493,27 @@ class CorrelateInputDataView(APIView):
                 fiscal_end_month=fiscal_end_month,
             )
 
-        return run_correlations_rust(
-            aggregation_period,
-            fiscal_end_month,
-            test_df=test_df,
-            test_data=test_data,
-            lag_periods=lag_periods,
-            _high_level_only=high_level_only,
-            _show_negatives=show_negatives,
-            correlation_metric=correlation_metric,
-            test_correlation_metric=CorrelationMetric.RAW_VALUE,
-            selected_datasets=selected_datasets,
-        )
+        if selected_indexes:
+            return correlate_indexes(
+                indexes=list(Index.objects.filter(id__in=selected_indexes)),
+                aggregation_period=aggregation_period,
+                correlation_metric=correlation_metric,
+                fiscal_end_month=fiscal_end_month,
+                test_df=test_df,
+            )
+        else:
+            return run_correlations_rust(
+                aggregation_period,
+                fiscal_end_month,
+                test_df=test_df,
+                test_data=test_data,
+                lag_periods=lag_periods,
+                _high_level_only=high_level_only,
+                _show_negatives=show_negatives,
+                correlation_metric=correlation_metric,
+                test_correlation_metric=CorrelationMetric.RAW_VALUE,
+                selected_datasets=selected_datasets,
+            )
 
 
 class GetAllDatasetMetadata(APIView):
@@ -503,7 +529,7 @@ class GetAllDatasetMetadata(APIView):
 
 
 class CorrelateIndex(APIView):
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request: Request) -> HttpResponse:
         body = request.body
@@ -556,10 +582,48 @@ class CorrelateIndex(APIView):
         return JsonResponse(
             CorrelateData(
                 data=results,
-                aggregationPeriod=aggregation_period,
-                correlationMetric=correlation_metric,
+                aggregation_period=aggregation_period,
+                correlation_metric=correlation_metric,
             ).model_dump()
         )
+
+
+def correlate_indexes(
+    indexes: list[Index],
+    aggregation_period: AggregationPeriod,
+    correlation_metric: CorrelationMetric,
+    fiscal_end_month: str,
+    test_df: pd.DataFrame,
+) -> HttpResponse:
+    results: list[CorrelateDataPoint] = []
+    if aggregation_period == AggregationPeriod.QUARTERLY:
+        test_df = transform_quarterly(test_df, fiscal_end_month)
+    for index in indexes:
+        index_df = create_index(
+            dataset_weights={
+                index_dataset.dataset.internal_name: index_dataset.weight
+                for index_dataset in IndexDataset.objects.filter(
+                    index=index
+                ).prefetch_related("dataset")
+            },
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+            fiscal_end_month=fiscal_end_month,
+        )
+        if index_df is None:
+            continue
+
+        result = correlate_datasets(df=index_df, test_df=test_df, df_title=index.name)
+        if result:
+            results.extend(result)
+
+    return JsonResponse(
+        CorrelateData(
+            data=results,
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+        ).model_dump()
+    )
 
 
 def run_correlations_rust(

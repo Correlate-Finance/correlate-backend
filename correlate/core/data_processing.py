@@ -50,6 +50,28 @@ def transform_metric(
     return df
 
 
+def transform_quarterly(df, fiscal_end_month):
+    fiscal_month_code = {
+        "December": "Q-DEC",
+        "January": "Q-JAN",
+        "February": "Q-FEB",
+        "March": "Q-MAR",
+        "April": "Q-APR",
+        "May": "Q-MAY",
+        "June": "Q-JUN",
+        "July": "Q-JUL",
+        "August": "Q-AUG",
+        "September": "Q-SEP",
+        "October": "Q-OCT",
+        "November": "Q-NOV",
+    }
+
+    df["Date"] = pd.to_datetime(df["Date"]).dt.to_period(
+        fiscal_month_code[fiscal_end_month]
+    )
+    return df
+
+
 def transform_data(
     df: pd.DataFrame,
     time_increment: AggregationPeriod,

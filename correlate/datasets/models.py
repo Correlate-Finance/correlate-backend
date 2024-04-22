@@ -45,8 +45,8 @@ class CorrelateDataPoint(BaseModel):
 class CorrelateData(BaseModel):
     # These are in camel case since they are sent to the frontend
     data: list[CorrelateDataPoint]
-    aggregationPeriod: AggregationPeriod
-    correlationMetric: str
+    aggregation_period: AggregationPeriod
+    correlation_metric: str
     fiscalYearEnd: str = "December"
 
 
@@ -128,6 +128,8 @@ class Index(models.Model):
 class IndexDataset(models.Model):
     id = models.AutoField(primary_key=True)
     dataset = models.ForeignKey(DatasetMetadata, on_delete=models.CASCADE)
+    dataset_id: int
+
     weight = models.FloatField()
     index = models.ForeignKey(Index, on_delete=models.CASCADE)
 
