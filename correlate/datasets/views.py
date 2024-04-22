@@ -588,66 +588,6 @@ class CorrelateIndex(APIView):
         )
 
 
-class CorrelateIndices(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request: Request) -> HttpResponse:
-        body = request.body
-        body = body.decode("utf-8")
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.QUARTERLY
-        )
-        correlation_metric = request.GET.get(
-            "correlation_metric", CorrelationMetric.RAW_VALUE
-        )
-        fiscal_end_month = request.GET.get("fiscal_year_end", "December")
-
-        request_body = CorrelateIndexRequestBody(**json.loads(body))
-
-        for i in range(len(request_body.index_datasets)):
-            internal_name = get_internal_name_from_external_name(
-                request_body.index_datasets[i]
-            )
-            request_body.index_datasets[i] = internal_name
-
-        test_df = pd.DataFrame(
-            {"Date": request_body.dates, "Value": request_body.input_data}
-        )
-
-        test_df = transform_data(
-            test_df,
-            aggregation_period,
-            correlation_metric=correlation_metric,
-            fiscal_end_month=fiscal_end_month,
-        )
-
-        index = create_index(
-            dataset_weights={
-                request_body.index_datasets[i]: request_body.index_percentages[i]
-                for i in range(len(request_body.index_datasets))
-            },
-            aggregation_period=aggregation_period,
-            correlation_metric=correlation_metric,
-            fiscal_end_month=fiscal_end_month,
-        )
-
-        if index is None:
-            return JsonResponse({"error": "No data available"})
-
-        results = correlate_datasets(
-            df=index, test_df=test_df, df_title=request_body.index_name
-        )
-        if results is None:
-            return JsonResponse({"error": "No data available"})
-        return JsonResponse(
-            CorrelateData(
-                data=results,
-                aggregation_period=aggregation_period,
-                correlation_metric=correlation_metric,
-            ).model_dump()
-        )
-
-
 def correlate_indexes(
     indexes: list[Index],
     aggregation_period: AggregationPeriod,
