@@ -610,7 +610,6 @@ def correlate_indexes(
             correlation_metric=correlation_metric,
             fiscal_end_month=fiscal_end_month,
         )
-        print(len(indexes), index_df)
         if index_df is None:
             continue
 
@@ -618,7 +617,6 @@ def correlate_indexes(
         if result:
             results.extend(result)
 
-    print(results)
     return JsonResponse(
         CorrelateData(
             data=results,
