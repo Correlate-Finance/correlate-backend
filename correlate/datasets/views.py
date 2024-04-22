@@ -33,6 +33,7 @@ import requests
 import calendar
 from datetime import datetime
 from functools import cache
+from django.db import transaction
 import pandas as pd
 from core.data_processing import parse_input_dataset, transform_data, transform_metric
 from datasets.dataset_orm import get_dataset_filters, get_df
@@ -610,6 +611,7 @@ class SaveIndexView(APIView):
         user = request.user
         datasets: List[dict] = request.data.get("datasets", [])  # type: ignore
         name: str = request.data.get("index_name", "")  # type: ignore
+        index_id: int = request.data.get("index_id", None)  # type: ignore
 
         if name is None or len(name) == 0:
             return Response({"message": "Index name cannot be empty"}, status=400)
@@ -628,23 +630,33 @@ class SaveIndexView(APIView):
         if total_weight > 1 or total_weight < 0.99:
             return Response({"message": "Total weight must be between 1"}, status=400)
 
-        index = Index.objects.create(
-            name=name,
-            user=user,
-            aggregation_period=aggregation_period,
-            correlation_metric=correlation_metric,
-        )
-
-        IndexDataset.objects.bulk_create(
-            [
-                IndexDataset(
-                    dataset=get_metadata_from_name(dataset[0]),
-                    weight=dataset[1],
-                    index=index,
+        # Make sure all db actions happen atomically
+        with transaction.atomic():
+            if index_id:
+                index = Index.objects.get(id=index_id)
+                index.name = name
+                index.aggregation_period = aggregation_period
+                index.correlation_metric = correlation_metric
+                index.save()
+                IndexDataset.objects.filter(index=index).delete()
+            else:
+                index = Index.objects.create(
+                    name=name,
+                    user=user,
+                    aggregation_period=aggregation_period,
+                    correlation_metric=correlation_metric,
                 )
-                for dataset in parsed_datasets
-            ]
-        )
+
+            IndexDataset.objects.bulk_create(
+                [
+                    IndexDataset(
+                        dataset=get_metadata_from_name(dataset[0]),
+                        weight=dataset[1],
+                        index=index,
+                    )
+                    for dataset in parsed_datasets
+                ]
+            )
 
         return Response({"message": "Index saved"})
 
