@@ -617,6 +617,17 @@ class SaveIndexView(APIView):
         aggregation_period: str | None = request.data.get("aggregation_period", None)  # type: ignore
         correlation_metric: str | None = request.data.get("correlation_metric", None)  # type: ignore
 
+        try:
+            parsed_datasets = [
+                (dataset["title"], dataset["percentage"]) for dataset in datasets
+            ]
+        except KeyError:
+            return Response({"message": "Invalid dataset format"}, status=400)
+
+        total_weight = sum([float(dataset[1]) for dataset in parsed_datasets])
+        if total_weight > 1 or total_weight < 0.99:
+            return Response({"message": "Total weight must be between 1"}, status=400)
+
         index = Index.objects.create(
             name=name,
             user=user,
@@ -627,11 +638,11 @@ class SaveIndexView(APIView):
         IndexDataset.objects.bulk_create(
             [
                 IndexDataset(
-                    dataset=get_metadata_from_external_name(dataset.get("title", "")),
-                    weight=dataset.get("weight", 0.0),
+                    dataset=get_metadata_from_name(dataset[0]),
+                    weight=dataset[1],
                     index=index,
                 )
-                for dataset in datasets
+                for dataset in parsed_datasets
             ]
         )
 

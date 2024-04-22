@@ -17,18 +17,18 @@ class SaveIndexViewTests(TestCase):
         self.dataset = DatasetMetadata.objects.create(
             internal_name="Dataset 1", description="Sample dataset"
         )
+        self.dataset2 = DatasetMetadata.objects.create(
+            internal_name="Dataset 2", description="Sample dataset"
+        )
 
-    @patch("datasets.views.get_metadata_from_external_name")
-    def test_save_index_success(self, mock_get_metadata):
-        mock_get_metadata.return_value = self.dataset
-
+    def test_save_index_success(self):
         data = {
             "index_name": "Test Index",
             "aggregation_period": "Quarterly",
             "correlation_metric": "RAW_VALUE",
             "datasets": [
-                {"title": "Dataset 1", "weight": 0.5},
-                {"title": "Dataset 2", "weight": 0.5},
+                {"title": "Dataset 1", "percentage": "0.5"},
+                {"title": "Dataset 2", "percentage": "0.5"},
             ],
         }
 
@@ -37,8 +37,12 @@ class SaveIndexViewTests(TestCase):
         response = self.client.post(reverse("save-index"), data, format="json")
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(Index.objects.count(), 1)
-        self.assertEqual(IndexDataset.objects.count(), 2)
+        self.assertEqual(Index.objects.all().count(), 1)
+        self.assertEqual(IndexDataset.objects.all().count(), 2)
+        self.assertEqual(
+            list(IndexDataset.objects.all().values_list("weight", flat=True)),
+            [0.5, 0.5],
+        )
         self.assertEqual(response.data, {"message": "Index saved"})  # type: ignore
 
     def test_save_index_unauthenticated(self):

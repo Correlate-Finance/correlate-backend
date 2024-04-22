@@ -12,13 +12,23 @@ class CorrelateIndexRequestBody(BaseModel):
 
 
 class IndexDatasetSerializer(serializers.ModelSerializer):
+    dataset = serializers.SerializerMethodField()
+
+    def get_dataset(self, obj: IndexDataset):
+        return DatasetMetadataSerializer(obj.dataset).data
+
     class Meta:
         model = IndexDataset
         fields = ["dataset", "weight"]
 
 
 class IndexSerializer(serializers.ModelSerializer):
-    index_datasets = IndexDatasetSerializer(many=True, read_only=True)
+    index_datasets = serializers.SerializerMethodField()
+
+    def get_index_datasets(self, obj: Index):
+        return IndexDatasetSerializer(
+            IndexDataset.objects.filter(index=obj).all(), many=True
+        ).data
 
     class Meta:
         model = Index
