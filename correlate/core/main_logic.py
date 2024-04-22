@@ -122,7 +122,6 @@ def create_index(
     if len(dataset_weights) == 0:
         return None
     dfs = get_all_dfs(selected_names=list(dataset_weights.keys()))
-
     if len(dfs) == 0:
         return None
 
@@ -141,4 +140,4 @@ def create_index(
         transformed_df["Value"] = transformed_df["Value"] * dataset_weights[title]
         dfs_to_concat.append(transformed_df)
 
-    return pd.concat(dfs_to_concat, join="inner").groupby("Date").sum()
+    return pd.concat(dfs_to_concat, join="inner").groupby("Date").sum().reset_index()
