@@ -2,7 +2,7 @@
 This script runs pairwise correlations against all datasets and calculates clusters as well as average correlation of a dataset against other datasets.
 """
 
-from datasets.dataset_orm import (
+from datasets.orm.dataset_orm import (
     get_all_dfs,
 )
 from core.main_logic import calculate_correlation

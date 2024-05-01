@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from .models import User, WatchList, Allowlist
 from .emails import send_otp_via_email
 import environ
-from datasets import dataset_metadata_orm
+from datasets.orm import dataset_metadata_orm
 from rest_framework.status import HTTP_403_FORBIDDEN
 from typing import List
 
