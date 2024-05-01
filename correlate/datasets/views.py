@@ -17,6 +17,10 @@ from core.data_trends import (
     calculate_year_over_year_growth,
     calculate_yearly_stacks,
 )
+from datasets.orm.correlation_orm import (
+    insert_automatic_correlation,
+    insert_manual_correlation,
+)
 from datasets.lib import parse_year_from_date
 from datasets.serializers import (
     CorrelateIndexRequestBody,
@@ -377,7 +381,7 @@ class CorrelateView(APIView):
         except KeyError:
             return HttpResponseBadRequest("Invalid company metric")
 
-        segment = request.GET.get("segment", None)
+        segment: str | None = request.GET.get("segment", None)
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
@@ -437,6 +441,17 @@ class CorrelateView(APIView):
                 test_df=test_df,
             )
         else:
+            insert_automatic_correlation(
+                stock_ticker=stock,
+                start_year=start_year,
+                end_year=end_year,
+                aggregation_period=aggregation_period,
+                correlation_metric=correlation_metric,
+                lag_periods=lag_periods,
+                fiscal_year_end=fiscal_end_month,
+                company_metric=segment,
+            )
+
             return run_correlations_rust(
                 aggregation_period=aggregation_period,
                 fiscal_end_month=fiscal_end_month,
@@ -502,6 +517,13 @@ class CorrelateInputDataView(APIView):
                 test_df=test_df,
             )
         else:
+            insert_manual_correlation(
+                input_data=test_data,
+                aggregation_period=aggregation_period,
+                correlation_metric=correlation_metric,
+                lag_periods=lag_periods,
+                fiscal_year_end=fiscal_end_month,
+            )
             return run_correlations_rust(
                 aggregation_period,
                 fiscal_end_month,

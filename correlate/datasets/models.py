@@ -13,6 +13,24 @@ class AggregationPeriod(str, Enum):
 AggregationPeriodChoices = tuple((size.value, size.name) for size in AggregationPeriod)
 
 
+class Month(str, Enum):
+    JANUARY = "January"
+    FEBRUARY = "February"
+    MARCH = "March"
+    APRIL = "April"
+    MAY = "May"
+    JUNE = "June"
+    JULY = "July"
+    AUGUST = "August"
+    SEPTEMBER = "September"
+    OCTOBER = "October"
+    NOVEMBER = "November"
+    DECEMBER = "December"
+
+
+MonthChoices = tuple((size.value, size.name) for size in Month)
+
+
 class CorrelationMetric(str, Enum):
     RAW_VALUE = "RAW_VALUE"
     YOY_GROWTH = "YOY_GROWTH"
@@ -149,10 +167,9 @@ class Correlation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    ticker = models.CharField(max_length=255)
+    # Common Parameters
     start_year = models.IntegerField()
     end_year = models.IntegerField()
-    company_metric = models.CharField(max_length=255)
     correlation_metric = models.CharField(
         max_length=255, choices=CorrelationMetricChoices
     )
@@ -160,5 +177,13 @@ class Correlation(models.Model):
         max_length=255, choices=AggregationPeriodChoices
     )
     lag_periods = models.IntegerField()
+    fiscal_year_end = models.CharField(
+        max_length=255, blank=True, null=True, choices=MonthChoices
+    )
 
-    input_data = models.JSONField()
+    # Parameters for Automatic Correlations
+    ticker = models.CharField(max_length=255, blank=True, null=True)
+    company_metric = models.CharField(max_length=255, blank=True, null=True)
+
+    # Parameters for Manual Correlations
+    input_data = models.JSONField(null=True, blank=True)

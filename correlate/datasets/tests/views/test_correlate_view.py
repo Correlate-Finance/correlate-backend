@@ -7,7 +7,7 @@ from users.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 import pytest
-from datasets.models import AggregationPeriod, CorrelationMetric
+from datasets.models import AggregationPeriod, Correlation, CorrelationMetric
 
 
 class CorrelateViewTests(APITestCase):
@@ -48,6 +48,7 @@ class CorrelateViewTests(APITestCase):
         params = {
             "stock": "AAPL",
             "start_year": 2020,
+            "end_year": 2021,
             "aggregation_period": AggregationPeriod.ANNUALLY,
             "lag_periods": "3",
             "high_level_only": "true",
@@ -58,7 +59,45 @@ class CorrelateViewTests(APITestCase):
         response = self.client.get(self.url, params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        # Add more tests here to cover different scenarios and parameter combinations
+    @patch(
+        "datasets.views.fetch_stock_data",
+        return_value=({"2020-01-01": 1}, "December"),
+    )
+    @patch(
+        "datasets.views.run_correlations_rust",
+        return_value=JsonResponse({"test": "test"}),
+    )
+    def test_valid_request_creates_correlation(
+        self, mock_fetch_stock_data, mock_run_correlations
+    ):
+        # Test the view with valid parameters
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")  # type: ignore
+        params = {
+            "stock": "AAPL",
+            "start_year": 2020,
+            "end_year": 2021,
+            "aggregation_period": AggregationPeriod.ANNUALLY,
+            "lag_periods": "3",
+            "high_level_only": "true",
+            "show_negatives": "false",
+            "correlation_metric": CorrelationMetric.RAW_VALUE,
+        }
+
+        response = self.client.get(self.url, params)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        correlation_parameters = Correlation.objects.get()
+        self.assertEqual(correlation_parameters.start_year, 2020)
+        self.assertEqual(correlation_parameters.end_year, 2021)
+        self.assertEqual(
+            correlation_parameters.aggregation_period, AggregationPeriod.ANNUALLY
+        )
+        self.assertEqual(correlation_parameters.lag_periods, 3)
+        self.assertEqual(
+            correlation_parameters.correlation_metric, CorrelationMetric.RAW_VALUE
+        )
+        self.assertEqual(correlation_parameters.fiscal_year_end, "December")
+        self.assertEqual(correlation_parameters.ticker, "AAPL")
 
 
 class CorrelateViewGoldenTests(APITestCase):
@@ -75,6 +114,7 @@ class CorrelateViewGoldenTests(APITestCase):
         params = {
             "stock": "AAPL",
             "start_year": 2012,
+            "end_year": 2025,
             "aggregation_period": AggregationPeriod.QUARTERLY,
             "lag_periods": "0",
             "high_level_only": "false",
