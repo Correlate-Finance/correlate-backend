@@ -4,7 +4,7 @@ import pandas as pd
 from django.urls import reverse
 from rest_framework.test import APITestCase
 from users.models import User
-from datasets import dataset_orm
+from datasets.orm import dataset_orm
 import json
 from rest_framework.authtoken.models import Token
 from datasets.models import DatasetMetadata
@@ -52,10 +52,10 @@ class TestRawDatasetView(APITestCase):
         dataset_orm.CACHED_DFS = {}
 
     @patch(
-        "datasets.dataset_metadata_orm.get_metadata_from_external_name",
+        "datasets.orm.dataset_metadata_orm.get_metadata_from_external_name",
         return_value=None,
     )
-    @patch("datasets.dataset_orm.get_df", return_value=None)
+    @patch("datasets.orm.dataset_orm.get_df", return_value=None)
     def test_post_df_does_not_exist(
         self, mock_get_df, mock_get_metadata_from_external_name
     ):

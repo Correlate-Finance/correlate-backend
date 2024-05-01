@@ -23,7 +23,7 @@ from datasets.serializers import (
     DatasetMetadataSerializer,
     IndexSerializer,
 )
-from datasets.dataset_metadata_orm import (
+from datasets.orm.dataset_metadata_orm import (
     get_internal_name_from_external_name,
     get_metadata_from_external_name,
     get_metadata_from_name,
@@ -41,7 +41,7 @@ from core.data_processing import (
     transform_metric,
     transform_quarterly,
 )
-from datasets.dataset_orm import get_dataset_filters, get_df
+from datasets.orm.dataset_orm import get_dataset_filters, get_df
 from datasets.models import (
     DatasetMetadata,
     AggregationPeriod,

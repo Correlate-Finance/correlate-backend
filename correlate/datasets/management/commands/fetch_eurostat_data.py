@@ -7,7 +7,7 @@ import itertools
 import requests
 from datasets.models import DatasetMetadata
 from dateutil import parser
-from datasets.dataset_orm import add_dataset_bulk
+from datasets.orm.dataset_orm import add_dataset_bulk
 
 
 BASE_URL = "http://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
@@ -183,7 +183,12 @@ def get_eurostat_params(datasets):
 
 def update_names():
     d = read_eurostat_csv("./data/Eurostat.csv")
-    ds = {es["Code"]: DatasetMetadata.objects.filter(internal_name__startswtith=es["Code"]) for es in d}
+    ds = {
+        es["Code"]: DatasetMetadata.objects.filter(
+            internal_name__startswtith=es["Code"]
+        )
+        for es in d
+    }
 
     for series_id, dm in ds.items():
         feature_labels = defaultdict(dict)
@@ -191,7 +196,7 @@ def update_names():
         for f in dm:
             desc = f.description
             params = eval(desc.split("\n")[2])
-            for k,v in params.items():
+            for k, v in params.items():
                 features[k].add(v)
 
         querystring = urllib.parse.urlencode(BASE_URL_PARAMS)
@@ -201,17 +206,15 @@ def update_names():
         dimensions = data["dimension"]
         for k, v in dimensions.items():
             for cat, name in v["category"]["label"].items():
-                feature_labels[k][cat] = name            
-            
-        
+                feature_labels[k][cat] = name
+
         for f in dm:
             desc = f.description
             params = eval(desc.split("\n")[2])
             new_name = f.external_name
-            for k,v in params.items():
+            for k, v in params.items():
                 if len(features[k]) > 1:
                     suffix = feature_labels[k][v]
                     new_name += " - " + suffix
             f.external_name = new_name
             f.save()
-        

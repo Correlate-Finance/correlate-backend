@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 
 from .models import DatasetMetadata, Dataset, Index, IndexDataset
-from datasets.dataset_orm import (
+from datasets.orm.dataset_orm import (
     parse_excel_file_for_datasets,
     parse_metadata_from_excel,
 )

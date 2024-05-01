@@ -1,7 +1,8 @@
+from enum import Enum
+
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from pydantic import BaseModel
-from enum import Enum
-from django.contrib.postgres.fields import ArrayField
 
 
 class AggregationPeriod(str, Enum):
@@ -9,9 +10,15 @@ class AggregationPeriod(str, Enum):
     ANNUALLY = "Annually"
 
 
+AggregationPeriodChoices = tuple((size.value, size.name) for size in AggregationPeriod)
+
+
 class CorrelationMetric(str, Enum):
     RAW_VALUE = "RAW_VALUE"
     YOY_GROWTH = "YOY_GROWTH"
+
+
+CorrelationMetricChoices = tuple((size.value, size.name) for size in CorrelationMetric)
 
 
 class CompanyMetric(str, Enum):
@@ -135,3 +142,23 @@ class IndexDataset(models.Model):
 
     def __str__(self):
         return f"{self.dataset.name}"
+
+
+class Correlation(models.Model):
+    id = models.AutoField(primary_key=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    ticker = models.CharField(max_length=255)
+    start_year = models.IntegerField()
+    end_year = models.IntegerField()
+    company_metric = models.CharField(max_length=255)
+    correlation_metric = models.CharField(
+        max_length=255, choices=CorrelationMetricChoices
+    )
+    aggregation_period = models.CharField(
+        max_length=255, choices=AggregationPeriodChoices
+    )
+    lag_periods = models.IntegerField()
+
+    input_data = models.JSONField()

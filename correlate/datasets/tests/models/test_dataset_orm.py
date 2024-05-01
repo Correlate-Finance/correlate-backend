@@ -1,6 +1,6 @@
 from django.test import TransactionTestCase
 from datasets.models import Dataset, DatasetMetadata
-from datasets.dataset_orm import (
+from datasets.orm.dataset_orm import (
     add_dataset_bulk,
     parse_excel_file_for_datasets,
     get_all_dfs,
@@ -14,7 +14,7 @@ import pytz
 from django.core.files.uploadedfile import SimpleUploadedFile
 import pandas as pd
 from pathlib import Path
-from datasets import dataset_orm
+from datasets.orm import dataset_orm
 
 
 class AddDatasetTest(TransactionTestCase):

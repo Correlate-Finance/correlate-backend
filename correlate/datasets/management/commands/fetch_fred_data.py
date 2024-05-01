@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.conf import settings
 from datasets.models import Dataset, DatasetMetadata
-from datasets.dataset_orm import add_dataset_bulk
+from datasets.orm.dataset_orm import add_dataset_bulk
 import requests
 from datetime import datetime
 import pytz

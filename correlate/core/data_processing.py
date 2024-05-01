@@ -187,13 +187,13 @@ def parse_input_dataset(data: str) -> dict[str, list[str | int]] | None:
     rows = data.split("\n")
     table = list(map(lambda row: row.split(), rows))
 
-    rows = len(table)
+    num_rows = len(table)
 
-    if rows == 2:
+    if num_rows == 2:
         # transpose data
         table = list(np.transpose(table))
 
-    table = list(filter(lambda row: len(row) < 2, table))
+    table = list(filter(lambda row: len(row) == 2, table))
 
     dates = [row[0] for row in table]
     values = [clean_input(row[1]) for row in table]

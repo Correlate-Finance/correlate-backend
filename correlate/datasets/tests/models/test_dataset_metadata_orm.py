@@ -1,6 +1,6 @@
 from django.test import TestCase
 from datasets.models import DatasetMetadata, CorrelateDataPoint
-from datasets.dataset_metadata_orm import augment_with_metadata
+from datasets.orm.dataset_metadata_orm import augment_with_metadata
 
 
 class AugmentWithMetadataTests(TestCase):
