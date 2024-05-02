@@ -191,6 +191,9 @@ EMAIL_TIMEOUT = 15
 # API KEYS
 FRED_API_KEY = env.str("FRED_API_KEY", default="")  # type:ignore
 EIA_API_KEY = env.str("EIA_API_KEY", default="")  # type:ignore
-
+OPENAI_API_KEY = env.str("OPENAI_API_KEY", default="")  # type:ignore
+DCF_API_KEY = env.str("DCF_API_KEY", default="")  # type:ignore
 # Rust Engine
-RUST_ENGINE_URL = env.str("RUST_ENGINE_URL", default="https://api2.correlatefinance.com")  # type:ignore
+RUST_ENGINE_URL = env.str(
+    "RUST_ENGINE_URL", default="https://api2.correlatefinance.com"
+)  # type:ignore

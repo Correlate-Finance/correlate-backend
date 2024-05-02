@@ -7,7 +7,7 @@ from users.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 import pytest
-from datasets.models import AggregationPeriod, Correlation, CorrelationMetric
+from datasets.models import AggregationPeriod, CorrelationParameters, CorrelationMetric
 
 
 class CorrelateViewTests(APITestCase):
@@ -51,8 +51,6 @@ class CorrelateViewTests(APITestCase):
             "end_year": 2021,
             "aggregation_period": AggregationPeriod.ANNUALLY,
             "lag_periods": "3",
-            "high_level_only": "true",
-            "show_negatives": "false",
             "correlation_metric": CorrelationMetric.RAW_VALUE,
         }
 
@@ -78,15 +76,13 @@ class CorrelateViewTests(APITestCase):
             "end_year": 2021,
             "aggregation_period": AggregationPeriod.ANNUALLY,
             "lag_periods": "3",
-            "high_level_only": "true",
-            "show_negatives": "false",
             "correlation_metric": CorrelationMetric.RAW_VALUE,
         }
 
         response = self.client.get(self.url, params)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-        correlation_parameters = Correlation.objects.get()
+        correlation_parameters = CorrelationParameters.objects.get()
         self.assertEqual(correlation_parameters.start_year, 2020)
         self.assertEqual(correlation_parameters.end_year, 2021)
         self.assertEqual(
@@ -117,8 +113,6 @@ class CorrelateViewGoldenTests(APITestCase):
             "end_year": 2025,
             "aggregation_period": AggregationPeriod.QUARTERLY,
             "lag_periods": "0",
-            "high_level_only": "false",
-            "show_negatives": "false",
             "correlation_metric": CorrelationMetric.RAW_VALUE,
             "selected_datasets": ["CEU4349200001"],
         }
@@ -130,3 +124,7 @@ class CorrelateViewGoldenTests(APITestCase):
         self.assertAlmostEqual(
             response["data"][0]["pearson_value"], 0.9220995, places=5
         )
+        self.assertEqual(response["data"][0]["internal_name"], "CEU4349200001")
+        self.assertEqual(response["aggregation_period"], "Quarterly")
+        self.assertEqual(response["correlation_metric"], "RAW_VALUE")
+        self.assertIsNotNone(response["correlation_parameters_id"])

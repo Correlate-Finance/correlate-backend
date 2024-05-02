@@ -4,7 +4,7 @@ from datasets.orm.dataset_orm import add_dataset_bulk
 from datasets.management.commands.denylisted.manual import MANUAL_DENYLIST
 from datasets.management.commands.denylisted.pairwise_clusters import PAIRWISE_CLUSTERS
 from datasets.management.commands.fetch_fred_data import fetch_fred_data
-from datetime import datetime, timedelta
+from datetime import datetime
 
 DENYLIST = MANUAL_DENYLIST + PAIRWISE_CLUSTERS
 

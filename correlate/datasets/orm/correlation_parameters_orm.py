@@ -1,4 +1,4 @@
-from datasets.models import Correlation, AggregationPeriod, CorrelationMetric
+from datasets.models import CorrelationParameters, AggregationPeriod, CorrelationMetric
 from users.models import User
 
 
@@ -12,8 +12,8 @@ def insert_automatic_correlation(
     lag_periods: int,
     fiscal_year_end: str,
     company_metric: str | None,
-):
-    Correlation.objects.create(
+) -> CorrelationParameters:
+    return CorrelationParameters.objects.create(
         user=user,
         ticker=stock_ticker,
         start_year=start_year,
@@ -33,11 +33,11 @@ def insert_manual_correlation(
     correlation_metric: CorrelationMetric,
     lag_periods: int,
     fiscal_year_end: str,
-):
+) -> CorrelationParameters:
     start_year: int = min(input_data["Date"])  # type: ignore
     end_year: int = max(input_data["Date"])  # type: ignore
 
-    Correlation.objects.create(
+    return CorrelationParameters.objects.create(
         user=user,
         input_data=input_data,
         start_year=start_year,
