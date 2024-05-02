@@ -358,6 +358,7 @@ class CorrelateView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def get(self, request: Request) -> HttpResponse:
+        user = request.user
         stock = request.GET.get("stock")
         start_year = int(request.GET.get("start_year", 2010))
         end_year = request.GET.get("end_year", None)
@@ -442,6 +443,7 @@ class CorrelateView(APIView):
             )
         else:
             insert_automatic_correlation(
+                user=user,
                 stock_ticker=stock,
                 start_year=start_year,
                 end_year=end_year,
@@ -470,6 +472,7 @@ class CorrelateInputDataView(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request: Request) -> HttpResponse:
+        user = request.user
         body = request.body
         body = body.decode("utf-8")
 
@@ -518,6 +521,7 @@ class CorrelateInputDataView(APIView):
             )
         else:
             insert_manual_correlation(
+                user=user,
                 input_data=test_data,
                 aggregation_period=aggregation_period,
                 correlation_metric=correlation_metric,
