@@ -40,4 +40,9 @@ urlpatterns = [
         views.GetDatasetFilters.as_view(),
         name="get-dataset-filters",
     ),
+    path(
+        "report",
+        views.GetReport.as_view(),
+        name="report",
+    ),
 ]

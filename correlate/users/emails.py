@@ -3,10 +3,11 @@ from django.conf import settings
 from .models import User
 import random
 
+
 def send_otp_via_email(email):
-    subject = 'Your OTP for password reset'
+    subject = "Your OTP for password reset"
     otp = random.randint(100000, 999999)
-    message = f'Your OTP is {otp}'
+    message = f"Your OTP is {otp}"
     email_from = settings.EMAIL_HOST_USER
     send_mail(subject, message, email_from, [email])
     user = User.objects.get(email=email)

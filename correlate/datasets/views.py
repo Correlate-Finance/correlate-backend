@@ -1,177 +1,69 @@
 import json
-from rest_framework.views import APIView
-from django.http import (
-    HttpResponse,
-    JsonResponse,
-    HttpResponseBadRequest,
-    HttpResponseNotFound,
-)
-from rest_framework.request import Request
-from rest_framework.response import Response
 import urllib.parse
-from rest_framework.permissions import IsAuthenticated
-from core.main_logic import correlate_datasets, create_index
-from core.data_trends import (
-    calculate_average_monthly_growth,
-    calculate_trailing_months,
-    calculate_year_over_year_growth,
-    calculate_yearly_stacks,
-)
-from datasets.orm.correlation_orm import (
-    insert_automatic_correlation,
-    insert_manual_correlation,
-)
-from datasets.lib import parse_year_from_date
-from datasets.serializers import (
-    CorrelateIndexRequestBody,
-    DatasetMetadataSerializer,
-    IndexSerializer,
-)
-from datasets.orm.dataset_metadata_orm import (
-    get_internal_name_from_external_name,
-    get_metadata_from_external_name,
-    get_metadata_from_name,
-)
-from datasets.models import CorrelateData, CorrelateDataPoint
-import requests
-import calendar
 from datetime import datetime
-from functools import cache
-from django.db import transaction
+from typing import List
+
 import pandas as pd
+import requests
+from adapters.discounting_cash_flows import (
+    fetch_company_description,
+    fetch_segment_data,
+    fetch_stock_data,
+)
+from adapters.openai import OpenAIAdapter
 from core.data_processing import (
     parse_input_dataset,
     transform_data,
     transform_metric,
     transform_quarterly,
 )
-from datasets.orm.dataset_orm import get_dataset_filters, get_df
+from core.data_trends import (
+    calculate_average_monthly_growth,
+    calculate_trailing_months,
+    calculate_year_over_year_growth,
+    calculate_yearly_stacks,
+)
+from core.main_logic import correlate_datasets, create_index
+from django.conf import settings
+from django.db import transaction
+from django.http import (
+    HttpResponse,
+    HttpResponseBadRequest,
+    HttpResponseNotFound,
+    JsonResponse,
+)
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from datasets.lib import parse_year_from_date
 from datasets.models import (
-    DatasetMetadata,
     AggregationPeriod,
-    CorrelationMetric,
     CompanyMetric,
+    CorrelateData,
+    CorrelateDataPoint,
+    CorrelationMetric,
+    DatasetMetadata,
     Index,
     IndexDataset,
+    CorrelationParameters,
 )
-from collections import defaultdict
-from django.conf import settings
-from typing import List
-
-
-@cache
-def fetch_stock_data(
-    stock: str,
-    start_year: int,
-    aggregation_period: AggregationPeriod = AggregationPeriod.ANNUALLY,
-    end_year: int | None = None,
-    company_metric: CompanyMetric = CompanyMetric.REVENUE,
-) -> tuple[dict, str | None]:
-    if aggregation_period == AggregationPeriod.ANNUALLY:
-        url = f"https://discountingcashflows.com/api/income-statement/{stock}/"
-        response = requests.get(url)
-
-        response_json = response.json()
-        report = response_json["report"]
-        if len(report) == 0:
-            return {}, None
-
-        reporting_date_month = datetime.strptime(report[0]["date"], "%Y-%m-%d")
-        fiscal_year_end = calendar.month_name[reporting_date_month.month]
-
-        values = {}
-
-        for i in range(len(report)):
-            year = report[i]["calendarYear"]
-            date = year + "-01-01"
-            metric = report[i][company_metric]
-            if int(year) < start_year:
-                continue
-            if end_year and int(year) > end_year:
-                continue
-            if metric == 0:
-                continue
-
-            values[date] = metric
-        return values, fiscal_year_end
-    elif aggregation_period == AggregationPeriod.QUARTERLY:
-        url = f"https://discountingcashflows.com/api/income-statement/quarterly/{stock}/?key=e787734f-59d8-4809-8955-1502cb22ba36"
-        response = requests.get(url)
-        response_json = response.json()
-
-        report = response_json["report"]
-        if len(report) == 0:
-            return {}, None
-
-        period = report[0]["period"]
-        reporting_date_month = datetime.strptime(report[0]["date"], "%Y-%m-%d")
-
-        if period == "Q1":
-            delta = 9
-        elif period == "Q2":
-            delta = 6
-        elif period == "Q3":
-            delta = 3
-        else:
-            delta = 0
-
-        updated_month: int = reporting_date_month.month + delta
-        if updated_month > 12:
-            updated_month = ((updated_month - 1) % 12) + 1
-
-        fiscal_year_end = calendar.month_name[updated_month]
-
-        values = {}
-        for i in range(len(report)):
-            year: str = report[i]["calendarYear"]
-            date: str = year + report[i]["period"]
-            metric = report[i][company_metric]
-            if int(year) < start_year:
-                continue
-            if end_year and int(year) > end_year:
-                continue
-            if metric == 0:
-                continue
-            values[date] = metric
-
-        return values, fiscal_year_end
-    else:
-        raise ValueError("Invalid aggregation period")
-
-
-@cache
-def fetch_segment_data(
-    stock: str,
-    start_year: int,
-    aggregation_period: AggregationPeriod = AggregationPeriod.ANNUALLY,
-    end_year: int | None = None,
-):
-    if aggregation_period == AggregationPeriod.ANNUALLY:
-        url = f"https://discountingcashflows.com/api/revenue-analysis/{stock}/product/?key=e787734f-59d8-4809-8955-1502cb22ba36"
-        response = requests.get(url)
-    else:
-        url = f"https://discountingcashflows.com/api/revenue-analysis/{stock}/product/quarter/?key=e787734f-59d8-4809-8955-1502cb22ba36"
-        response = requests.get(url)
-
-    report = response.json()["report"]
-    segments = defaultdict(dict)
-
-    for categories in report:
-        date = categories["date"]
-        year = int(date.split("-")[0])
-        if year < start_year or (end_year and year > end_year):
-            continue
-        for category in categories.keys():
-            if category == "date":
-                continue
-
-            value = categories[category]
-            if value == 0:
-                continue
-
-            segments[category][date] = value
-
-    return segments
+from datasets.orm.correlation_parameters_orm import (
+    insert_automatic_correlation,
+    insert_manual_correlation,
+)
+from datasets.orm.dataset_metadata_orm import (
+    get_internal_name_from_external_name,
+    get_metadata_from_external_name,
+    get_metadata_from_name,
+)
+from datasets.orm.dataset_orm import get_dataset_filters, get_df
+from datasets.serializers import (
+    CorrelateIndexRequestBody,
+    DatasetMetadataSerializer,
+    IndexSerializer,
+)
 
 
 class RevenueView(APIView):
@@ -369,8 +261,6 @@ class CorrelateView(APIView):
             "aggregation_period", AggregationPeriod.ANNUALLY
         )
         lag_periods = int(request.GET.get("lag_periods", 0))
-        high_level_only = request.GET.get("high_level_only", "false") == "true"
-        show_negatives = request.GET.get("show_negatives", "false") == "true"
         correlation_metric = request.GET.get(
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
@@ -442,7 +332,7 @@ class CorrelateView(APIView):
                 test_df=test_df,
             )
         else:
-            insert_automatic_correlation(
+            correlation_parameters = insert_automatic_correlation(
                 user=user,
                 stock_ticker=stock,
                 start_year=start_year,
@@ -455,15 +345,13 @@ class CorrelateView(APIView):
             )
 
             return run_correlations_rust(
+                correlation_parameters=correlation_parameters,
                 aggregation_period=aggregation_period,
                 fiscal_end_month=fiscal_end_month,
                 test_df=test_df,
                 test_data=test_data,
                 lag_periods=lag_periods,
-                _high_level_only=high_level_only,
-                _show_negatives=show_negatives,
                 correlation_metric=correlation_metric,
-                test_correlation_metric=correlation_metric,
                 selected_datasets=selected_datasets,
             )
 
@@ -485,8 +373,6 @@ class CorrelateInputDataView(APIView):
         )
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
         lag_periods = int(request.GET.get("lag_periods", 0))
-        high_level_only = request.GET.get("high_level_only", "false") == "true"
-        show_negatives = request.GET.get("show_negatives", "false") == "true"
         correlation_metric = request.GET.get(
             "correlation_metric", CorrelationMetric.RAW_VALUE
         )
@@ -520,7 +406,7 @@ class CorrelateInputDataView(APIView):
                 test_df=test_df,
             )
         else:
-            insert_manual_correlation(
+            correlation_parameters = insert_manual_correlation(
                 user=user,
                 input_data=test_data,
                 aggregation_period=aggregation_period,
@@ -529,15 +415,13 @@ class CorrelateInputDataView(APIView):
                 fiscal_year_end=fiscal_end_month,
             )
             return run_correlations_rust(
-                aggregation_period,
-                fiscal_end_month,
+                correlation_parameters=correlation_parameters,
+                aggregation_period=aggregation_period,
+                fiscal_end_month=fiscal_end_month,
                 test_df=test_df,
                 test_data=test_data,
                 lag_periods=lag_periods,
-                _high_level_only=high_level_only,
-                _show_negatives=show_negatives,
                 correlation_metric=correlation_metric,
-                test_correlation_metric=CorrelationMetric.RAW_VALUE,
                 selected_datasets=selected_datasets,
             )
 
@@ -653,16 +537,14 @@ def correlate_indexes(
 
 
 def run_correlations_rust(
+    correlation_parameters: CorrelationParameters,
     aggregation_period: AggregationPeriod,
     fiscal_end_month: str,
     test_df: pd.DataFrame,
     test_data: dict,
     lag_periods: int,
-    _high_level_only: bool,
-    _show_negatives: bool,
     correlation_metric: CorrelationMetric,
     selected_datasets: list[str] | None = None,
-    test_correlation_metric: CorrelationMetric = CorrelationMetric.RAW_VALUE,
 ) -> JsonResponse:
     test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
     records = test_df.to_json(orient="records", default_handler=str)
@@ -690,8 +572,10 @@ def run_correlations_rust(
     query_string = urllib.parse.urlencode(request_paramters)
 
     response = requests.post(url + query_string, data=json.dumps(body))
-
-    return JsonResponse(response.json())
+    json_response = response.json()
+    # Add the id for the correlation parameters to the response
+    json_response["correlation_parameters_id"] = correlation_parameters.id
+    return JsonResponse(json_response)
 
 
 class SaveIndexView(APIView):
@@ -767,3 +651,27 @@ class GetDatasetFilters(APIView):
     def get(self, _: Request) -> HttpResponse:
         filters = get_dataset_filters()
         return JsonResponse(filters)
+
+
+class GetReport(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request: Request) -> HttpResponse:
+        body = request.body
+        body = body.decode("utf-8")
+
+        import pdb
+
+        pdb.set_trace()
+        stock = request.GET.get("stock")
+
+        company_description = fetch_company_description(stock)
+
+        content = f"Company: {company_description}\n Correlations: {body}"
+
+        openai_adapter = OpenAIAdapter()
+        response = openai_adapter.generate_report(content)
+        if response is None:
+            return JsonResponse({"error": "Invalid response from OpenAI"})
+        print(response)
+        return JsonResponse(response, safe=False)

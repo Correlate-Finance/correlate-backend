@@ -162,7 +162,7 @@ class IndexDataset(models.Model):
         return f"{self.dataset.name}"
 
 
-class Correlation(models.Model):
+class CorrelationParameters(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey("users.User", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -188,3 +188,18 @@ class Correlation(models.Model):
 
     # Parameters for Manual Correlations
     input_data = models.JSONField(null=True, blank=True)
+
+
+class Report(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    parameters = models.ForeignKey(CorrelationParameters, on_delete=models.CASCADE)
+    llm_response = models.JSONField()
+
+    # Set to false by default until the user has reviewed the report
+    viewed = models.BooleanField(default=False)
+    # Used to show the graphs and datasets for the report
+    report_data = models.JSONField()

@@ -1,7 +1,6 @@
 from django.test import TestCase
 from rest_framework.test import APIClient
 from rest_framework import status
-from unittest.mock import patch
 from users.models import User
 from datasets.models import Index, IndexDataset, DatasetMetadata
 from django.urls import reverse
