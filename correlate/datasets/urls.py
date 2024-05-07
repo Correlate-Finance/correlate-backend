@@ -41,8 +41,23 @@ urlpatterns = [
         name="get-dataset-filters",
     ),
     path(
-        "report",
+        "generate-report",
+        views.GenerateReport.as_view(),
+        name="generate-report",
+    ),
+    path(
+        "generate-report/",
+        views.GenerateReport.as_view(),
+        name="generate-report",
+    ),
+    path(
+        "get-report/",
         views.GetReport.as_view(),
-        name="report",
+        name="get-report",
+    ),
+    path(
+        "get-all-reports/",
+        views.GetAllReports.as_view(),
+        name="get-all-reports",
     ),
 ]

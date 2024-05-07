@@ -37,6 +37,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from datasets.orm.report_orm import create_report
 from datasets.lib import parse_year_from_date
 from datasets.models import (
     AggregationPeriod,
@@ -48,6 +49,7 @@ from datasets.models import (
     Index,
     IndexDataset,
     CorrelationParameters,
+    Report,
 )
 from datasets.orm.correlation_parameters_orm import (
     insert_automatic_correlation,
@@ -63,6 +65,7 @@ from datasets.serializers import (
     CorrelateIndexRequestBody,
     DatasetMetadataSerializer,
     IndexSerializer,
+    ReportSerializer,
 )
 
 
@@ -408,6 +411,7 @@ class CorrelateInputDataView(APIView):
         else:
             correlation_parameters = insert_manual_correlation(
                 user=user,
+                dates=test_df["Date"],
                 input_data=test_data,
                 aggregation_period=aggregation_period,
                 correlation_metric=correlation_metric,
@@ -653,25 +657,85 @@ class GetDatasetFilters(APIView):
         return JsonResponse(filters)
 
 
-class GetReport(APIView):
+class GenerateReport(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request: Request) -> HttpResponse:
+        user = request.user
         body = request.body
         body = body.decode("utf-8")
+        top_correlations = [
+            CorrelateDataPoint(**c) for c in json.loads(body)["top_correlations"]
+        ]
 
-        import pdb
+        correlations_text = "\n".join(
+            [
+                f"ID: {correlation.internal_name} Name: {correlation.title} {correlation.pearson_value}"
+                for correlation in top_correlations
+            ]
+        )
 
-        pdb.set_trace()
         stock = request.GET.get("stock")
 
-        company_description = fetch_company_description(stock)
+        if stock is None:
+            # This is the manual input case in which both the name and
+            # description of the report should be present.
+            company_description = request.GET.get("company_description")
+            name = request.GET.get("name")
+            if company_description is None or name is None:
+                return JsonResponse(
+                    {"error": "Company description and name are required"}
+                )
+        else:
+            company_description = fetch_company_description(stock)
 
-        content = f"Company: {company_description}\n Correlations: {body}"
-
+        correlation_parameters_id = request.GET.get("correlation_parameters_id")
+        content = f"Company: {company_description}\n Correlations: {correlations_text}"
         openai_adapter = OpenAIAdapter()
         response = openai_adapter.generate_report(content)
+
         if response is None:
             return JsonResponse({"error": "Invalid response from OpenAI"})
-        print(response)
-        return JsonResponse(response, safe=False)
+
+        selected_datasets = [d["series_id"] for d in response]
+        selected_correlations = {
+            correlation.internal_name: correlation
+            for correlation in top_correlations
+            if correlation.internal_name in selected_datasets
+        }
+        report = create_report(
+            name=stock if stock is not None else name,
+            user=user,
+            parameters=correlation_parameters_id,
+            llm_response=response,
+            report_data=[
+                selected_correlations[series_id] for series_id in selected_datasets
+            ],
+            description=company_description,
+        )
+        return JsonResponse({"report_id": report.id})
+
+
+class GetReport(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        user = request.user
+        report_id = request.GET.get("report_id")
+        report = Report.objects.filter(user=user, id=report_id).first()
+        if report is None:
+            return JsonResponse({"error": "Report not found"})
+
+        return JsonResponse(
+            ReportSerializer(report).data,
+        )
+
+
+class GetAllReports(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request: Request) -> HttpResponse:
+        user = request.user
+        reports = Report.objects.filter(user=user)
+        report_serializer = ReportSerializer(reports, many=True)
+        return Response(report_serializer.data)

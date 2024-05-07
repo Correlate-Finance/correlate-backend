@@ -66,6 +66,11 @@ class CorrelateDataPoint(BaseModel):
     source: str | None = None
     description: str | None = None
 
+    release: str | None = None
+    url: str | None = None
+    units: str | None = None
+    categories: list[str] | None = None
+
 
 class CorrelateData(BaseModel):
     # These are in camel case since they are sent to the frontend
@@ -195,6 +200,8 @@ class Report(models.Model):
     user = models.ForeignKey("users.User", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    description = models.TextField(blank=True, null=True)
+    name = models.CharField(max_length=255, blank=True, null=True)
 
     parameters = models.ForeignKey(CorrelationParameters, on_delete=models.CASCADE)
     llm_response = models.JSONField()

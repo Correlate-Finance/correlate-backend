@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 from rest_framework import serializers
-from .models import DatasetMetadata, Index, IndexDataset
+from .models import CorrelationParameters, DatasetMetadata, Index, IndexDataset, Report
 
 
 class CorrelateIndexRequestBody(BaseModel):
@@ -63,4 +63,42 @@ class DatasetMetadataSerializer(serializers.ModelSerializer):
             "categories",
             "popularity",
             "units",
+        ]
+
+
+class CorrelationParametersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CorrelationParameters
+        fields = [
+            "user",
+            "created_at",
+            "updated_at",
+            "correlation_metric",
+            "aggregation_period",
+            "start_year",
+            "end_year",
+            "lag_periods",
+            "fiscal_year_end",
+            "ticker",
+            "company_metric",
+            "input_data",
+        ]
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    parameters = serializers.SerializerMethodField()
+
+    def get_parameters(self, obj: Report):
+        return CorrelationParametersSerializer(obj.parameters).data
+
+    class Meta:
+        model = Report
+        fields = [
+            "id",
+            "user",
+            "parameters",
+            "llm_response",
+            "report_data",
+            "created_at",
+            "description",
         ]
