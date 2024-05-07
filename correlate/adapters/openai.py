@@ -18,7 +18,7 @@ class OpenAIAdapter:
             messages=[
                 {
                     "role": "system",
-                    "content": "Your job is to help hedge fund analysts find out if any data will be useful to predict a companies performance. I will feed you a company and a brief description of the company. Then I will provide a list of datasets which include their name, series id and the correlation between the revenue of the company and the dataset. You will be tasked with picking out any datasets that you think are relevant for the company based on the company description, the dataset name and the correlation.  You will also need to provide a rationale for each dataset. You should return your response in a JSON format. \n",
+                    "content": "Your job is to help hedge fund analysts find out if any data will be useful to predict a company's performance. I will feed you a company and a brief description of the company. Then I will provide a list of datasets which include their name, series id and the correlation between the revenue of the company and the dataset. You will be tasked with picking out any datasets that you think are relevant for the company based on the company description, the dataset name and the correlation.  You will also need to provide a rationale for each dataset. You should return your response in a JSON format. \n A sample schema is: \n { \n 'relevant_datasets': [ \n { \n 'name': 'Dataset Name', \n 'series_id': 'Series ID', \n 'correlation': 0.5, \n 'rationale': 'Rationale for why this dataset is relevant' \n } \n ] \n } \n",
                 },
                 {
                     "role": "user",
@@ -42,9 +42,8 @@ class OpenAIAdapter:
         if content is None:
             return None
 
-        print(content)
-
         data = json.loads(content)
         if "relevant_datasets" not in data:
             return None
+
         return data["relevant_datasets"]

@@ -30,6 +30,7 @@ jobs:
       - name: Run Tests
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+          DCF_API_KEY: e787734f-59d8-4809-8955-1502cb22ba36
         run: |
           cd correlate
           pytest # run the tests
