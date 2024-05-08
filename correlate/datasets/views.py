@@ -702,7 +702,7 @@ class GenerateReport(APIView):
             if correlation.internal_name in selected_datasets
         }
         report = create_report(
-            name=stock if stock is not None else name,
+            name=stock.upper() if stock is not None else name,
             user=user,
             parameters=correlation_parameters_id,
             llm_response=response,
@@ -822,7 +822,7 @@ class GenerateAutomaticReport(APIView):
             if correlation.internal_name in selected_datasets
         }
         report = create_report(
-            name=stock if stock is not None else name,
+            name=stock.upper() if stock is not None else name,
             user=user,
             parameters=correlation_parameters_id,
             llm_response=response,
