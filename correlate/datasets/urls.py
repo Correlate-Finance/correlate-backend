@@ -60,4 +60,9 @@ urlpatterns = [
         views.GetAllReports.as_view(),
         name="get-all-reports",
     ),
+    path(
+        "generate-automatic-report/",
+        views.GenerateAutomaticReport.as_view(),
+        name="generate-automatic-report",
+    ),
 ]

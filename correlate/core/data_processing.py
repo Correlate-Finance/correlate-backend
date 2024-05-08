@@ -10,7 +10,7 @@ from pandas.core.dtypes.dtypes import DatetimeTZDtype
 from datasets.lib import VALID_DATE_PATTERNS
 
 
-def transform_data_base(df: pd.DataFrame):
+def transform_data_base(df: pd.DataFrame) -> pd.DataFrame:
     if df.empty:
         return df
 
@@ -19,6 +19,7 @@ def transform_data_base(df: pd.DataFrame):
     df["Date"] = pd.to_datetime(df["Date"])
     # Convert 'Value' to float type if it's not already
     df["Value"] = df["Value"].astype(float)  # Convert to float
+    return df
 
 
 def transform_metric(
@@ -32,18 +33,16 @@ def transform_metric(
     # Always sort to make sure that dates are sorted in ascending order
     df = df.sort_values("Date")
 
-    # Quarterly
     if time_increment == AggregationPeriod.QUARTERLY:
         if correlation_metric == CorrelationMetric.YOY_GROWTH:
             df["Value"] = df["Value"].pct_change(periods=4)
 
-    # Annually
     elif time_increment == AggregationPeriod.ANNUALLY:
         if correlation_metric == CorrelationMetric.YOY_GROWTH:
             df["Value"] = df["Value"].pct_change(periods=1)
 
     else:
-        raise ValueError("Invalid time_increment")
+        raise ValueError(f"Invalid Aggregation Period: {time_increment}")
 
     df.replace([np.inf, -np.inf], np.nan, inplace=True)
     df.dropna(inplace=True)

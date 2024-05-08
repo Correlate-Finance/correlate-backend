@@ -1,6 +1,6 @@
+from datasets.lib import parse_year_from_date
 from datasets.models import CorrelationParameters, AggregationPeriod, CorrelationMetric
 from users.models import User
-import pandas as pd
 
 
 def insert_automatic_correlation(
@@ -12,7 +12,7 @@ def insert_automatic_correlation(
     correlation_metric: CorrelationMetric,
     lag_periods: int,
     fiscal_year_end: str,
-    company_metric: str | None,
+    company_metric: str | None = None,
 ) -> CorrelationParameters:
     return CorrelationParameters.objects.create(
         user=user,
@@ -30,14 +30,13 @@ def insert_automatic_correlation(
 def insert_manual_correlation(
     user: User,
     input_data: dict[str, list[str | int]],
-    dates: pd.Series,
     aggregation_period: AggregationPeriod,
     correlation_metric: CorrelationMetric,
     lag_periods: int,
     fiscal_year_end: str,
 ) -> CorrelationParameters:
-    start_year: int = min(dates).year  # type: ignore
-    end_year: int = max(dates).year  # type: ignore
+    start_year = parse_year_from_date(min(input_data["Date"])) # type: ignore
+    end_year = parse_year_from_date(max(input_data["Date"])) # type: ignore
 
     return CorrelationParameters.objects.create(
         user=user,
