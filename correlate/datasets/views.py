@@ -563,10 +563,10 @@ def run_correlations_rust(
 
     url = f"{settings.RUST_ENGINE_URL}/correlate_input?"
     request_paramters = {
-        "aggregation_period": aggregation_period,
+        "aggregation_period": aggregation_period.value,
         "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,
         "lag_periods": lag_periods,
-        "correlation_metric": correlation_metric,
+        "correlation_metric": correlation_metric.value,
         "start_year": start_year,
         "end_year": end_year,
     }
@@ -721,13 +721,13 @@ class GenerateAutomaticReport(APIView):
         user = request.user
         body = request.body
         body = body.decode("utf-8")
-        stock = request.GET.get("stock")
-
+        stocks = request.GET.getlist("stocks")
+        stock = stocks[0] if stocks else None
         start_year = 2014
         end_year = 2025
-        aggregation_period = AggregationPeriod.ANNUALLY
+        aggregation_period = AggregationPeriod.QUARTERLY
         lag_periods = 0
-        correlation_metric = CorrelationMetric.RAW_VALUE
+        correlation_metric = CorrelationMetric.YOY_GROWTH
 
         company_metric = CompanyMetric["REVENUE"]
 
@@ -742,7 +742,7 @@ class GenerateAutomaticReport(APIView):
             company_metric=company_metric,
         )
 
-        if fiscal_end_month is None:
+        if revenues is None or fiscal_end_month is None:
             return JsonResponse(
                 CorrelateData(
                     data=[],
@@ -751,16 +751,15 @@ class GenerateAutomaticReport(APIView):
                 ).model_dump()
             )
 
-        if revenues is not None:
-            test_data = {
-                "Date": list(revenues.keys()),
-                "Value": list(revenues.values()),
-            }
-            test_df = transform_metric(
-                pd.DataFrame(test_data),
-                aggregation_period,
-                correlation_metric=correlation_metric,
-            )
+        test_data = {
+            "Date": list(revenues.keys()),
+            "Value": list(revenues.values()),
+        }
+        test_df = transform_metric(
+            pd.DataFrame(test_data),
+            aggregation_period,
+            correlation_metric=correlation_metric,
+        )
 
         correlation_parameters = insert_automatic_correlation(
             user=user,
@@ -785,7 +784,8 @@ class GenerateAutomaticReport(APIView):
 
         # fetch the top correlations for the stock ticker using the rust engine
         top_correlations = [
-            correlatedatapoint(**c) for c in json.loads(body)["top_correlations"]
+            CorrelateDataPoint(**c)
+            for c in json.loads(correlations.content)["data"][:100]
         ]
 
         correlations_text = "\n".join(
@@ -807,7 +807,7 @@ class GenerateAutomaticReport(APIView):
         else:
             company_description = fetch_company_description(stock)
 
-        correlation_parameters_id = request.GET.get("correlation_parameters_id")
+        correlation_parameters_id = correlation_parameters.id
         content = f"Company: {company_description}\n Correlations: {correlations_text}"
         openai_adapter = OpenAIAdapter()
         response = openai_adapter.generate_report(content)

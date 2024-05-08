@@ -6,7 +6,6 @@ from rest_framework.test import APITestCase
 from users.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
-import pytest
 from datasets.models import AggregationPeriod, CorrelationParameters, CorrelationMetric
 
 

@@ -35,8 +35,8 @@ def insert_manual_correlation(
     lag_periods: int,
     fiscal_year_end: str,
 ) -> CorrelationParameters:
-    start_year = parse_year_from_date(min(input_data["Date"])) # type: ignore
-    end_year = parse_year_from_date(max(input_data["Date"])) # type: ignore
+    start_year = parse_year_from_date(min(input_data["Date"]))  # type: ignore
+    end_year = parse_year_from_date(max(input_data["Date"]))  # type: ignore
 
     return CorrelationParameters.objects.create(
         user=user,

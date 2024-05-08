@@ -101,4 +101,5 @@ class ReportSerializer(serializers.ModelSerializer):
             "report_data",
             "created_at",
             "description",
+            "name",
         ]
