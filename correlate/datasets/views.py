@@ -79,9 +79,9 @@ class RevenueView(APIView):
         if end_year is not None:
             end_year = int(end_year)
 
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.ANNUALLY
-        )
+        aggregation_period = AggregationPeriod[
+            request.GET.get("aggregation_period", AggregationPeriod.QUARTERLY.value).upper()
+        ]
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
@@ -110,9 +110,9 @@ class CompanyDataView(APIView):
         if end_year is not None:
             end_year = int(end_year)
 
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.ANNUALLY
-        )
+        aggregation_period = AggregationPeriod[
+            request.GET.get("aggregation_period", AggregationPeriod.QUARTERLY.value).upper()
+        ]
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
@@ -140,9 +140,9 @@ class SegmentDataView(APIView):
         if end_year is not None:
             end_year = int(end_year)
 
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.ANNUALLY
-        )
+        aggregation_period = AggregationPeriod[
+            request.GET.get("aggregation_period", AggregationPeriod.QUARTERLY.value).upper()
+        ]
 
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
@@ -260,13 +260,13 @@ class CorrelateView(APIView):
         if end_year is not None:
             end_year = int(end_year)
 
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.ANNUALLY
-        )
+        aggregation_period = AggregationPeriod[
+            request.GET.get("aggregation_period", AggregationPeriod.QUARTERLY.value).upper()
+        ]
         lag_periods = int(request.GET.get("lag_periods", 0))
-        correlation_metric = request.GET.get(
-            "correlation_metric", CorrelationMetric.RAW_VALUE
-        )
+        correlation_metric = CorrelationMetric[
+            request.GET.get("correlation_metric", CorrelationMetric.RAW_VALUE.value).upper()
+        ]
         selected_datasets = request.GET.getlist("selected_datasets")
         selected_indexes = request.GET.getlist("selected_indexes")
 
@@ -370,14 +370,14 @@ class CorrelateInputDataView(APIView):
         test_data = parse_input_dataset(body)
         if test_data is None:
             return HttpResponseBadRequest("Could not parse input data.")
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.QUARTERLY
-        )
+        aggregation_period = AggregationPeriod[
+            request.GET.get("aggregation_period", AggregationPeriod.QUARTERLY.value).upper()
+        ]
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
         lag_periods = int(request.GET.get("lag_periods", 0))
-        correlation_metric = request.GET.get(
-            "correlation_metric", CorrelationMetric.RAW_VALUE
-        )
+        correlation_metric = CorrelationMetric[
+            request.GET.get("correlation_metric", CorrelationMetric.RAW_VALUE.value).upper()
+        ]
         selected_datasets = request.GET.getlist("selected_datasets")
         selected_indexes = request.GET.getlist("selected_indexes")
 
@@ -446,12 +446,12 @@ class CorrelateIndex(APIView):
     def post(self, request: Request) -> HttpResponse:
         body = request.body
         body = body.decode("utf-8")
-        aggregation_period = request.GET.get(
-            "aggregation_period", AggregationPeriod.QUARTERLY
-        )
-        correlation_metric = request.GET.get(
-            "correlation_metric", CorrelationMetric.RAW_VALUE
-        )
+        aggregation_period = AggregationPeriod[
+            request.GET.get("aggregation_period", AggregationPeriod.QUARTERLY.value).upper()
+        ]
+        correlation_metric = CorrelationMetric[
+            request.GET.get("correlation_metric", CorrelationMetric.RAW_VALUE.value).upper()
+        ]
         fiscal_end_month = request.GET.get("fiscal_year_end", "December")
 
         request_body = CorrelateIndexRequestBody(**json.loads(body))

@@ -49,9 +49,9 @@ class CorrelateViewTests(APITestCase):
             "stock": "AAPL",
             "start_year": 2020,
             "end_year": 2021,
-            "aggregation_period": AggregationPeriod.ANNUALLY,
+            "aggregation_period": AggregationPeriod.ANNUALLY.value,
             "lag_periods": "3",
-            "correlation_metric": CorrelationMetric.RAW_VALUE,
+            "correlation_metric": CorrelationMetric.RAW_VALUE.value,
         }
 
         response = self.client.get(self.url, params)
@@ -74,9 +74,9 @@ class CorrelateViewTests(APITestCase):
             "stock": "AAPL",
             "start_year": 2020,
             "end_year": 2021,
-            "aggregation_period": AggregationPeriod.ANNUALLY,
+            "aggregation_period": AggregationPeriod.ANNUALLY.value,
             "lag_periods": "3",
-            "correlation_metric": CorrelationMetric.RAW_VALUE,
+            "correlation_metric": CorrelationMetric.RAW_VALUE.value,
         }
 
         response = self.client.get(self.url, params)
@@ -111,9 +111,9 @@ class CorrelateViewGoldenTests(APITestCase):
             "stock": "AAPL",
             "start_year": 2012,
             "end_year": 2025,
-            "aggregation_period": AggregationPeriod.QUARTERLY,
+            "aggregation_period": AggregationPeriod.QUARTERLY.value,
             "lag_periods": "0",
-            "correlation_metric": CorrelationMetric.RAW_VALUE,
+            "correlation_metric": CorrelationMetric.RAW_VALUE.value,
             "selected_datasets": ["CEU4349200001"],
         }
 
@@ -122,7 +122,7 @@ class CorrelateViewGoldenTests(APITestCase):
         response = response.json()
 
         self.assertAlmostEqual(
-            response["data"][0]["pearson_value"], 0.9220995, places=5
+            response["data"][0]["pearson_value"], 0.923674, places=5
         )
         self.assertEqual(response["data"][0]["internal_name"], "CEU4349200001")
         self.assertEqual(response["aggregation_period"], "Quarterly")

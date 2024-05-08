@@ -15,23 +15,41 @@ interactions:
   response:
     body:
       string: '{"originalCurrency": "USD", "convertedCurrency": "USD", "report": [{"date":
-        "2023-12-30", "symbol": "AAPL", "reportedCurrency": "USD", "cik": "0000320193",
-        "fillingDate": "2024-02-02", "acceptedDate": "2024-02-01 18:03:38", "calendarYear":
-        "2024", "period": "Q1", "revenue": 119575000000, "costOfRevenue": 64720000000,
-        "grossProfit": 54855000000, "grossProfitRatio": 0.4587497387, "researchAndDevelopmentExpenses":
-        7696000000, "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses":
-        0, "sellingGeneralAndAdministrativeExpenses": 6786000000, "otherExpenses":
-        -50000000, "operatingExpenses": 14482000000, "costAndExpenses": 79202000000,
-        "interestIncome": 0, "interestExpense": 0, "depreciationAndAmortization":
-        2848000000, "ebitda": 43221000000, "ebitdaratio": 0.3614551537, "operatingIncome":
-        40373000000, "operatingIncomeRatio": 0.337637466, "totalOtherIncomeExpensesNet":
-        -50000000, "incomeBeforeTax": 40323000000, "incomeBeforeTaxRatio": 0.3372193184,
-        "incomeTaxExpense": 6407000000, "netIncome": 33916000000, "netIncomeRatio":
-        0.2836378842, "eps": 2.19, "epsdiluted": 2.18, "weightedAverageShsOut": 15509763000,
-        "weightedAverageShsOutDil": 15576641000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000006/0000320193-24-000006-index.htm",
+        "2024-03-30", "symbol": "AAPL", "reportedCurrency": "USD", "cik": "0000320193",
+        "fillingDate": "2024-05-03", "acceptedDate": "2024-05-02 18:04:25", "calendarYear":
+        "2024", "period": "Q2", "revenue": 90753000000, "costOfRevenue": 48482000000,
+        "grossProfit": 42271000000, "grossProfitRatio": 0.4657807455, "researchAndDevelopmentExpenses":
+        7903000000, "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses":
+        0, "sellingGeneralAndAdministrativeExpenses": 6468000000, "otherExpenses":
+        0, "operatingExpenses": 14371000000, "costAndExpenses": 62853000000, "interestIncome":
+        0, "interestExpense": 0, "depreciationAndAmortization": 2836000000, "ebitda":
+        30736000000, "ebitdaratio": 0.3386775093, "operatingIncome": 27900000000,
+        "operatingIncomeRatio": 0.3074278536, "totalOtherIncomeExpensesNet": 158000000,
+        "incomeBeforeTax": 28058000000, "incomeBeforeTaxRatio": 0.3091688429, "incomeTaxExpense":
+        4422000000, "netIncome": 23636000000, "netIncomeRatio": 0.2604431809, "eps":
+        1.53, "epsdiluted": 1.53, "weightedAverageShsOut": 15405856000, "weightedAverageShsOutDil":
+        15464709000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000069/0000320193-24-000069-index.htm",
+        "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000069/aapl-20240330.htm",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 14371000000,
+        "calculatedNetInterest": 0, "calculatedOtherIncome": 158000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 30736000000}, {"date": "2023-12-30", "symbol": "AAPL",
+        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2024-02-02",
+        "acceptedDate": "2024-02-01 18:03:38", "calendarYear": "2024", "period": "Q1",
+        "revenue": 119575000000, "costOfRevenue": 64720000000, "grossProfit": 54855000000,
+        "grossProfitRatio": 0.4587497387, "researchAndDevelopmentExpenses": 7696000000,
+        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        6786000000, "otherExpenses": -50000000, "operatingExpenses": 14482000000,
+        "costAndExpenses": 79202000000, "interestIncome": 984000000, "interestExpense":
+        1002000000, "depreciationAndAmortization": 2848000000, "ebitda": 43221000000,
+        "ebitdaratio": 0.3614551537, "operatingIncome": 40373000000, "operatingIncomeRatio":
+        0.337637466, "totalOtherIncomeExpensesNet": -50000000, "incomeBeforeTax":
+        40323000000, "incomeBeforeTaxRatio": 0.3372193184, "incomeTaxExpense": 6407000000,
+        "netIncome": 33916000000, "netIncomeRatio": 0.2836378842, "eps": 2.19, "epsdiluted":
+        2.18, "weightedAverageShsOut": 15509763000, "weightedAverageShsOutDil": 15576641000,
+        "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000006/0000320193-24-000006-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019324000006/aapl-20231230.htm",
-        "calculatedOtherExpenses": 6786000000, "calculatedOperatingExpenses": 14482000000,
-        "calculatedNetInterest": 0, "calculatedOtherIncome": -50000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 14482000000,
+        "calculatedNetInterest": -18000000, "calculatedOtherIncome": -32000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 43221000000}, {"date": "2023-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2023-11-03",
         "acceptedDate": "2023-11-02 18:08:27", "calendarYear": "2023", "period": "Q4",
@@ -47,7 +65,7 @@ interactions:
         0.2564973519, "eps": 1.47, "epsdiluted": 1.46, "weightedAverageShsOut": 15599434000,
         "weightedAverageShsOutDil": 15672400000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/0000320193-23-000106-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000106/aapl-20230930.htm",
-        "calculatedOtherExpenses": 6151000000, "calculatedOperatingExpenses": 13458000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 13458000000,
         "calculatedNetInterest": -18000000, "calculatedOtherIncome": 47000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 29622000000}, {"date": "2023-07-01", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2023-08-04",
@@ -65,7 +83,7 @@ interactions:
         1.26, "weightedAverageShsOut": 15697614000, "weightedAverageShsOutDil": 15775021000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000077/0000320193-23-000077-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000077/aapl-20230701.htm",
-        "calculatedOtherExpenses": 5973000000, "calculatedOperatingExpenses": 13415000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 13415000000,
         "calculatedNetInterest": -18000000, "calculatedOtherIncome": -247000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 26050000000}, {"date": "2023-04-01", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2023-05-05",
@@ -82,7 +100,7 @@ interactions:
         0.2547555781, "eps": 1.53, "epsdiluted": 1.52, "weightedAverageShsOut": 15787154000,
         "weightedAverageShsOutDil": 15847050000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000064/0000320193-23-000064-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000064/aapl-20230401.htm",
-        "calculatedOtherExpenses": 6201000000, "calculatedOperatingExpenses": 13658000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 13658000000,
         "calculatedNetInterest": -12000000, "calculatedOtherIncome": 76000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 31216000000}, {"date": "2022-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2023-02-03",
@@ -91,8 +109,8 @@ interactions:
         "grossProfitRatio": 0.4296225481, "researchAndDevelopmentExpenses": 7709000000,
         "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         6607000000, "otherExpenses": -393000000, "operatingExpenses": 14316000000,
-        "costAndExpenses": 81138000000, "interestIncome": 868000000, "interestExpense":
-        1003000000, "depreciationAndAmortization": 2916000000, "ebitda": 38932000000,
+        "costAndExpenses": 81138000000, "interestIncome": 753000000, "interestExpense":
+        827000000, "depreciationAndAmortization": 2916000000, "ebitda": 38932000000,
         "ebitdaratio": 0.332314731, "operatingIncome": 36016000000, "operatingIncomeRatio":
         0.3074244157, "totalOtherIncomeExpensesNet": -393000000, "incomeBeforeTax":
         35623000000, "incomeBeforeTaxRatio": 0.3040698568, "incomeTaxExpense": 5625000000,
@@ -100,25 +118,25 @@ interactions:
         1.88, "weightedAverageShsOut": 15892723000, "weightedAverageShsOutDil": 15955718000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000006/0000320193-23-000006-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019323000006/aapl-20221231.htm",
-        "calculatedOtherExpenses": 6607000000, "calculatedOperatingExpenses": 14316000000,
-        "calculatedNetInterest": -135000000, "calculatedOtherIncome": -258000000,
-        "calculatedIncomeNonControlling": 0, "calculatedEbitda": 38932000000}, {"date":
-        "2022-09-24", "symbol": "AAPL", "reportedCurrency": "USD", "cik": "0000320193",
-        "fillingDate": "2022-10-28", "acceptedDate": "2022-10-27 18:01:14", "calendarYear":
-        "2022", "period": "Q4", "revenue": 90146000000, "costOfRevenue": 52051000000,
-        "grossProfit": 38095000000, "grossProfitRatio": 0.4225922393, "researchAndDevelopmentExpenses":
-        6761000000, "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses":
-        0, "sellingGeneralAndAdministrativeExpenses": 6440000000, "otherExpenses":
-        -237000000, "operatingExpenses": 13201000000, "costAndExpenses": 65252000000,
-        "interestIncome": 753000000, "interestExpense": 827000000, "depreciationAndAmortization":
-        2865000000, "ebitda": 27759000000, "ebitdaratio": 0.3079337963, "operatingIncome":
-        24894000000, "operatingIncomeRatio": 0.2761520201, "totalOtherIncomeExpensesNet":
-        -237000000, "incomeBeforeTax": 24657000000, "incomeBeforeTaxRatio": 0.2735229517,
-        "incomeTaxExpense": 3936000000, "netIncome": 20721000000, "netIncomeRatio":
-        0.2298604486, "eps": 1.29, "epsdiluted": 1.29, "weightedAverageShsOut": 16030382000,
-        "weightedAverageShsOutDil": 16118465000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 14316000000,
+        "calculatedNetInterest": -74000000, "calculatedOtherIncome": -319000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 38932000000}, {"date": "2022-09-24", "symbol": "AAPL",
+        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2022-10-28",
+        "acceptedDate": "2022-10-27 18:01:14", "calendarYear": "2022", "period": "Q4",
+        "revenue": 90146000000, "costOfRevenue": 52051000000, "grossProfit": 38095000000,
+        "grossProfitRatio": 0.4225922393, "researchAndDevelopmentExpenses": 6761000000,
+        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        6440000000, "otherExpenses": -237000000, "operatingExpenses": 13201000000,
+        "costAndExpenses": 65252000000, "interestIncome": 753000000, "interestExpense":
+        827000000, "depreciationAndAmortization": 2865000000, "ebitda": 27759000000,
+        "ebitdaratio": 0.3079337963, "operatingIncome": 24894000000, "operatingIncomeRatio":
+        0.2761520201, "totalOtherIncomeExpensesNet": -237000000, "incomeBeforeTax":
+        24657000000, "incomeBeforeTaxRatio": 0.2735229517, "incomeTaxExpense": 3936000000,
+        "netIncome": 20721000000, "netIncomeRatio": 0.2298604486, "eps": 1.29, "epsdiluted":
+        1.29, "weightedAverageShsOut": 16030382000, "weightedAverageShsOutDil": 16118465000,
+        "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/0000320193-22-000108-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000108/aapl-20220924.htm",
-        "calculatedOtherExpenses": 6440000000, "calculatedOperatingExpenses": 13201000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 13201000000,
         "calculatedNetInterest": -74000000, "calculatedOtherIncome": -163000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 27759000000}, {"date": "2022-06-25", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2022-07-29",
@@ -136,9 +154,9 @@ interactions:
         1.2, "weightedAverageShsOut": 16162945000, "weightedAverageShsOutDil": 16262203000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000070/0000320193-22-000070-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000070/aapl-20220625.htm",
-        "calculatedOtherExpenses": 6012000000, "calculatedOperatingExpenses": 12809000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 12809000000,
         "calculatedNetInterest": 3000000, "calculatedOtherIncome": -13000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 25881000000}, {"date": "2022-03-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 25881000000}, {"date": "2022-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2022-04-29",
         "acceptedDate": "2022-04-28 18:03:58", "calendarYear": "2022", "period": "Q2",
         "revenue": 97278000000, "costOfRevenue": 54719000000, "grossProfit": 42559000000,
@@ -154,9 +172,9 @@ interactions:
         1.52, "weightedAverageShsOut": 16278802000, "weightedAverageShsOutDil": 16403316000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000059/0000320193-22-000059-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000059/aapl-20220326.htm",
-        "calculatedOtherExpenses": 6193000000, "calculatedOperatingExpenses": 12580000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 12580000000,
         "calculatedNetInterest": 9000000, "calculatedOtherIncome": 151000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 32716000000}, {"date": "2021-12-25", "symbol": "AAPL",
+        0, "calculatedEbitda": 32716000000}, {"date": "2021-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2022-01-28",
         "acceptedDate": "2022-01-27 18:00:58", "calendarYear": "2022", "period": "Q1",
         "revenue": 123945000000, "costOfRevenue": 69702000000, "grossProfit": 54243000000,
@@ -172,7 +190,7 @@ interactions:
         2.1, "weightedAverageShsOut": 16391724000, "weightedAverageShsOutDil": 16519291000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000007/0000320193-22-000007-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019322000007/aapl-20211225.htm",
-        "calculatedOtherExpenses": 6449000000, "calculatedOperatingExpenses": 12755000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 12755000000,
         "calculatedNetInterest": -44000000, "calculatedOtherIncome": -203000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 44185000000}, {"date": "2021-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2021-10-29",
@@ -190,9 +208,9 @@ interactions:
         1.24, "weightedAverageShsOut": 16487121000, "weightedAverageShsOutDil": 16635097000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000105/0000320193-21-000105-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000105/aapl-20210925.htm",
-        "calculatedOtherExpenses": 5616000000, "calculatedOperatingExpenses": 11388000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 11388000000,
         "calculatedNetInterest": -13000000, "calculatedOtherIncome": -525000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 26775000000}, {"date": "2021-06-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 26775000000}, {"date": "2021-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2021-07-28",
         "acceptedDate": "2021-07-27 18:03:42", "calendarYear": "2021", "period": "Q3",
         "revenue": 81434000000, "costOfRevenue": 46179000000, "grossProfit": 35255000000,
@@ -208,9 +226,9 @@ interactions:
         1.3, "weightedAverageShsOut": 16629371000, "weightedAverageShsOutDil": 16781735000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000065/0000320193-21-000065-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000065/aapl-20210626.htm",
-        "calculatedOtherExpenses": 5412000000, "calculatedOperatingExpenses": 11129000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 11129000000,
         "calculatedNetInterest": 54000000, "calculatedOtherIncome": 189000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 26958000000}, {"date": "2021-03-27", "symbol": "AAPL",
+        0, "calculatedEbitda": 26958000000}, {"date": "2021-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2021-04-29",
         "acceptedDate": "2021-04-28 18:02:54", "calendarYear": "2021", "period": "Q2",
         "revenue": 89584000000, "costOfRevenue": 51505000000, "grossProfit": 38079000000,
@@ -226,9 +244,9 @@ interactions:
         1.4, "weightedAverageShsOut": 16753476000, "weightedAverageShsOutDil": 16929157000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000056/0000320193-21-000056-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000056/aapl-20210327.htm",
-        "calculatedOtherExpenses": 5314000000, "calculatedOperatingExpenses": 10576000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 10576000000,
         "calculatedNetInterest": 48000000, "calculatedOtherIncome": 460000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 30300000000}, {"date": "2020-12-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 30300000000}, {"date": "2020-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2021-01-28",
         "acceptedDate": "2021-01-27 18:03:06", "calendarYear": "2021", "period": "Q1",
         "revenue": 111439000000, "costOfRevenue": 67111000000, "grossProfit": 44328000000,
@@ -243,9 +261,9 @@ interactions:
         0.258033543, "eps": 1.7, "epsdiluted": 1.68, "weightedAverageShsOut": 16935119000,
         "weightedAverageShsOutDil": 17113688000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000010/0000320193-21-000010-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019321000010/aapl-20201226.htm",
-        "calculatedOtherExpenses": 5631000000, "calculatedOperatingExpenses": 10794000000,
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 10794000000,
         "calculatedNetInterest": 109000000, "calculatedOtherIncome": -64000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 36200000000}, {"date": "2020-09-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 36200000000}, {"date": "2020-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2020-10-30",
         "acceptedDate": "2020-10-29 18:06:25", "calendarYear": "2020", "period": "Q4",
         "revenue": 64698000000, "costOfRevenue": 40009000000, "grossProfit": 24689000000,
@@ -260,9 +278,9 @@ interactions:
         0.1958793162, "eps": 0.74, "epsdiluted": 0.73, "weightedAverageShsOut": 17057622000,
         "weightedAverageShsOutDil": 17256521000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/0000320193-20-000096-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000096/aapl-20200926.htm",
-        "calculatedOtherExpenses": 4936000000, "calculatedOperatingExpenses": 9914000000,
-        "calculatedNetInterest": 134000000, "calculatedOtherIncome": -8000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 17477000000}, {"date": "2020-06-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 9914000000, "calculatedNetInterest":
+        134000000, "calculatedOtherIncome": -8000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 17477000000}, {"date": "2020-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2020-07-31",
         "acceptedDate": "2020-07-30 19:29:09", "calendarYear": "2020", "period": "Q3",
         "revenue": 59685000000, "costOfRevenue": 37005000000, "grossProfit": 22680000000,
@@ -277,9 +295,9 @@ interactions:
         0.1885398341, "eps": 0.65, "epsdiluted": 0.65, "weightedAverageShsOut": 17250292000,
         "weightedAverageShsOutDil": 17419152000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000062/0000320193-20-000062-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000062/aapl-20200627.htm",
-        "calculatedOtherExpenses": 4831000000, "calculatedOperatingExpenses": 9589000000,
-        "calculatedNetInterest": 204000000, "calculatedOtherIncome": -158000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 15843000000}, {"date": "2020-03-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 9589000000, "calculatedNetInterest":
+        204000000, "calculatedOtherIncome": -158000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 15843000000}, {"date": "2020-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2020-05-01",
         "acceptedDate": "2020-04-30 18:03:10", "calendarYear": "2020", "period": "Q2",
         "revenue": 58313000000, "costOfRevenue": 35943000000, "grossProfit": 22370000000,
@@ -294,9 +312,9 @@ interactions:
         0.192907242, "eps": 0.65, "epsdiluted": 0.64, "weightedAverageShsOut": 17440404000,
         "weightedAverageShsOutDil": 17618764000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000052/0000320193-20-000052-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000052/a10-qq220203282020.htm",
-        "calculatedOtherExpenses": 4952000000, "calculatedOperatingExpenses": 9517000000,
-        "calculatedNetInterest": 292000000, "calculatedOtherIncome": -10000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 15639000000}, {"date": "2019-12-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 9517000000, "calculatedNetInterest":
+        292000000, "calculatedOtherIncome": -10000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 15639000000}, {"date": "2019-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2020-01-29",
         "acceptedDate": "2020-01-28 18:02:44", "calendarYear": "2020", "period": "Q1",
         "revenue": 91819000000, "costOfRevenue": 56602000000, "grossProfit": 35217000000,
@@ -311,9 +329,9 @@ interactions:
         0.2421720995, "eps": 1.26, "epsdiluted": 1.25, "weightedAverageShsOut": 17660160000,
         "weightedAverageShsOutDil": 17818416000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000010/0000320193-20-000010-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019320000010/a10-qq1202012282019.htm",
-        "calculatedOtherExpenses": 5197000000, "calculatedOperatingExpenses": 9648000000,
-        "calculatedNetInterest": 260000000, "calculatedOtherIncome": 89000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 28385000000}, {"date": "2019-09-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 9648000000, "calculatedNetInterest":
+        260000000, "calculatedOtherIncome": 89000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 28385000000}, {"date": "2019-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2019-10-31",
         "acceptedDate": "2019-10-30 18:12:36", "calendarYear": "2019", "period": "Q4",
         "revenue": 64040000000, "costOfRevenue": 39727000000, "grossProfit": 24313000000,
@@ -328,9 +346,9 @@ interactions:
         0.2137101811, "eps": 0.76, "epsdiluted": 0.76, "weightedAverageShsOut": 17963248000,
         "weightedAverageShsOutDil": 18081492000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000119/0000320193-19-000119-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000119/a10-k20199282019.htm",
-        "calculatedOtherExpenses": 4578000000, "calculatedOperatingExpenses": 8688000000,
-        "calculatedNetInterest": 296000000, "calculatedOtherIncome": 206000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 18804000000}, {"date": "2019-06-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 8688000000, "calculatedNetInterest":
+        296000000, "calculatedOtherIncome": 206000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 18804000000}, {"date": "2019-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2019-07-31",
         "acceptedDate": "2019-07-31 16:31:53", "calendarYear": "2019", "period": "Q3",
         "revenue": 53809000000, "costOfRevenue": 33582000000, "grossProfit": 20227000000,
@@ -345,9 +363,9 @@ interactions:
         0.1866602241, "eps": 0.55, "epsdiluted": 0.55, "weightedAverageShsOut": 18282532000,
         "weightedAverageShsOutDil": 18405520000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000076/0000320193-19-000076-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000076/a10-qq320196292019.htm",
-        "calculatedOtherExpenses": 4102000000, "calculatedOperatingExpenses": 8359000000,
+        "calculatedOtherExpenses": -324000000, "calculatedOperatingExpenses": 8359000000,
         "calculatedNetInterest": 324000000, "calculatedOtherIncome": -281000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 14801000000}, {"date": "2019-03-30", "symbol": "AAPL",
+        0, "calculatedEbitda": 14801000000}, {"date": "2019-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2019-05-01",
         "acceptedDate": "2019-05-01 16:32:00", "calendarYear": "2019", "period": "Q2",
         "revenue": 58015000000, "costOfRevenue": 36194000000, "grossProfit": 21821000000,
@@ -363,9 +381,9 @@ interactions:
         "weightedAverageShsOut": 18696284000, "weightedAverageShsOutDil": 18802584000,
         "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000066/0000320193-19-000066-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000066/a10-qq220193302019.htm",
-        "calculatedOtherExpenses": 4458000000, "calculatedOperatingExpenses": 8406000000,
-        "calculatedNetInterest": 348000000, "calculatedOtherIncome": 30000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 16455000000}, {"date": "2018-12-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 8406000000, "calculatedNetInterest":
+        348000000, "calculatedOtherIncome": 30000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 16455000000}, {"date": "2018-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2019-01-30",
         "acceptedDate": "2019-01-30 16:31:37", "calendarYear": "2019", "period": "Q1",
         "revenue": 84310000000, "costOfRevenue": 52279000000, "grossProfit": 32031000000,
@@ -380,9 +398,9 @@ interactions:
         0.2368046495, "eps": 1.06, "epsdiluted": 1.05, "weightedAverageShsOut": 18943280000,
         "weightedAverageShsOutDil": 19093008000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000010/0000320193-19-000010-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019319000010/a10-qq1201912292018.htm",
-        "calculatedOtherExpenses": 4783000000, "calculatedOperatingExpenses": 8685000000,
-        "calculatedNetInterest": 417000000, "calculatedOtherIncome": 143000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 26741000000}, {"date": "2018-09-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 8685000000, "calculatedNetInterest":
+        417000000, "calculatedOtherIncome": 143000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 26741000000}, {"date": "2018-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2018-11-05",
         "acceptedDate": "2018-11-05 08:01:40", "calendarYear": "2018", "period": "Q4",
         "revenue": 62900000000, "costOfRevenue": 38816000000, "grossProfit": 24084000000,
@@ -397,8 +415,8 @@ interactions:
         0.2245627981, "eps": 0.74, "epsdiluted": 0.73, "weightedAverageShsOut": 19206356000,
         "weightedAverageShsOutDil": 19390188000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000145/0000320193-18-000145-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000145/a10-k20189292018.htm",
-        "calculatedOtherExpenses": 4216000000, "calculatedOperatingExpenses": 7966000000,
-        "calculatedNetInterest": 443000000, "calculatedOtherIncome": -140000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 7966000000, "calculatedNetInterest":
+        443000000, "calculatedOtherIncome": -140000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 18872000000}, {"date": "2018-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2018-08-01",
         "acceptedDate": "2018-08-01 16:31:48", "calendarYear": "2018", "period": "Q3",
@@ -414,8 +432,8 @@ interactions:
         0.216258331, "eps": 0.59, "epsdiluted": 0.59, "weightedAverageShsOut": 19528668000,
         "weightedAverageShsOutDil": 19706436000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000100/0000320193-18-000100-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000100/a10-qq320186302018.htm",
-        "calculatedOtherExpenses": 4108000000, "calculatedOperatingExpenses": 7809000000,
-        "calculatedNetInterest": 572000000, "calculatedOtherIncome": 100000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 7809000000, "calculatedNetInterest":
+        572000000, "calculatedOtherIncome": 100000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 15277000000}, {"date": "2018-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2018-05-02",
         "acceptedDate": "2018-05-02 16:32:12", "calendarYear": "2018", "period": "Q2",
@@ -431,9 +449,9 @@ interactions:
         0.2260824051, "eps": 0.69, "epsdiluted": 0.68, "weightedAverageShsOut": 20099508000,
         "weightedAverageShsOutDil": 20273972000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000070/0000320193-18-000070-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000070/a10-qq220183312018.htm",
-        "calculatedOtherExpenses": 4150000000, "calculatedOperatingExpenses": 7528000000,
-        "calculatedNetInterest": 713000000, "calculatedOtherIncome": -439000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 18633000000}, {"date": "2017-12-30", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 7528000000, "calculatedNetInterest":
+        713000000, "calculatedOtherIncome": -439000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 18633000000}, {"date": "2017-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2018-02-02",
         "acceptedDate": "2018-02-02 08:01:26", "calendarYear": "2018", "period": "Q1",
         "revenue": 88293000000, "costOfRevenue": 54381000000, "grossProfit": 33912000000,
@@ -448,8 +466,8 @@ interactions:
         0.2272547088, "eps": 0.98, "epsdiluted": 0.97, "weightedAverageShsOut": 20451508000,
         "weightedAverageShsOutDil": 20631148000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000007/0000320193-18-000007-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019318000007/a10-qq1201812302017.htm",
-        "calculatedOtherExpenses": 4231000000, "calculatedOperatingExpenses": 7638000000,
-        "calculatedNetInterest": 718000000, "calculatedOtherIncome": 38000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 7638000000, "calculatedNetInterest":
+        718000000, "calculatedOtherIncome": 38000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 29019000000}, {"date": "2017-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2017-11-03",
         "acceptedDate": "2017-11-03 08:01:37", "calendarYear": "2017", "period": "Q4",
@@ -465,9 +483,9 @@ interactions:
         0.2037695658, "eps": 0.52, "epsdiluted": 0.52, "weightedAverageShsOut": 20597712000,
         "weightedAverageShsOutDil": 20734340000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019317000070/0000320193-17-000070-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019317000070/a10-k20179302017.htm",
-        "calculatedOtherExpenses": 3814000000, "calculatedOperatingExpenses": 6811000000,
-        "calculatedNetInterest": 702000000, "calculatedOtherIncome": 95000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 15604000000}, {"date": "2017-07-01", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 6811000000, "calculatedNetInterest":
+        702000000, "calculatedOtherIncome": 95000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 15604000000}, {"date": "2017-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2017-08-02",
         "acceptedDate": "2017-08-02 16:31:28", "calendarYear": "2017", "period": "Q3",
         "revenue": 45408000000, "costOfRevenue": 27920000000, "grossProfit": 17488000000,
@@ -482,9 +500,9 @@ interactions:
         0.1919705779, "eps": 0.42, "epsdiluted": 0.42, "weightedAverageShsOut": 20780352000,
         "weightedAverageShsOutDil": 20933996000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019317000009/0000320193-17-000009-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019317000009/a10-qq32017712017.htm",
-        "calculatedOtherExpenses": 3783000000, "calculatedOperatingExpenses": 6720000000,
-        "calculatedNetInterest": 725000000, "calculatedOtherIncome": -185000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 13122000000}, {"date": "2017-04-01", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 6720000000, "calculatedNetInterest":
+        725000000, "calculatedOtherIncome": -185000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 13122000000}, {"date": "2017-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2017-05-03",
         "acceptedDate": "2017-05-03 16:32:23", "calendarYear": "2017", "period": "Q2",
         "revenue": 52896000000, "costOfRevenue": 32305000000, "grossProfit": 20591000000,
@@ -499,8 +517,8 @@ interactions:
         0.2085034785, "eps": 0.53, "epsdiluted": 0.53, "weightedAverageShsOut": 20903164000,
         "weightedAverageShsOutDil": 21046752000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000162828017004790/0001628280-17-004790-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000162828017004790/a10-qq22017412017.htm",
-        "calculatedOtherExpenses": 3718000000, "calculatedOperatingExpenses": 6494000000,
-        "calculatedNetInterest": 752000000, "calculatedOtherIncome": -165000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 6494000000, "calculatedNetInterest":
+        752000000, "calculatedOtherIncome": -165000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 16429000000}, {"date": "2016-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2017-02-01",
         "acceptedDate": "2017-02-01 16:33:29", "calendarYear": "2017", "period": "Q1",
@@ -516,9 +534,9 @@ interactions:
         0.2283442458, "eps": 0.85, "epsdiluted": 0.84, "weightedAverageShsOut": 21194644000,
         "weightedAverageShsOutDil": 21311980000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000162828017000717/0001628280-17-000717-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000162828017000717/a10-qq1201712312016.htm",
-        "calculatedOtherExpenses": 3946000000, "calculatedOperatingExpenses": 6817000000,
-        "calculatedNetInterest": 699000000, "calculatedOtherIncome": 122000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 26346000000}, {"date": "2016-09-24", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 6817000000, "calculatedNetInterest":
+        699000000, "calculatedOtherIncome": 122000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 26346000000}, {"date": "2016-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2016-10-26",
         "acceptedDate": "2016-10-26 16:42:16", "calendarYear": "2016", "period": "Q4",
         "revenue": 46852000000, "costOfRevenue": 29039000000, "grossProfit": 17813000000,
@@ -533,9 +551,9 @@ interactions:
         0.1923930675, "eps": 0.42, "epsdiluted": 0.42, "weightedAverageShsOut": 21467648000,
         "weightedAverageShsOutDil": 21573332000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000162828016020309/0001628280-16-020309-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000162828016020309/a201610-k9242016.htm",
-        "calculatedOtherExpenses": 2896000000, "calculatedOperatingExpenses": 5466000000,
+        "calculatedOtherExpenses": -586000000, "calculatedOperatingExpenses": 5466000000,
         "calculatedNetInterest": 586000000, "calculatedOtherIncome": -745000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 14895000000}, {"date": "2016-06-25", "symbol": "AAPL",
+        0, "calculatedEbitda": 14895000000}, {"date": "2016-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2016-07-27",
         "acceptedDate": "2016-07-27 16:32:36", "calendarYear": "2016", "period": "Q3",
         "revenue": 42358000000, "costOfRevenue": 26252000000, "grossProfit": 16106000000,
@@ -550,9 +568,9 @@ interactions:
         0.1840502384, "eps": 0.36, "epsdiluted": 0.36, "weightedAverageShsOut": 21772232000,
         "weightedAverageShsOutDil": 21891124000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000162828016017809/0001628280-16-017809-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000162828016017809/a10-qq320166252016.htm",
-        "calculatedOtherExpenses": 3441000000, "calculatedOperatingExpenses": 6001000000,
-        "calculatedNetInterest": 627000000, "calculatedOtherIncome": -263000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 12631000000}, {"date": "2016-03-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 6001000000, "calculatedNetInterest":
+        627000000, "calculatedOtherIncome": -263000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 12631000000}, {"date": "2016-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2016-04-27",
         "acceptedDate": "2016-04-27 16:32:53", "calendarYear": "2016", "period": "Q2",
         "revenue": 50557000000, "costOfRevenue": 30636000000, "grossProfit": 19921000000,
@@ -567,9 +585,9 @@ interactions:
         0.2080028483, "eps": 0.48, "epsdiluted": 0.48, "weightedAverageShsOut": 22057524000,
         "weightedAverageShsOutDil": 22163544000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312516559625/0001193125-16-559625-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312516559625/d165350d10q.htm",
-        "calculatedOtherExpenses": 3423000000, "calculatedOperatingExpenses": 5934000000,
-        "calculatedNetInterest": 665000000, "calculatedOtherIncome": -510000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 16464000000}, {"date": "2015-12-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 5934000000, "calculatedNetInterest":
+        665000000, "calculatedOtherIncome": -510000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 16464000000}, {"date": "2015-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2016-01-27",
         "acceptedDate": "2016-01-27 16:32:03", "calendarYear": "2016", "period": "Q1",
         "revenue": 75872000000, "costOfRevenue": 45449000000, "grossProfit": 30423000000,
@@ -584,9 +602,9 @@ interactions:
         0.2419996837, "eps": 0.83, "epsdiluted": 0.82, "weightedAverageShsOut": 22235720000,
         "weightedAverageShsOutDil": 22376508000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312516439878/0001193125-16-439878-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312516439878/d66145d10q.htm",
-        "calculatedOtherExpenses": 3848000000, "calculatedOperatingExpenses": 6252000000,
-        "calculatedNetInterest": 665000000, "calculatedOtherIncome": -263000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 27125000000}, {"date": "2015-09-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 6252000000, "calculatedNetInterest":
+        665000000, "calculatedOtherIncome": -263000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 27125000000}, {"date": "2015-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2015-10-28",
         "acceptedDate": "2015-10-28 16:31:09", "calendarYear": "2015", "period": "Q4",
         "revenue": 51501000000, "costOfRevenue": 30953000000, "grossProfit": 20548000000,
@@ -601,9 +619,9 @@ interactions:
         0.2159958059, "eps": 0.49, "epsdiluted": 0.49, "weightedAverageShsOut": 22587664000,
         "weightedAverageShsOutDil": 22730076000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312515356351/0001193125-15-356351-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312515356351/d17062d10k.htm",
-        "calculatedOtherExpenses": 3705000000, "calculatedOperatingExpenses": 5925000000,
-        "calculatedNetInterest": 588000000, "calculatedOtherIncome": -149000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 17742000000}, {"date": "2015-06-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 5925000000, "calculatedNetInterest":
+        588000000, "calculatedOtherIncome": -149000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 17742000000}, {"date": "2015-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2015-07-22",
         "acceptedDate": "2015-07-22 17:01:17", "calendarYear": "2015", "period": "Q3",
         "revenue": 49605000000, "costOfRevenue": 29924000000, "grossProfit": 19681000000,
@@ -618,9 +636,9 @@ interactions:
         0.2152403992, "eps": 0.47, "epsdiluted": 0.46, "weightedAverageShsOut": 22919544000,
         "weightedAverageShsOutDil": 23092396000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312515259935/0001193125-15-259935-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312515259935/d927922d10q.htm",
-        "calculatedOtherExpenses": 3564000000, "calculatedOperatingExpenses": 5598000000,
-        "calculatedNetInterest": 565000000, "calculatedOtherIncome": -175000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 17167000000}, {"date": "2015-03-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 5598000000, "calculatedNetInterest":
+        565000000, "calculatedOtherIncome": -175000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 17167000000}, {"date": "2015-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2015-04-28",
         "acceptedDate": "2015-04-28 17:01:16", "calendarYear": "2015", "period": "Q2",
         "revenue": 58010000000, "costOfRevenue": 34354000000, "grossProfit": 23656000000,
@@ -635,9 +653,9 @@ interactions:
         0.2339079469, "eps": 0.59, "epsdiluted": 0.58, "weightedAverageShsOut": 23175196000,
         "weightedAverageShsOutDil": 23339432000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312515153166/0001193125-15-153166-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312515153166/d892246d10q.htm",
-        "calculatedOtherExpenses": 3460000000, "calculatedOperatingExpenses": 5378000000,
-        "calculatedNetInterest": 512000000, "calculatedOtherIncome": -226000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 20757000000}, {"date": "2014-12-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 5378000000, "calculatedNetInterest":
+        512000000, "calculatedOtherIncome": -226000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 20757000000}, {"date": "2014-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2015-01-28",
         "acceptedDate": "2015-01-28 16:39:32", "calendarYear": "2015", "period": "Q1",
         "revenue": 74599000000, "costOfRevenue": 44858000000, "grossProfit": 29741000000,
@@ -652,9 +670,9 @@ interactions:
         0.2416118179, "eps": 0.77, "epsdiluted": 0.77, "weightedAverageShsOut": 23372328000,
         "weightedAverageShsOutDil": 23527212000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312515023697/0001193125-15-023697-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312515023697/d835533d10q.htm",
-        "calculatedOtherExpenses": 3600000000, "calculatedOperatingExpenses": 5495000000,
-        "calculatedNetInterest": 523000000, "calculatedOtherIncome": -353000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 26821000000}, {"date": "2014-09-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 5495000000, "calculatedNetInterest":
+        523000000, "calculatedOtherIncome": -353000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 26821000000}, {"date": "2014-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2014-10-27",
         "acceptedDate": "2014-10-27 17:11:55", "calendarYear": "2014", "period": "Q4",
         "revenue": 42123000000, "costOfRevenue": 26114000000, "grossProfit": 16009000000,
@@ -669,9 +687,9 @@ interactions:
         0.201006576, "eps": 0.36, "epsdiluted": 0.36, "weightedAverageShsOut": 23735380000,
         "weightedAverageShsOutDil": 23888328000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312514383437/0001193125-14-383437-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312514383437/d783162d10k.htm",
-        "calculatedOtherExpenses": 3158000000, "calculatedOperatingExpenses": 4844000000,
-        "calculatedNetInterest": 404000000, "calculatedOtherIncome": -97000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 13134000000}, {"date": "2014-06-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 4844000000, "calculatedNetInterest":
+        404000000, "calculatedOtherIncome": -97000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 13134000000}, {"date": "2014-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2014-07-23",
         "acceptedDate": "2014-07-23 16:32:48", "calendarYear": "2014", "period": "Q3",
         "revenue": 37432000000, "costOfRevenue": 22697000000, "grossProfit": 14735000000,
@@ -686,9 +704,9 @@ interactions:
         0.2069886728, "eps": 0.32, "epsdiluted": 0.32, "weightedAverageShsOut": 24050540000,
         "weightedAverageShsOutDil": 24206844000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312514277160/0001193125-14-277160-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312514277160/d740164d10q.htm",
-        "calculatedOtherExpenses": 2850000000, "calculatedOperatingExpenses": 4453000000,
-        "calculatedNetInterest": 339000000, "calculatedOtherIncome": -137000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 12228000000}, {"date": "2014-03-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 4453000000, "calculatedNetInterest":
+        339000000, "calculatedOtherIncome": -137000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 12228000000}, {"date": "2014-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2014-04-24",
         "acceptedDate": "2014-04-24 17:02:12", "calendarYear": "2014", "period": "Q2",
         "revenue": 45646000000, "costOfRevenue": 27699000000, "grossProfit": 17947000000,
@@ -703,9 +721,9 @@ interactions:
         0.2239626692, "eps": 0.42, "epsdiluted": 0.42, "weightedAverageShsOut": 24493196000,
         "weightedAverageShsOutDil": 24626784000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312514157311/0001193125-14-157311-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312514157311/d694710d10q.htm",
-        "calculatedOtherExpenses": 2932000000, "calculatedOperatingExpenses": 4354000000,
-        "calculatedNetInterest": 325000000, "calculatedOtherIncome": -100000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 15480000000}, {"date": "2013-12-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 4354000000, "calculatedNetInterest":
+        325000000, "calculatedOtherIncome": -100000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 15480000000}, {"date": "2013-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2014-01-28",
         "acceptedDate": "2014-01-28 17:07:27", "calendarYear": "2014", "period": "Q1",
         "revenue": 57594000000, "costOfRevenue": 35748000000, "grossProfit": 21846000000,
@@ -720,9 +738,9 @@ interactions:
         0.226968087, "eps": 0.52, "epsdiluted": 0.52, "weightedAverageShsOut": 25090016000,
         "weightedAverageShsOutDil": 25240656000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312514024487/0001193125-14-024487-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312514024487/d644622d10q.htm",
-        "calculatedOtherExpenses": 3053000000, "calculatedOperatingExpenses": 4383000000,
-        "calculatedNetInterest": 343000000, "calculatedOtherIncome": -97000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 19607000000}, {"date": "2013-09-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 4383000000, "calculatedNetInterest":
+        343000000, "calculatedOtherIncome": -97000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 19607000000}, {"date": "2013-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2013-10-30",
         "acceptedDate": "2013-10-29 20:38:28", "calendarYear": "2013", "period": "Q4",
         "revenue": 37472000000, "costOfRevenue": 23601000000, "grossProfit": 13871000000,
@@ -737,9 +755,9 @@ interactions:
         0.200469684, "eps": 0.3, "epsdiluted": 0.3, "weightedAverageShsOut": 25316564000,
         "weightedAverageShsOutDil": 25455668000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312513416534/0001193125-13-416534-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312513416534/d590790d10k.htm",
-        "calculatedOtherExpenses": 2673000000, "calculatedOperatingExpenses": 3841000000,
-        "calculatedNetInterest": 307000000, "calculatedOtherIncome": -194000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 11813000000}, {"date": "2013-06-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3841000000, "calculatedNetInterest":
+        307000000, "calculatedOtherIncome": -194000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 11813000000}, {"date": "2013-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2013-07-24",
         "acceptedDate": "2013-07-24 17:02:02", "calendarYear": "2013", "period": "Q3",
         "revenue": 35323000000, "costOfRevenue": 22299000000, "grossProfit": 13024000000,
@@ -754,9 +772,9 @@ interactions:
         0.1953401466, "eps": 0.27, "epsdiluted": 0.27, "weightedAverageShsOut": 25721304000,
         "weightedAverageShsOutDil": 25879420000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312513300670/0001193125-13-300670-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312513300670/d552802d10q.htm",
-        "calculatedOtherExpenses": 2645000000, "calculatedOperatingExpenses": 3823000000,
-        "calculatedNetInterest": 332000000, "calculatedOtherIncome": -98000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 10895000000}, {"date": "2013-03-30", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3823000000, "calculatedNetInterest":
+        332000000, "calculatedOtherIncome": -98000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 10895000000}, {"date": "2013-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2013-04-24",
         "acceptedDate": "2013-04-23 21:29:23", "calendarYear": "2013", "period": "Q2",
         "revenue": 43603000000, "costOfRevenue": 27254000000, "grossProfit": 16349000000,
@@ -771,9 +789,9 @@ interactions:
         0.2189528243, "eps": 0.36, "epsdiluted": 0.36, "weightedAverageShsOut": 26309612000,
         "weightedAverageShsOutDil": 26488980000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312513168288/0001193125-13-168288-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312513168288/d501596d10q.htm",
-        "calculatedOtherExpenses": 2672000000, "calculatedOperatingExpenses": 3791000000,
-        "calculatedNetInterest": 767000000, "calculatedOtherIncome": -420000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 14250000000}, {"date": "2012-12-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3791000000, "calculatedNetInterest":
+        767000000, "calculatedOtherIncome": -420000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 14250000000}, {"date": "2012-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2013-01-24",
         "acceptedDate": "2013-01-24 17:01:37", "calendarYear": "2013", "period": "Q1",
         "revenue": 54512000000, "costOfRevenue": 33452000000, "grossProfit": 21060000000,
@@ -788,9 +806,9 @@ interactions:
         0.2399104784, "eps": 0.5, "epsdiluted": 0.49, "weightedAverageShsOut": 26289648000,
         "weightedAverageShsOutDil": 26522076000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312513022339/0001193125-13-022339-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312513022339/d453687d10q.htm",
-        "calculatedOtherExpenses": 2840000000, "calculatedOperatingExpenses": 3850000000,
-        "calculatedNetInterest": 883000000, "calculatedOtherIncome": -421000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 18798000000}, {"date": "2012-09-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3850000000, "calculatedNetInterest":
+        883000000, "calculatedOtherIncome": -421000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 18798000000}, {"date": "2012-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2012-10-31",
         "acceptedDate": "2012-10-31 17:07:19", "calendarYear": "2012", "period": "Q4",
         "revenue": 35966000000, "costOfRevenue": 21565000000, "grossProfit": 14401000000,
@@ -805,9 +823,9 @@ interactions:
         0.2286325975, "eps": 0.31, "epsdiluted": 0.31, "weightedAverageShsOut": 26273604000,
         "weightedAverageShsOutDil": 26549208000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312512444068/0001193125-12-444068-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312512444068/d411355d10k.htm",
-        "calculatedOtherExpenses": 2551000000, "calculatedOperatingExpenses": 3457000000,
-        "calculatedNetInterest": -51000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 11925000000}, {"date": "2012-06-30", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3457000000, "calculatedNetInterest":
+        -51000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 11925000000}, {"date": "2012-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2012-07-25",
         "acceptedDate": "2012-07-25 16:39:39", "calendarYear": "2012", "period": "Q3",
         "revenue": 35023000000, "costOfRevenue": 20029000000, "grossProfit": 14994000000,
@@ -822,9 +840,9 @@ interactions:
         0.2519487194, "eps": 0.34, "epsdiluted": 0.33, "weightedAverageShsOut": 26224688000,
         "weightedAverageShsOutDil": 26517652000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312512314552/0001193125-12-314552-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312512314552/d365704d10q.htm",
-        "calculatedOtherExpenses": 2545000000, "calculatedOperatingExpenses": 3421000000,
-        "calculatedNetInterest": 288000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 12408000000}, {"date": "2012-03-31", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3421000000, "calculatedNetInterest":
+        288000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 12408000000}, {"date": "2012-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2012-04-25",
         "acceptedDate": "2012-04-25 17:01:16", "calendarYear": "2012", "period": "Q2",
         "revenue": 39186000000, "costOfRevenue": 20622000000, "grossProfit": 18564000000,
@@ -839,9 +857,9 @@ interactions:
         0.2965855152, "eps": 0.44, "epsdiluted": 0.44, "weightedAverageShsOut": 26140296000,
         "weightedAverageShsOutDil": 26457004000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312512182321/0001193125-12-182321-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312512182321/d297069d10q.htm",
-        "calculatedOtherExpenses": 2339000000, "calculatedOperatingExpenses": 3180000000,
-        "calculatedNetInterest": 148000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 16124000000}, {"date": "2011-12-31", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3180000000, "calculatedNetInterest":
+        148000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 16124000000}, {"date": "2011-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2012-01-25",
         "acceptedDate": "2012-01-25 16:42:11", "calendarYear": "2012", "period": "Q1",
         "revenue": 46333000000, "costOfRevenue": 25630000000, "grossProfit": 20703000000,
@@ -856,9 +874,9 @@ interactions:
         0.281958863, "eps": 0.5, "epsdiluted": 0.5, "weightedAverageShsOut": 26069148000,
         "weightedAverageShsOutDil": 26364016000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312512023398/0001193125-12-023398-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312512023398/d267587d10q.htm",
-        "calculatedOtherExpenses": 2605000000, "calculatedOperatingExpenses": 3363000000,
-        "calculatedNetInterest": 137000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 18061000000}, {"date": "2011-09-24", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 3363000000, "calculatedNetInterest":
+        137000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 18061000000}, {"date": "2011-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2011-10-26",
         "acceptedDate": "2011-10-26 16:35:25", "calendarYear": "2011", "period": "Q4",
         "revenue": 28270000000, "costOfRevenue": 16890000000, "grossProfit": 11380000000,
@@ -873,9 +891,9 @@ interactions:
         0.2342766183, "eps": 0.25, "epsdiluted": 0.25, "weightedAverageShsOut": 25991840000,
         "weightedAverageShsOutDil": 26306476000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312511282113/0001193125-11-282113-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312511282113/d220209d10k.htm",
-        "calculatedOtherExpenses": 2025000000, "calculatedOperatingExpenses": 2670000000,
-        "calculatedNetInterest": 81000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 9253000000}, {"date": "2011-06-25", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 2670000000, "calculatedNetInterest":
+        81000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 9253000000}, {"date": "2011-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2011-07-20",
         "acceptedDate": "2011-07-20 16:32:13", "calendarYear": "2011", "period": "Q3",
         "revenue": 28571000000, "costOfRevenue": 16649000000, "grossProfit": 11922000000,
@@ -890,9 +908,9 @@ interactions:
         0.2557838368, "eps": 0.28, "epsdiluted": 0.28, "weightedAverageShsOut": 25931024000,
         "weightedAverageShsOutDil": 26258680000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312511192493/0001193125-11-192493-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312511192493/d10q.htm",
-        "calculatedOtherExpenses": 1915000000, "calculatedOperatingExpenses": 2543000000,
-        "calculatedNetInterest": 172000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 9860000000}, {"date": "2011-03-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 2543000000, "calculatedNetInterest":
+        172000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 9860000000}, {"date": "2011-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2011-04-21",
         "acceptedDate": "2011-04-21 06:13:41", "calendarYear": "2011", "period": "Q2",
         "revenue": 24667000000, "costOfRevenue": 14449000000, "grossProfit": 10218000000,
@@ -907,9 +925,9 @@ interactions:
         0.2427129363, "eps": 0.23, "epsdiluted": 0.23, "weightedAverageShsOut": 25849488000,
         "weightedAverageShsOutDil": 26206432000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312511104388/0001193125-11-104388-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312511104388/d10q.htm",
-        "calculatedOtherExpenses": 1763000000, "calculatedOperatingExpenses": 2344000000,
-        "calculatedNetInterest": 26000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 8308000000}, {"date": "2010-12-25", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 2344000000, "calculatedNetInterest":
+        26000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 8308000000}, {"date": "2010-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2011-01-19",
         "acceptedDate": "2011-01-19 16:33:29", "calendarYear": "2011", "period": "Q1",
         "revenue": 26741000000, "costOfRevenue": 16443000000, "grossProfit": 10298000000,
@@ -924,9 +942,9 @@ interactions:
         0.224524139, "eps": 0.23, "epsdiluted": 0.23, "weightedAverageShsOut": 25740232000,
         "weightedAverageShsOutDil": 26128312000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312511010144/0001193125-11-010144-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312511010144/d10q.htm",
-        "calculatedOtherExpenses": 1896000000, "calculatedOperatingExpenses": 2471000000,
-        "calculatedNetInterest": 136000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 8183000000}, {"date": "2010-09-25", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 2471000000, "calculatedNetInterest":
+        136000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 8183000000}, {"date": "2010-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2010-10-27",
         "acceptedDate": "2010-10-27 16:36:21", "calendarYear": "2010", "period": "Q4",
         "revenue": 20343000000, "costOfRevenue": 12831000000, "grossProfit": 7512000000,
@@ -941,9 +959,9 @@ interactions:
         0.2117681758, "eps": 0.17, "epsdiluted": 0.17, "weightedAverageShsOut": 25607624000,
         "weightedAverageShsOutDil": 26007100000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312510238044/0001193125-10-238044-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312510238044/d10k.htm",
-        "calculatedOtherExpenses": 1571000000, "calculatedOperatingExpenses": 2065000000,
-        "calculatedNetInterest": 14000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 5776000000}, {"date": "2010-06-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 2065000000, "calculatedNetInterest":
+        14000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 5776000000}, {"date": "2010-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2010-07-21",
         "acceptedDate": "2010-07-21 16:37:45", "calendarYear": "2010", "period": "Q3",
         "revenue": 15700000000, "costOfRevenue": 9564000000, "grossProfit": 6136000000,
@@ -958,9 +976,9 @@ interactions:
         0.2071974522, "eps": 0.13, "epsdiluted": 0.13, "weightedAverageShsOut": 25541516000,
         "weightedAverageShsOutDil": 25966108000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312510162840/0001193125-10-162840-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312510162840/d10q.htm",
-        "calculatedOtherExpenses": 1438000000, "calculatedOperatingExpenses": 1902000000,
-        "calculatedNetInterest": 58000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 4507000000}, {"date": "2010-03-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1902000000, "calculatedNetInterest":
+        58000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 4507000000}, {"date": "2010-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2010-04-21",
         "acceptedDate": "2010-04-21 16:39:23", "calendarYear": "2010", "period": "Q2",
         "revenue": 13499000000, "costOfRevenue": 7874000000, "grossProfit": 5625000000,
@@ -975,9 +993,9 @@ interactions:
         0.2277205719, "eps": 0.12, "epsdiluted": 0.12, "weightedAverageShsOut": 25411344000,
         "weightedAverageShsOutDil": 25840584000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312510088957/0001193125-10-088957-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312510088957/d10q.htm",
-        "calculatedOtherExpenses": 1220000000, "calculatedOperatingExpenses": 1646000000,
-        "calculatedNetInterest": 266000000, "calculatedOtherIncome": -216000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 4195000000}, {"date": "2009-12-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1646000000, "calculatedNetInterest":
+        266000000, "calculatedOtherIncome": -216000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 4195000000}, {"date": "2009-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2010-01-25",
         "acceptedDate": "2010-01-25 16:23:57", "calendarYear": "2010", "period": "Q1",
         "revenue": 15683000000, "costOfRevenue": 9272000000, "grossProfit": 6411000000,
@@ -992,9 +1010,9 @@ interactions:
         0.2153924632, "eps": 0.13, "epsdiluted": 0.13, "weightedAverageShsOut": 25299176000,
         "weightedAverageShsOutDil": 25753924000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312510012085/0001193125-10-012085-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312510012085/d10q.htm",
-        "calculatedOtherExpenses": 1288000000, "calculatedOperatingExpenses": 1686000000,
-        "calculatedNetInterest": 33000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 4934000000}, {"date": "2009-09-26", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1686000000, "calculatedNetInterest":
+        33000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 4934000000}, {"date": "2009-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2009-10-27",
         "acceptedDate": "2009-10-27 16:18:29", "calendarYear": "2009", "period": "Q4",
         "revenue": 9870000000, "costOfRevenue": 6256000000, "grossProfit": 3614000000,
@@ -1009,9 +1027,9 @@ interactions:
         0.1686930091, "eps": 0.0661, "epsdiluted": 0.065, "weightedAverageShsOut":
         25144896000, "weightedAverageShsOutDil": 25602472000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312509214859/0001193125-09-214859-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312509214859/d10k.htm",
-        "calculatedOtherExpenses": 1063000000, "calculatedOperatingExpenses": 1421000000,
-        "calculatedNetInterest": 45000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 2390000000}, {"date": "2009-06-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1421000000, "calculatedNetInterest":
+        45000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 2390000000}, {"date": "2009-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2009-07-22",
         "acceptedDate": "2009-07-22 16:41:33", "calendarYear": "2009", "period": "Q3",
         "revenue": 8337000000, "costOfRevenue": 5314000000, "grossProfit": 3023000000,
@@ -1026,9 +1044,9 @@ interactions:
         0.1474151373, "eps": 0.0493, "epsdiluted": 0.0482, "weightedAverageShsOut":
         25023936000, "weightedAverageShsOutDil": 25456480000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312509153165/0001193125-09-153165-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312509153165/d10q.htm",
-        "calculatedOtherExpenses": 1010000000, "calculatedOperatingExpenses": 1351000000,
-        "calculatedNetInterest": 236000000, "calculatedOtherIncome": -176000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1848000000}, {"date": "2009-03-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1351000000, "calculatedNetInterest":
+        236000000, "calculatedOtherIncome": -176000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 1848000000}, {"date": "2009-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2009-04-23",
         "acceptedDate": "2009-04-23 16:12:31", "calendarYear": "2009", "period": "Q2",
         "revenue": 8163000000, "costOfRevenue": 5192000000, "grossProfit": 2971000000,
@@ -1043,9 +1061,9 @@ interactions:
         0.1476172976, "eps": 0.065, "epsdiluted": 0.0639, "weightedAverageShsOut":
         24953040000, "weightedAverageShsOutDil": 25283804000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312509085781/0001193125-09-085781-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312509085781/d10q.htm",
-        "calculatedOtherExpenses": 985000000, "calculatedOperatingExpenses": 1304000000,
-        "calculatedNetInterest": 63000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1839000000}, {"date": "2008-12-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1304000000, "calculatedNetInterest":
+        63000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 1839000000}, {"date": "2008-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2009-01-23",
         "acceptedDate": "2009-01-22 21:45:14", "calendarYear": "2009", "period": "Q1",
         "revenue": 10167000000, "costOfRevenue": 6635000000, "grossProfit": 3532000000,
@@ -1060,9 +1078,9 @@ interactions:
         0.1578636766, "eps": 0.0646, "epsdiluted": 0.0636, "weightedAverageShsOut":
         24895976000, "weightedAverageShsOutDil": 25241832000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312509009937/0001193125-09-009937-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312509009937/d10q.htm",
-        "calculatedOtherExpenses": 1091000000, "calculatedOperatingExpenses": 1406000000,
-        "calculatedNetInterest": 158000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 2284000000}, {"date": "2008-09-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1406000000, "calculatedNetInterest":
+        158000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 2284000000}, {"date": "2008-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2008-11-05",
         "acceptedDate": "2008-11-05 06:16:23", "calendarYear": "2008", "period": "Q4",
         "revenue": 7895000000, "costOfRevenue": 5156000000, "grossProfit": 2739000000,
@@ -1077,9 +1095,9 @@ interactions:
         0.143888537, "eps": 0.0979, "epsdiluted": 0.0957, "weightedAverageShsOut":
         24839052000, "weightedAverageShsOutDil": 25353216000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312508224958/0001193125-08-224958-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312508224958/d10k.htm",
-        "calculatedOtherExpenses": 999000000, "calculatedOperatingExpenses": 1297000000,
-        "calculatedNetInterest": 140000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1576000000}, {"date": "2008-06-28", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1297000000, "calculatedNetInterest":
+        140000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 1576000000}, {"date": "2008-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2008-07-23",
         "acceptedDate": "2008-07-23 17:27:26", "calendarYear": "2008", "period": "Q3",
         "revenue": 7464000000, "costOfRevenue": 4864000000, "grossProfit": 2600000000,
@@ -1094,9 +1112,9 @@ interactions:
         0.1436227224, "eps": 0.0432, "epsdiluted": 0.0425, "weightedAverageShsOut":
         24744664000, "weightedAverageShsOutDil": 25288676000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312508156421/0001193125-08-156421-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312508156421/d10q.htm",
-        "calculatedOtherExpenses": 916000000, "calculatedOperatingExpenses": 1208000000,
-        "calculatedNetInterest": 118000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1509000000}, {"date": "2008-03-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1208000000, "calculatedNetInterest":
+        118000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 1509000000}, {"date": "2008-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2008-05-01",
         "acceptedDate": "2008-05-01 06:01:43", "calendarYear": "2008", "period": "Q2",
         "revenue": 7512000000, "costOfRevenue": 5038000000, "grossProfit": 2474000000,
@@ -1111,9 +1129,9 @@ interactions:
         0.1391107561, "eps": 0.0425, "epsdiluted": 0.0414, "weightedAverageShsOut":
         24627288000, "weightedAverageShsOutDil": 25181212000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312508097759/0001193125-08-097759-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312508097759/d10q.htm",
-        "calculatedOtherExpenses": 886000000, "calculatedOperatingExpenses": 1159000000,
-        "calculatedNetInterest": 162000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1431000000}, {"date": "2007-12-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1159000000, "calculatedNetInterest":
+        162000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 1431000000}, {"date": "2007-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2008-02-01",
         "acceptedDate": "2008-02-01 06:06:51", "calendarYear": "2008", "period": "Q1",
         "revenue": 9608000000, "costOfRevenue": 6276000000, "grossProfit": 3332000000,
@@ -1128,9 +1146,9 @@ interactions:
         0.1645503747, "eps": 0.0646, "epsdiluted": 0.0629, "weightedAverageShsOut":
         24524080000, "weightedAverageShsOutDil": 25201512000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000119312508017426/0001193125-08-017426-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000119312508017426/d10q.htm",
-        "calculatedOtherExpenses": 960000000, "calculatedOperatingExpenses": 1206000000,
-        "calculatedNetInterest": 200000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 2232000000}, {"date": "2007-09-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1206000000, "calculatedNetInterest":
+        200000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 2232000000}, {"date": "2007-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2007-11-15",
         "acceptedDate": "2007-11-15 16:49:37", "calendarYear": "2007", "period": "Q4",
         "revenue": 6217000000, "costOfRevenue": 4127000000, "grossProfit": 2090000000,
@@ -1145,8 +1163,8 @@ interactions:
         "eps": 0.0368, "epsdiluted": 0.0361, "weightedAverageShsOut": 24384640000,
         "weightedAverageShsOutDil": 25084724000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746907009340/0001047469-07-009340-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000104746907009340/a2181030z10-k.htm",
-        "calculatedOtherExpenses": 823000000, "calculatedOperatingExpenses": 1030000000,
-        "calculatedNetInterest": 358000000, "calculatedOtherIncome": -188000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 1030000000, "calculatedNetInterest":
+        358000000, "calculatedOtherIncome": -188000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 1153000000}, {"date": "2007-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2007-08-08",
         "acceptedDate": "2007-08-07 21:51:56", "calendarYear": "2007", "period": "Q3",
@@ -1162,8 +1180,8 @@ interactions:
         "eps": 0.0336, "epsdiluted": 0.0329, "weightedAverageShsOut": 24270568000,
         "weightedAverageShsOutDil": 24938788000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465907059873/0001104659-07-059873-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465907059873/a07-19295_110q.htm",
-        "calculatedOtherExpenses": 746000000, "calculatedOperatingExpenses": 954000000,
-        "calculatedNetInterest": 323000000, "calculatedOtherIncome": -168000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 954000000, "calculatedNetInterest":
+        323000000, "calculatedOtherIncome": -168000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 1122000000}, {"date": "2007-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2007-05-10",
         "acceptedDate": "2007-05-09 21:38:58", "calendarYear": "2007", "period": "Q2",
@@ -1179,9 +1197,9 @@ interactions:
         "eps": 0.0318, "epsdiluted": 0.0311, "weightedAverageShsOut": 24164084000,
         "weightedAverageShsOutDil": 24826284000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465907037745/0001104659-07-037745-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465907037745/a07-13266_110q.htm",
-        "calculatedOtherExpenses": 374000000, "calculatedOperatingExpenses": 557000000,
+        "calculatedOtherExpenses": -306000000, "calculatedOperatingExpenses": 557000000,
         "calculatedNetInterest": 306000000, "calculatedOtherIncome": -464000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1361000000}, {"date": "2006-12-30", "symbol": "AAPL",
+        0, "calculatedEbitda": 1361000000}, {"date": "2006-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2007-02-02",
         "acceptedDate": "2007-02-02 06:23:10", "calendarYear": "2007", "period": "Q1",
         "revenue": 7115000000, "costOfRevenue": 4895000000, "grossProfit": 2220000000,
@@ -1196,8 +1214,8 @@ interactions:
         0.1411103303, "eps": 0.0418, "epsdiluted": 0.0407, "weightedAverageShsOut":
         24015348000, "weightedAverageShsOutDil": 24732316000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465907006648/0001104659-07-006648-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465907006648/a07-2749_110q.htm",
-        "calculatedOtherExpenses": 714000000, "calculatedOperatingExpenses": 898000000,
-        "calculatedNetInterest": 259000000, "calculatedOtherIncome": -133000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 898000000, "calculatedNetInterest":
+        259000000, "calculatedOtherIncome": -133000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 1396000000}, {"date": "2006-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2006-12-29",
         "acceptedDate": "2006-12-29 06:05:58", "calendarYear": "2006", "period": "Q4",
@@ -1213,9 +1231,9 @@ interactions:
         "eps": 0.0229, "epsdiluted": 0.0221, "weightedAverageShsOut": 23910740000,
         "weightedAverageShsOutDil": 24617348000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465906084288/0001104659-06-084288-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465906084288/a06-25759_210k.htm",
-        "calculatedOtherExpenses": 757000000, "calculatedOperatingExpenses": 936000000,
+        "calculatedOtherExpenses": 132000000, "calculatedOperatingExpenses": 936000000,
         "calculatedNetInterest": -132000000, "calculatedOtherIncome": 377000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 542000000}, {"date": "2006-07-01", "symbol": "AAPL",
+        0, "calculatedEbitda": 542000000}, {"date": "2006-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2006-12-29",
         "acceptedDate": "2006-12-29 06:01:37", "calendarYear": "2006", "period": "Q3",
         "revenue": 4370000000, "costOfRevenue": 3045000000, "grossProfit": 1325000000,
@@ -1230,9 +1248,9 @@ interactions:
         "eps": 0.0196, "epsdiluted": 0.0193, "weightedAverageShsOut": 23838500000,
         "weightedAverageShsOutDil": 24538304000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465906084286/0001104659-06-084286-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465906084286/a06-23473_110q.htm",
-        "calculatedOtherExpenses": 584000000, "calculatedOperatingExpenses": 759000000,
-        "calculatedNetInterest": 194000000, "calculatedOtherIncome": -99000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 623000000}, {"date": "2006-04-01", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 759000000, "calculatedNetInterest":
+        194000000, "calculatedOtherIncome": -99000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 623000000}, {"date": "2006-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2006-05-05",
         "acceptedDate": "2006-05-04 20:26:47", "calendarYear": "2006", "period": "Q2",
         "revenue": 4359000000, "costOfRevenue": 3062000000, "grossProfit": 1297000000,
@@ -1247,7 +1265,7 @@ interactions:
         "eps": 0.0175, "epsdiluted": 0.0168, "weightedAverageShsOut": 23545480000,
         "weightedAverageShsOutDil": 24599036000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465906031303/0001104659-06-031303-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465906031303/a06-10806_110q.htm",
-        "calculatedOtherExpenses": 429000000, "calculatedOperatingExpenses": 605000000,
+        "calculatedOtherExpenses": -163000000, "calculatedOperatingExpenses": 605000000,
         "calculatedNetInterest": 163000000, "calculatedOtherIncome": -250000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 742000000}, {"date": "2005-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2006-02-03",
@@ -1264,9 +1282,9 @@ interactions:
         "eps": 0.0243, "epsdiluted": 0.0232, "weightedAverageShsOut": 23261868000,
         "weightedAverageShsOutDil": 24477796000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465906005910/0001104659-06-005910-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465906005910/a06-3798_110q.htm",
-        "calculatedOtherExpenses": 632000000, "calculatedOperatingExpenses": 814000000,
-        "calculatedNetInterest": 169000000, "calculatedOtherIncome": -88000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 802000000}, {"date": "2005-09-24", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 814000000, "calculatedNetInterest":
+        169000000, "calculatedOtherIncome": -88000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 802000000}, {"date": "2005-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2005-12-01",
         "acceptedDate": "2005-11-30 21:22:48", "calendarYear": "2005", "period": "Q4",
         "revenue": 3678000000, "costOfRevenue": 2643000000, "grossProfit": 1035000000,
@@ -1281,14 +1299,14 @@ interactions:
         "eps": 0.0186, "epsdiluted": 0.0179, "weightedAverageShsOut": 23000936000,
         "weightedAverageShsOutDil": 24298344000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465905058421/0001104659-05-058421-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465905058421/a05-20674_110k.htm",
-        "calculatedOtherExpenses": 470000000, "calculatedOperatingExpenses": 617000000,
-        "calculatedNetInterest": 60000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 469000000}, {"date": "2005-06-25", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2005-08-03",
-        "acceptedDate": "2005-08-02 20:15:08", "calendarYear": "2005", "period": "Q3",
-        "revenue": 3520000000, "costOfRevenue": 2476000000, "grossProfit": 1044000000,
-        "grossProfitRatio": 0.2965909091, "researchAndDevelopmentExpenses": 145000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 617000000, "calculatedNetInterest":
+        60000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 469000000}, {"date": "2005-06-30", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "2005-08-03", "acceptedDate": "2005-08-02
+        20:15:08", "calendarYear": "2005", "period": "Q3", "revenue": 3520000000,
+        "costOfRevenue": 2476000000, "grossProfit": 1044000000, "grossProfitRatio":
+        0.2965909091, "researchAndDevelopmentExpenses": 145000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         472000000, "otherExpenses": 0, "operatingExpenses": 617000000, "costAndExpenses":
         3093000000, "interestIncome": 0, "interestExpense": -46000000, "depreciationAndAmortization":
         46000000, "ebitda": 473000000, "ebitdaratio": 0.134375, "operatingIncome":
@@ -1298,14 +1316,14 @@ interactions:
         "eps": 0.0139, "epsdiluted": 0.0132, "weightedAverageShsOut": 22822576000,
         "weightedAverageShsOutDil": 24102484000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465905035792/0001104659-05-035792-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465905035792/a05-12535_110q.htm",
-        "calculatedOtherExpenses": 472000000, "calculatedOperatingExpenses": 617000000,
-        "calculatedNetInterest": 46000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 473000000}, {"date": "2005-03-26", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2005-05-04",
-        "acceptedDate": "2005-05-04 17:14:56", "calendarYear": "2005", "period": "Q2",
-        "revenue": 3243000000, "costOfRevenue": 2275000000, "grossProfit": 968000000,
-        "grossProfitRatio": 0.2984890533, "researchAndDevelopmentExpenses": 119000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 617000000, "calculatedNetInterest":
+        46000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 473000000}, {"date": "2005-03-31", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "2005-05-04", "acceptedDate": "2005-05-04
+        17:14:56", "calendarYear": "2005", "period": "Q2", "revenue": 3243000000,
+        "costOfRevenue": 2275000000, "grossProfit": 968000000, "grossProfitRatio":
+        0.2984890533, "researchAndDevelopmentExpenses": 119000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         447000000, "otherExpenses": 0, "operatingExpenses": 566000000, "costAndExpenses":
         2841000000, "interestIncome": 0, "interestExpense": -33000000, "depreciationAndAmortization":
         41000000, "ebitda": 443000000, "ebitdaratio": 0.1366019118, "operatingIncome":
@@ -1315,14 +1333,14 @@ interactions:
         "eps": 0.0129, "epsdiluted": 0.0121, "weightedAverageShsOut": 22628816000,
         "weightedAverageShsOutDil": 23996308000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465905020421/0001104659-05-020421-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465905020421/a05-7551_110q.htm",
-        "calculatedOtherExpenses": 447000000, "calculatedOperatingExpenses": 566000000,
-        "calculatedNetInterest": 33000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 443000000}, {"date": "2004-12-25", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2005-02-01",
-        "acceptedDate": "2005-02-01 17:25:52", "calendarYear": "2005", "period": "Q1",
-        "revenue": 3490000000, "costOfRevenue": 2494000000, "grossProfit": 996000000,
-        "grossProfitRatio": 0.2853868195, "researchAndDevelopmentExpenses": 123000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 566000000, "calculatedNetInterest":
+        33000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 443000000}, {"date": "2004-12-31", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "2005-02-01", "acceptedDate": "2005-02-01
+        17:25:52", "calendarYear": "2005", "period": "Q1", "revenue": 3490000000,
+        "costOfRevenue": 2494000000, "grossProfit": 996000000, "grossProfitRatio":
+        0.2853868195, "researchAndDevelopmentExpenses": 123000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         470000000, "otherExpenses": -2000000, "operatingExpenses": 593000000, "costAndExpenses":
         3087000000, "interestIncome": 28000000, "interestExpense": -26000000, "depreciationAndAmortization":
         41000000, "ebitda": 470000000, "ebitdaratio": 0.1346704871, "operatingIncome":
@@ -1332,9 +1350,9 @@ interactions:
         "eps": 0.0132, "epsdiluted": 0.0125, "weightedAverageShsOut": 22092896000,
         "weightedAverageShsOutDil": 23468872000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465905003520/0001104659-05-003520-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465905003520/a05-2329_110q.htm",
-        "calculatedOtherExpenses": 470000000, "calculatedOperatingExpenses": 593000000,
-        "calculatedNetInterest": 54000000, "calculatedOtherIncome": -28000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 444000000}, {"date": "2004-09-25", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 593000000, "calculatedNetInterest":
+        54000000, "calculatedOtherIncome": -28000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 444000000}, {"date": "2004-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2004-12-03",
         "acceptedDate": "2004-12-02 18:05:49", "calendarYear": "2004", "period": "Q4",
         "revenue": 2350000000, "costOfRevenue": 1716000000, "grossProfit": 634000000,
@@ -1349,9 +1367,9 @@ interactions:
         "eps": 0.0046, "epsdiluted": 0.0043, "weightedAverageShsOut": 21478352000,
         "weightedAverageShsOutDil": 22723400000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746904035975/0001047469-04-035975-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000104746904035975/a2147337z10-k.htm",
-        "calculatedOtherExpenses": 384000000, "calculatedOperatingExpenses": 506000000,
+        "calculatedOtherExpenses": 5000000, "calculatedOperatingExpenses": 506000000,
         "calculatedNetInterest": 15000000, "calculatedOtherIncome": 4000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 168000000}, {"date": "2004-06-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 168000000}, {"date": "2004-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2004-08-05",
         "acceptedDate": "2004-08-04 20:48:51", "calendarYear": "2004", "period": "Q3",
         "revenue": 2014000000, "costOfRevenue": 1455000000, "grossProfit": 559000000,
@@ -1366,9 +1384,9 @@ interactions:
         "eps": 0.0029, "epsdiluted": 0.0029, "weightedAverageShsOut": 21001288000,
         "weightedAverageShsOutDil": 21986776000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465904022384/0001104659-04-022384-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465904022384/a04-8198_110q.htm",
-        "calculatedOtherExpenses": 362000000, "calculatedOperatingExpenses": 487000000,
+        "calculatedOtherExpenses": 8000000, "calculatedOperatingExpenses": 487000000,
         "calculatedNetInterest": 8000000, "calculatedOtherIncome": 5000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 113000000}, {"date": "2004-03-27", "symbol": "AAPL",
+        0, "calculatedEbitda": 113000000}, {"date": "2004-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2004-05-06",
         "acceptedDate": "2004-05-06 17:26:09", "calendarYear": "2004", "period": "Q2",
         "revenue": 1909000000, "costOfRevenue": 1379000000, "grossProfit": 530000000,
@@ -1383,9 +1401,9 @@ interactions:
         "eps": 0.0021, "epsdiluted": 0.0021, "weightedAverageShsOut": 20459432000,
         "weightedAverageShsOutDil": 21180880000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465904013021/0001104659-04-013021-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465904013021/a04-5089_110q.htm",
-        "calculatedOtherExpenses": 332000000, "calculatedOperatingExpenses": 455000000,
+        "calculatedOtherExpenses": -13000000, "calculatedOperatingExpenses": 455000000,
         "calculatedNetInterest": 14000000, "calculatedOtherIncome": -25000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 111000000}, {"date": "2003-12-27", "symbol": "AAPL",
+        0, "calculatedEbitda": 111000000}, {"date": "2003-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2004-02-10",
         "acceptedDate": "2004-02-09 19:57:13", "calendarYear": "2004", "period": "Q1",
         "revenue": 2006000000, "costOfRevenue": 1470000000, "grossProfit": 536000000,
@@ -1400,9 +1418,9 @@ interactions:
         "eps": 0.003, "epsdiluted": 0.003, "weightedAverageShsOut": 20297200000, "weightedAverageShsOutDil":
         20849248000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465904003080/0001104659-04-003080-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465904003080/a04-1622_110q.htm",
-        "calculatedOtherExpenses": 343000000, "calculatedOperatingExpenses": 462000000,
-        "calculatedNetInterest": 12000000, "calculatedOtherIncome": 1000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 107000000}, {"date": "2003-09-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 462000000, "calculatedNetInterest":
+        12000000, "calculatedOtherIncome": 1000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 107000000}, {"date": "2003-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2003-12-19",
         "acceptedDate": "2003-12-19 17:25:45", "calendarYear": "2003", "period": "Q4",
         "revenue": 1715000000, "costOfRevenue": 1259000000, "grossProfit": 456000000,
@@ -1417,9 +1435,9 @@ interactions:
         "eps": 0.0023, "epsdiluted": 0.002, "weightedAverageShsOut": 20282360000,
         "weightedAverageShsOutDil": 20529656000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746903041604/0001047469-03-041604-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000104746903041604/a2124888z10-k.htm",
-        "calculatedOtherExpenses": 302000000, "calculatedOperatingExpenses": 413000000,
+        "calculatedOtherExpenses": -12000000, "calculatedOperatingExpenses": 413000000,
         "calculatedNetInterest": 11000000, "calculatedOtherIncome": 1000000, "calculatedIncomeNonControlling":
-        -3000000, "calculatedEbitda": 63000000}, {"date": "2003-06-28", "symbol":
+        -3000000, "calculatedEbitda": 63000000}, {"date": "2003-06-30", "symbol":
         "AAPL", "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2003-08-12",
         "acceptedDate": "2003-08-12 16:09:14", "calendarYear": "2003", "period": "Q3",
         "revenue": 1545000000, "costOfRevenue": 1117000000, "grossProfit": 428000000,
@@ -1434,9 +1452,9 @@ interactions:
         "eps": 0.0009, "epsdiluted": 0.0009, "weightedAverageShsOut": 20204408000,
         "weightedAverageShsOutDil": 20371512000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465903017766/0001104659-03-017766-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465903017766/a03-2128_110q.htm",
-        "calculatedOtherExpenses": 285000000, "calculatedOperatingExpenses": 405000000,
+        "calculatedOtherExpenses": -14000000, "calculatedOperatingExpenses": 405000000,
         "calculatedNetInterest": 13000000, "calculatedOtherIncome": -10000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 54000000}, {"date": "2003-03-29", "symbol": "AAPL",
+        0, "calculatedEbitda": 54000000}, {"date": "2003-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2003-05-13",
         "acceptedDate": "2003-05-13 16:46:50", "calendarYear": "2003", "period": "Q2",
         "revenue": 1475000000, "costOfRevenue": 1057000000, "grossProfit": 418000000,
@@ -1451,9 +1469,9 @@ interactions:
         "eps": 0.0007, "epsdiluted": 0.0007, "weightedAverageShsOut": 20187440000,
         "weightedAverageShsOutDil": 20285608000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000110465903009489/0001104659-03-009489-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000110465903009489/j0567_10q.htm",
-        "calculatedOtherExpenses": 284000000, "calculatedOperatingExpenses": 403000000,
+        "calculatedOtherExpenses": -16000000, "calculatedOperatingExpenses": 403000000,
         "calculatedNetInterest": 16000000, "calculatedOtherIncome": -12000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 45000000}, {"date": "2002-12-28", "symbol": "AAPL",
+        0, "calculatedEbitda": 45000000}, {"date": "2002-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2003-02-10",
         "acceptedDate": "2003-02-10 16:43:14", "calendarYear": "2003", "period": "Q1",
         "revenue": 1472000000, "costOfRevenue": 1066000000, "grossProfit": 406000000,
@@ -1468,9 +1486,9 @@ interactions:
         "eps": -0.0004, "epsdiluted": -0.0004, "weightedAverageShsOut": 20107192000,
         "weightedAverageShsOutDil": 20107192000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746903004566/0001047469-03-004566-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000104746903004566/a2102387z10-q.htm",
-        "calculatedOtherExpenses": 268000000, "calculatedOperatingExpenses": 389000000,
+        "calculatedOtherExpenses": -31000000, "calculatedOperatingExpenses": 389000000,
         "calculatedNetInterest": 21000000, "calculatedOtherIncome": -46000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 49000000}, {"date": "2002-09-28", "symbol": "AAPL",
+        0, "calculatedEbitda": 49000000}, {"date": "2002-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2002-12-19",
         "acceptedDate": "2002-12-19 17:20:21", "calendarYear": "2002", "period": "Q4",
         "revenue": 1443000000, "costOfRevenue": 1062000000, "grossProfit": 381000000,
@@ -1485,9 +1503,9 @@ interactions:
         "eps": -0.0023, "epsdiluted": -0.0023, "weightedAverageShsOut": 20086528000,
         "weightedAverageShsOutDil": 20086528000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746902007674/0001047469-02-007674-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000104746902007674/a2096490z10-k.htm",
-        "calculatedOtherExpenses": 253000000, "calculatedOperatingExpenses": 370000000,
+        "calculatedOtherExpenses": -27000000, "calculatedOperatingExpenses": 370000000,
         "calculatedNetInterest": 21000000, "calculatedOtherIncome": -92000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 44000000}, {"date": "2002-06-29", "symbol": "AAPL",
+        0, "calculatedEbitda": 44000000}, {"date": "2002-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2002-08-09",
         "acceptedDate": "2002-08-09 16:52:48", "calendarYear": "2002", "period": "Q3",
         "revenue": 1429000000, "costOfRevenue": 1038000000, "grossProfit": 391000000,
@@ -1502,9 +1520,9 @@ interactions:
         "eps": 0.0016, "epsdiluted": 0.0016, "weightedAverageShsOut": 19956720000,
         "weightedAverageShsOutDil": 20545392000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205702030796/0000912057-02-030796-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205702030796/a2086025z10-q.htm",
-        "calculatedOtherExpenses": 244000000, "calculatedOperatingExpenses": 350000000,
+        "calculatedOtherExpenses": -28000000, "calculatedOperatingExpenses": 350000000,
         "calculatedNetInterest": 27000000, "calculatedOtherIncome": -29000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 69000000}, {"date": "2002-03-30", "symbol": "AAPL",
+        0, "calculatedEbitda": 69000000}, {"date": "2002-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2002-05-14",
         "acceptedDate": "2002-05-14 17:08:24", "calendarYear": "2002", "period": "Q2",
         "revenue": 1495000000, "costOfRevenue": 1086000000, "grossProfit": 409000000,
@@ -1519,9 +1537,9 @@ interactions:
         "eps": 0.002, "epsdiluted": 0.002, "weightedAverageShsOut": 19794880000, "weightedAverageShsOutDil":
         20494264000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205702020280/0000912057-02-020280-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205702020280/a2079853z10-q.htm",
-        "calculatedOtherExpenses": 240000000, "calculatedOperatingExpenses": 351000000,
+        "calculatedOtherExpenses": -30000000, "calculatedOperatingExpenses": 351000000,
         "calculatedNetInterest": 26000000, "calculatedOtherIncome": -29000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 87000000}, {"date": "2001-12-29", "symbol": "AAPL",
+        0, "calculatedEbitda": 87000000}, {"date": "2001-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2002-02-11",
         "acceptedDate": "2002-02-11 00:00:00", "calendarYear": "2002", "period": "Q1",
         "revenue": 1375000000, "costOfRevenue": 953000000, "grossProfit": 422000000,
@@ -1536,9 +1554,9 @@ interactions:
         "eps": 0.002, "epsdiluted": 0.002, "weightedAverageShsOut": 19674480000, "weightedAverageShsOutDil":
         20020504000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205702004945/0000912057-02-004945-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205702004945/a2069685z10-q.htm",
-        "calculatedOtherExpenses": 252000000, "calculatedOperatingExpenses": 365000000,
+        "calculatedOtherExpenses": -37000000, "calculatedOperatingExpenses": 365000000,
         "calculatedNetInterest": 31000000, "calculatedOtherIncome": -35000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 85000000}, {"date": "2001-09-29", "symbol": "AAPL",
+        0, "calculatedEbitda": 85000000}, {"date": "2001-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2001-12-21",
         "acceptedDate": "2001-12-21 00:00:00", "calendarYear": "2001", "period": "Q4",
         "revenue": 1450000000, "costOfRevenue": 1013000000, "grossProfit": 437000000,
@@ -1553,7 +1571,7 @@ interactions:
         "eps": 0.0034, "epsdiluted": 0.0034, "weightedAverageShsOut": 19645976000,
         "weightedAverageShsOutDil": 19645976000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205701544436/0000912057-01-544436-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205701544436/a2066171z10-k405.htm",
-        "calculatedOtherExpenses": 233000000, "calculatedOperatingExpenses": 349000000,
+        "calculatedOtherExpenses": -35000000, "calculatedOperatingExpenses": 349000000,
         "calculatedNetInterest": 41000000, "calculatedOtherIncome": -35000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 118000000}, {"date": "2001-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2001-08-13",
@@ -1570,7 +1588,7 @@ interactions:
         "eps": 0.003, "epsdiluted": 0.003, "weightedAverageShsOut": 19530840000, "weightedAverageShsOutDil":
         20099072000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205701528148/0000912057-01-528148-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205701528148/a2056203z10-q.htm",
-        "calculatedOtherExpenses": 232000000, "calculatedOperatingExpenses": 354000000,
+        "calculatedOtherExpenses": -49000000, "calculatedOperatingExpenses": 354000000,
         "calculatedNetInterest": 47000000, "calculatedOtherIncome": -40000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 106000000}, {"date": "2001-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2001-05-14",
@@ -1587,9 +1605,9 @@ interactions:
         "eps": 0.0021, "epsdiluted": 0.0021, "weightedAverageShsOut": 19380480000,
         "weightedAverageShsOutDil": 19757472000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205701515409/0000912057-01-515409-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205701515409/a2048698z10-q.htm",
-        "calculatedOtherExpenses": 297000000, "calculatedOperatingExpenses": 398000000,
+        "calculatedOtherExpenses": 5000000, "calculatedOperatingExpenses": 398000000,
         "calculatedNetInterest": 145000000, "calculatedOtherIncome": -70000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 9000000}, {"date": "2000-12-30", "symbol": "AAPL",
+        0, "calculatedEbitda": 9000000}, {"date": "2000-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2001-02-12",
         "acceptedDate": "2001-02-12 00:00:00", "calendarYear": "2001", "period": "Q1",
         "revenue": 1007000000, "costOfRevenue": 1028000000, "grossProfit": -21000000,
@@ -1604,8 +1622,8 @@ interactions:
         -0.2055610725, "eps": -0.0104, "epsdiluted": -0.0104, "weightedAverageShsOut":
         18881520000, "weightedAverageShsOutDil": 18881520000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205701004642/0000912057-01-004642-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205701004642/a2038036z10-q.txt",
-        "calculatedOtherExpenses": 297000000, "calculatedOperatingExpenses": 399000000,
-        "calculatedNetInterest": 59000000, "calculatedOtherIncome": 66000000, "calculatedIncomeNonControlling":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 399000000, "calculatedNetInterest":
+        59000000, "calculatedOtherIncome": 66000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": -396000000}, {"date": "2000-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2000-12-14",
         "acceptedDate": "2000-12-14 00:00:00", "calendarYear": "2000", "period": "Q4",
@@ -1621,9 +1639,9 @@ interactions:
         "eps": 0.0093, "epsdiluted": 0.0084, "weightedAverageShsOut": 18309872000,
         "weightedAverageShsOutDil": 20244672000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205700053623/0000912057-00-053623-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205700053623/a2032880z10-k.txt",
-        "calculatedOtherExpenses": 222000000, "calculatedOperatingExpenses": 323000000,
+        "calculatedOtherExpenses": -60000000, "calculatedOperatingExpenses": 323000000,
         "calculatedNetInterest": 53000000, "calculatedOtherIncome": 32000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 162000000}, {"date": "2000-07-01", "symbol": "AAPL",
+        0, "calculatedEbitda": 162000000}, {"date": "2000-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2000-07-31",
         "acceptedDate": "2000-07-31 00:00:00", "calendarYear": "2000", "period": "Q3",
         "revenue": 1825000000, "costOfRevenue": 1282000000, "grossProfit": 543000000,
@@ -1638,9 +1656,9 @@ interactions:
         "eps": 0.0111, "epsdiluted": 0.0098, "weightedAverageShsOut": 18202240000,
         "weightedAverageShsOutDil": 20261752000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205700033901/0000912057-00-033901-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205700033901/a10-q.txt",
-        "calculatedOtherExpenses": 328000000, "calculatedOperatingExpenses": 425000000,
+        "calculatedOtherExpenses": 50000000, "calculatedOperatingExpenses": 425000000,
         "calculatedNetInterest": 152000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 143000000}, {"date": "2000-04-01", "symbol": "AAPL",
+        0, "calculatedEbitda": 143000000}, {"date": "2000-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2000-05-11",
         "acceptedDate": "2000-05-11 00:00:00", "calendarYear": "2000", "period": "Q2",
         "revenue": 1945000000, "costOfRevenue": 1396000000, "grossProfit": 549000000,
@@ -1655,9 +1673,9 @@ interactions:
         "eps": 0.0129, "epsdiluted": 0.0114, "weightedAverageShsOut": 18163208000,
         "weightedAverageShsOutDil": 20383216000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205700023442/0000912057-00-023442-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205700023442/0000912057-00-023442.txt",
-        "calculatedOtherExpenses": 387000000, "calculatedOperatingExpenses": 479000000,
+        "calculatedOtherExpenses": 100000000, "calculatedOperatingExpenses": 479000000,
         "calculatedNetInterest": 249000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 91000000}, {"date": "2000-01-01", "symbol": "AAPL",
+        0, "calculatedEbitda": 91000000}, {"date": "1999-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "2000-02-01",
         "acceptedDate": "2000-02-01 00:00:00", "calendarYear": "2000", "period": "Q1",
         "revenue": 2343000000, "costOfRevenue": 1736000000, "grossProfit": 607000000,
@@ -1672,9 +1690,9 @@ interactions:
         "eps": 0.0102, "epsdiluted": 0.0091, "weightedAverageShsOut": 18036312000,
         "weightedAverageShsOutDil": 19982704000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205700003201/0000912057-00-003201-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205700003201/0000912057-00-003201.txt",
-        "calculatedOtherExpenses": 274000000, "calculatedOperatingExpenses": 364000000,
+        "calculatedOtherExpenses": -45000000, "calculatedOperatingExpenses": 364000000,
         "calculatedNetInterest": 42000000, "calculatedOtherIncome": -11000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 263000000}, {"date": "1999-09-25", "symbol": "AAPL",
+        0, "calculatedEbitda": 263000000}, {"date": "1999-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1999-12-22",
         "acceptedDate": "1999-12-22 00:00:00", "calendarYear": "1999", "period": "Q4",
         "revenue": 1336000000, "costOfRevenue": 952000000, "grossProfit": 384000000,
@@ -1689,9 +1707,9 @@ interactions:
         "eps": 0.0059, "epsdiluted": 0.0057, "weightedAverageShsOut": 17574648000,
         "weightedAverageShsOutDil": 19786592000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000091205799010244/0000912057-99-010244-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000091205799010244/0000912057-99-010244.txt",
-        "calculatedOtherExpenses": 188000000, "calculatedOperatingExpenses": 270000000,
+        "calculatedOtherExpenses": -47000000, "calculatedOperatingExpenses": 270000000,
         "calculatedNetInterest": 37000000, "calculatedOtherIncome": -26000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 133000000}, {"date": "1999-06-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 133000000}, {"date": "1999-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1999-08-06",
         "acceptedDate": "1999-08-06 00:00:00", "calendarYear": "1999", "period": "Q3",
         "revenue": 1558000000, "costOfRevenue": 1131000000, "grossProfit": 427000000,
@@ -1706,9 +1724,9 @@ interactions:
         "eps": 0.0125, "epsdiluted": 0.0107, "weightedAverageShsOut": 16133992000,
         "weightedAverageShsOutDil": 19560800000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019399000009/0000320193-99-000009-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/000032019399000009/0000320193-99-000009.txt",
-        "calculatedOtherExpenses": 344000000, "calculatedOperatingExpenses": 424000000,
+        "calculatedOtherExpenses": 101000000, "calculatedOperatingExpenses": 424000000,
         "calculatedNetInterest": 226000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 22000000}, {"date": "1999-03-27", "symbol": "AAPL",
+        0, "calculatedEbitda": 22000000}, {"date": "1999-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1999-05-11",
         "acceptedDate": "1999-05-11 00:00:00", "calendarYear": "1999", "period": "Q2",
         "revenue": 1530000000, "costOfRevenue": 1127000000, "grossProfit": 403000000,
@@ -1723,9 +1741,9 @@ interactions:
         "epsdiluted": 0.0075, "weightedAverageShsOut": 15273552000, "weightedAverageShsOutDil":
         19398848000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019399000004/0000320193-99-000004-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-99-000004.txt",
-        "calculatedOtherExpenses": 285000000, "calculatedOperatingExpenses": 361000000,
+        "calculatedOtherExpenses": 46000000, "calculatedOperatingExpenses": 361000000,
         "calculatedNetInterest": 111000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 66000000}, {"date": "1998-12-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 66000000}, {"date": "1998-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1999-02-08",
         "acceptedDate": "1999-02-08 00:00:00", "calendarYear": "1999", "period": "Q1",
         "revenue": 1710000000, "costOfRevenue": 1228000000, "grossProfit": 482000000,
@@ -1740,9 +1758,9 @@ interactions:
         "eps": 0.01, "epsdiluted": 0.0085, "weightedAverageShsOut": 15150240000, "weightedAverageShsOutDil":
         19270944000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019399000002/0000320193-99-000002-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-99-000002.txt",
-        "calculatedOtherExpenses": 279000000, "calculatedOperatingExpenses": 355000000,
-        "calculatedNetInterest": 16000000, "calculatedOtherIncome": 26000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 150000000}, {"date": "1998-09-25", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 355000000, "calculatedNetInterest":
+        16000000, "calculatedOtherIncome": 26000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 150000000}, {"date": "1998-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1998-12-23",
         "acceptedDate": "1998-12-23 00:00:00", "calendarYear": "1998", "period": "Q4",
         "revenue": 1556000000, "costOfRevenue": 1139000000, "grossProfit": 417000000,
@@ -1757,9 +1775,9 @@ interactions:
         "eps": 0.0071, "epsdiluted": 0.0063, "weightedAverageShsOut": 15118096000,
         "weightedAverageShsOutDil": 19038824000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746998044981/0001047469-98-044981-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0001047469-98-044981.txt",
-        "calculatedOtherExpenses": 105000000, "calculatedOperatingExpenses": 178000000,
+        "calculatedOtherExpenses": -130000000, "calculatedOperatingExpenses": 178000000,
         "calculatedNetInterest": -125000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 262000000}, {"date": "1998-06-26", "symbol": "AAPL",
+        0, "calculatedEbitda": 262000000}, {"date": "1998-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1998-08-10",
         "acceptedDate": "1998-08-10 00:00:00", "calendarYear": "1998", "period": "Q3",
         "revenue": 1402000000, "costOfRevenue": 1042000000, "grossProfit": 360000000,
@@ -1774,14 +1792,14 @@ interactions:
         "eps": 0.0068, "epsdiluted": 0.0058, "weightedAverageShsOut": 14903616000,
         "weightedAverageShsOutDil": 19240032000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019398000008/0000320193-98-000008-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-98-000008.txt",
-        "calculatedOtherExpenses": 216000000, "calculatedOperatingExpenses": 299000000,
-        "calculatedNetInterest": 48000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 93000000}, {"date": "1998-03-27", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1998-05-11",
-        "acceptedDate": "1998-05-11 00:00:00", "calendarYear": "1998", "period": "Q2",
-        "revenue": 1405000000, "costOfRevenue": 1056000000, "grossProfit": 349000000,
-        "grossProfitRatio": 0.2483985765, "researchAndDevelopmentExpenses": 75000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 299000000, "calculatedNetInterest":
+        48000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 93000000}, {"date": "1998-03-31", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1998-05-11", "acceptedDate": "1998-05-11
+        00:00:00", "calendarYear": "1998", "period": "Q2", "revenue": 1405000000,
+        "costOfRevenue": 1056000000, "grossProfit": 349000000, "grossProfitRatio":
+        0.2483985765, "researchAndDevelopmentExpenses": 75000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         223000000, "otherExpenses": 0, "operatingExpenses": 298000000, "costAndExpenses":
         1354000000, "interestIncome": 0, "interestExpense": -8000000, "depreciationAndAmortization":
         28000000, "ebitda": 79000000, "ebitdaratio": 0.056227758, "operatingIncome":
@@ -1791,14 +1809,14 @@ interactions:
         "eps": 0.0038, "epsdiluted": 0.0034, "weightedAverageShsOut": 14780528000,
         "weightedAverageShsOutDil": 16342480000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019398000006/0000320193-98-000006-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-98-000006.txt",
-        "calculatedOtherExpenses": 223000000, "calculatedOperatingExpenses": 298000000,
-        "calculatedNetInterest": 8000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 79000000}, {"date": "1997-12-26", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1998-02-09",
-        "acceptedDate": "1998-02-09 00:00:00", "calendarYear": "1998", "period": "Q1",
-        "revenue": 1578000000, "costOfRevenue": 1225000000, "grossProfit": 353000000,
-        "grossProfitRatio": 0.2237008872, "researchAndDevelopmentExpenses": 79000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 298000000, "calculatedNetInterest":
+        8000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 79000000}, {"date": "1997-12-31", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1998-02-09", "acceptedDate": "1998-02-09
+        00:00:00", "calendarYear": "1998", "period": "Q1", "revenue": 1578000000,
+        "costOfRevenue": 1225000000, "grossProfit": 353000000, "grossProfitRatio":
+        0.2237008872, "researchAndDevelopmentExpenses": 79000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         234000000, "otherExpenses": 0, "operatingExpenses": 313000000, "costAndExpenses":
         1538000000, "interestIncome": 0, "interestExpense": 0, "depreciationAndAmortization":
         28000000, "ebitda": 68000000, "ebitdaratio": 0.0430925222, "operatingIncome":
@@ -1808,14 +1826,14 @@ interactions:
         "eps": 0.0033, "epsdiluted": 0.0029, "weightedAverageShsOut": 14334768000,
         "weightedAverageShsOutDil": 15661968000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019398000003/0000320193-98-000003-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-98-000003.txt",
-        "calculatedOtherExpenses": 234000000, "calculatedOperatingExpenses": 313000000,
-        "calculatedNetInterest": 0, "calculatedOtherIncome": 7000000, "calculatedIncomeNonControlling":
-        7000000, "calculatedEbitda": 68000000}, {"date": "1997-09-26", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1997-12-05",
-        "acceptedDate": "1997-12-05 00:00:00", "calendarYear": "1997", "period": "Q4",
-        "revenue": 1614000000, "costOfRevenue": 1294000000, "grossProfit": 320000000,
-        "grossProfitRatio": 0.1982651797, "researchAndDevelopmentExpenses": 94000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 313000000, "calculatedNetInterest":
+        0, "calculatedOtherIncome": 7000000, "calculatedIncomeNonControlling": 7000000,
+        "calculatedEbitda": 68000000}, {"date": "1997-09-30", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1997-12-05", "acceptedDate": "1997-12-05
+        00:00:00", "calendarYear": "1997", "period": "Q4", "revenue": 1614000000,
+        "costOfRevenue": 1294000000, "grossProfit": 320000000, "grossProfitRatio":
+        0.1982651797, "researchAndDevelopmentExpenses": 94000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         259000000, "otherExpenses": 0, "operatingExpenses": 353000000, "costAndExpenses":
         1647000000, "interestIncome": 0, "interestExpense": 128000000, "depreciationAndAmortization":
         41000000, "ebitda": -62000000, "ebitdaratio": -0.0384138786, "operatingIncome":
@@ -1825,9 +1843,9 @@ interactions:
         "eps": -0.0112, "epsdiluted": -0.0112, "weightedAverageShsOut": 14291984000,
         "weightedAverageShsOutDil": 14291984000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000104746997006960/0001047469-97-006960-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0001047469-97-006960.txt",
-        "calculatedOtherExpenses": 259000000, "calculatedOperatingExpenses": 353000000,
-        "calculatedNetInterest": -128000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 8000000}, {"date": "1997-06-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 353000000, "calculatedNetInterest":
+        -128000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 8000000}, {"date": "1997-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1997-08-11",
         "acceptedDate": "1997-08-11 00:00:00", "calendarYear": "1997", "period": "Q3",
         "revenue": 1737000000, "costOfRevenue": 1389000000, "grossProfit": 348000000,
@@ -1842,14 +1860,14 @@ interactions:
         "eps": -0.0039, "epsdiluted": -0.0039, "weightedAverageShsOut": 14168000000,
         "weightedAverageShsOutDil": 14168000000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019397000014/0000320193-97-000014-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-97-000014.txt",
-        "calculatedOtherExpenses": 307000000, "calculatedOperatingExpenses": 408000000,
-        "calculatedNetInterest": 4000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": -38000000}, {"date": "1997-03-28", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1997-05-12",
-        "acceptedDate": "1997-05-12 00:00:00", "calendarYear": "1997", "period": "Q2",
-        "revenue": 1601000000, "costOfRevenue": 1298000000, "grossProfit": 303000000,
-        "grossProfitRatio": 0.1892567146, "researchAndDevelopmentExpenses": 516000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 408000000, "calculatedNetInterest":
+        4000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": -38000000}, {"date": "1997-03-31", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1997-05-12", "acceptedDate": "1997-05-12
+        00:00:00", "calendarYear": "1997", "period": "Q2", "revenue": 1601000000,
+        "costOfRevenue": 1298000000, "grossProfit": 303000000, "grossProfitRatio":
+        0.1892567146, "researchAndDevelopmentExpenses": 516000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         348000000, "otherExpenses": 0, "operatingExpenses": 864000000, "costAndExpenses":
         2162000000, "interestIncome": 0, "interestExpense": 147000000, "depreciationAndAmortization":
         30000000, "ebitda": -376000000, "ebitdaratio": -0.2348532167, "operatingIncome":
@@ -1859,9 +1877,9 @@ interactions:
         -0.6308557152, "eps": -0.0504, "epsdiluted": -0.0504, "weightedAverageShsOut":
         14068208000, "weightedAverageShsOutDil": 14068208000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019397000011/0000320193-97-000011-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-97-000011.txt",
-        "calculatedOtherExpenses": 348000000, "calculatedOperatingExpenses": 864000000,
-        "calculatedNetInterest": -147000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": -531000000}, {"date": "1996-12-27", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 864000000, "calculatedNetInterest":
+        -147000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": -531000000}, {"date": "1996-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1997-02-10",
         "acceptedDate": "1997-02-10 00:00:00", "calendarYear": "1997", "period": "Q1",
         "revenue": 2129000000, "costOfRevenue": 1732000000, "grossProfit": 397000000,
@@ -1876,14 +1894,14 @@ interactions:
         "eps": -0.0086, "epsdiluted": -0.0086, "weightedAverageShsOut": 13947584000,
         "weightedAverageShsOutDil": 13947584000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019397000002/0000320193-97-000002-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-97-000002.txt",
-        "calculatedOtherExpenses": 372000000, "calculatedOperatingExpenses": 521000000,
-        "calculatedNetInterest": 4000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": -99000000}, {"date": "1996-09-27", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1996-12-19",
-        "acceptedDate": "1996-12-19 00:00:00", "calendarYear": "1996", "period": "Q4",
-        "revenue": 2321000000, "costOfRevenue": 1810000000, "grossProfit": 511000000,
-        "grossProfitRatio": 0.2201637225, "researchAndDevelopmentExpenses": 146000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 521000000, "calculatedNetInterest":
+        4000000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": -99000000}, {"date": "1996-09-30", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1996-12-19", "acceptedDate": "1996-12-19
+        00:00:00", "calendarYear": "1996", "period": "Q4", "revenue": 2321000000,
+        "costOfRevenue": 1810000000, "grossProfit": 511000000, "grossProfitRatio":
+        0.2201637225, "researchAndDevelopmentExpenses": 146000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         359000000, "otherExpenses": -73000000, "operatingExpenses": 505000000, "costAndExpenses":
         2315000000, "interestIncome": 22000000, "interestExpense": 18000000, "depreciationAndAmortization":
         46000000, "ebitda": 1000000, "ebitdaratio": 0.0004308488, "operatingIncome":
@@ -1893,9 +1911,9 @@ interactions:
         "eps": 0.002, "epsdiluted": 0.0018, "weightedAverageShsOut": 13949264000,
         "weightedAverageShsOutDil": 13949264000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019396000023/0000320193-96-000023-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-96-000023.txt",
-        "calculatedOtherExpenses": 410000000, "calculatedOperatingExpenses": 556000000,
+        "calculatedOtherExpenses": 51000000, "calculatedOperatingExpenses": 556000000,
         "calculatedNetInterest": 4000000, "calculatedOtherIncome": 81000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 1000000}, {"date": "1996-06-28", "symbol": "AAPL",
+        0, "calculatedEbitda": 1000000}, {"date": "1996-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1996-08-12",
         "acceptedDate": "1996-08-12 00:00:00", "calendarYear": "1996", "period": "Q3",
         "revenue": 2179000000, "costOfRevenue": 1776000000, "grossProfit": 403000000,
@@ -1910,9 +1928,9 @@ interactions:
         "eps": -0.0023, "epsdiluted": -0.0023, "weightedAverageShsOut": 13858320000,
         "weightedAverageShsOutDil": 13858320000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019396000018/0000320193-96-000018-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-96-000018.txt",
-        "calculatedOtherExpenses": 364000000, "calculatedOperatingExpenses": 519000000,
-        "calculatedNetInterest": -2000000, "calculatedOtherIncome": 67000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": -94000000}, {"date": "1996-03-29", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 519000000, "calculatedNetInterest":
+        -2000000, "calculatedOtherIncome": 67000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": -94000000}, {"date": "1996-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1996-05-13",
         "acceptedDate": "1996-05-13 00:00:00", "calendarYear": "1996", "period": "Q2",
         "revenue": 2185000000, "costOfRevenue": 2606000000, "grossProfit": -421000000,
@@ -1927,9 +1945,9 @@ interactions:
         -0.3386727689, "eps": -0.0535, "epsdiluted": -0.0535, "weightedAverageShsOut":
         13849808000, "weightedAverageShsOutDil": 13849808000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019396000011/0000320193-96-000011-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-96-000011.txt",
-        "calculatedOtherExpenses": 611000000, "calculatedOperatingExpenses": 761000000,
+        "calculatedOtherExpenses": 207000000, "calculatedOperatingExpenses": 761000000,
         "calculatedNetInterest": -2000000, "calculatedOtherIncome": 9000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": -1136000000}, {"date": "1995-12-29", "symbol": "AAPL",
+        0, "calculatedEbitda": -1136000000}, {"date": "1995-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1996-02-12",
         "acceptedDate": "1996-02-12 00:00:00", "calendarYear": "1996", "period": "Q1",
         "revenue": 3148000000, "costOfRevenue": 2673000000, "grossProfit": 475000000,
@@ -1944,14 +1962,14 @@ interactions:
         "eps": -0.005, "epsdiluted": -0.005, "weightedAverageShsOut": 13775328000,
         "weightedAverageShsOutDil": 13775328000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019396000002/0000320193-96-000002-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-96-000002.txt",
-        "calculatedOtherExpenses": 441000000, "calculatedOperatingExpenses": 594000000,
-        "calculatedNetInterest": 0, "calculatedOtherIncome": 10000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": -77000000}, {"date": "1995-09-29", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1995-12-19",
-        "acceptedDate": "1995-12-19 00:00:00", "calendarYear": "1995", "period": "Q4",
-        "revenue": 3003000000, "costOfRevenue": 2382000000, "grossProfit": 621000000,
-        "grossProfitRatio": 0.2067932068, "researchAndDevelopmentExpenses": 171000000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 594000000, "calculatedNetInterest":
+        0, "calculatedOtherIncome": 10000000, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": -77000000}, {"date": "1995-09-30", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1995-12-19", "acceptedDate": "1995-12-19
+        00:00:00", "calendarYear": "1995", "period": "Q4", "revenue": 3003000000,
+        "costOfRevenue": 2382000000, "grossProfit": 621000000, "grossProfitRatio":
+        0.2067932068, "researchAndDevelopmentExpenses": 171000000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         378000000, "otherExpenses": 1000000, "operatingExpenses": 549000000, "costAndExpenses":
         2931000000, "interestIncome": 24000000, "interestExpense": 15000000, "depreciationAndAmortization":
         23000000, "ebitda": 120000000, "ebitdaratio": 0.03996004, "operatingIncome":
@@ -1961,7 +1979,7 @@ interactions:
         "eps": 0.0043, "epsdiluted": 0.0043, "weightedAverageShsOut": 13971104000,
         "weightedAverageShsOutDil": 13971104000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019395000016/0000320193-95-000016-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-95-000016.txt",
-        "calculatedOtherExpenses": 369000000, "calculatedOperatingExpenses": 540000000,
+        "calculatedOtherExpenses": -9000000, "calculatedOperatingExpenses": 540000000,
         "calculatedNetInterest": 9000000, "calculatedOtherIncome": 5000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 104000000}, {"date": "1995-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1995-08-11",
@@ -1978,7 +1996,7 @@ interactions:
         "eps": 0.0075, "epsdiluted": 0.0075, "weightedAverageShsOut": 13798736000,
         "weightedAverageShsOutDil": 13798736000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019395000011/0000320193-95-000011-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-95-000011.txt",
-        "calculatedOtherExpenses": 398000000, "calculatedOperatingExpenses": 566000000,
+        "calculatedOtherExpenses": -6000000, "calculatedOperatingExpenses": 566000000,
         "calculatedNetInterest": 16000000, "calculatedOtherIncome": -14000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 199000000}, {"date": "1995-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1995-05-15",
@@ -1995,9 +2013,9 @@ interactions:
         "eps": 0.0053, "epsdiluted": 0.0053, "weightedAverageShsOut": 13736128000,
         "weightedAverageShsOutDil": 13736128000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019395000008/0000320193-95-000008-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-95-000008.txt",
-        "calculatedOtherExpenses": 386000000, "calculatedOperatingExpenses": 529000000,
-        "calculatedNetInterest": 16000000, "calculatedOtherIncome": -66000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 195000000}, {"date": "1994-12-30", "symbol": "AAPL",
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 529000000, "calculatedNetInterest":
+        16000000, "calculatedOtherIncome": -66000000, "calculatedIncomeNonControlling":
+        0, "calculatedEbitda": 195000000}, {"date": "1994-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1995-02-09",
         "acceptedDate": "1995-02-09 00:00:00", "calendarYear": "1995", "period": "Q1",
         "revenue": 2832000000, "costOfRevenue": 2018000000, "grossProfit": 814000000,
@@ -2012,7 +2030,7 @@ interactions:
         "eps": 0.0138, "epsdiluted": 0.0138, "weightedAverageShsOut": 13619200000,
         "weightedAverageShsOutDil": 13619200000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019395000003/0000320193-95-000003-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-95-000003.txt",
-        "calculatedOtherExpenses": 398000000, "calculatedOperatingExpenses": 530000000,
+        "calculatedOtherExpenses": -17000000, "calculatedOperatingExpenses": 530000000,
         "calculatedNetInterest": 49000000, "calculatedOtherIncome": -34000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 322000000}, {"date": "1994-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1994-12-13",
@@ -2029,9 +2047,9 @@ interactions:
         "eps": 0.0086, "epsdiluted": 0.0086, "weightedAverageShsOut": 13460272000,
         "weightedAverageShsOutDil": 13460272000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019394000016/0000320193-94-000016-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-94-000016.txt",
-        "calculatedOtherExpenses": 167528000, "calculatedOperatingExpenses": 309638000,
+        "calculatedOtherExpenses": -178824000, "calculatedOperatingExpenses": 309638000,
         "calculatedNetInterest": -184308000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 414855000}, {"date": "1994-07-01", "symbol": "AAPL",
+        0, "calculatedEbitda": 414855000}, {"date": "1994-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1994-08-12",
         "acceptedDate": "1994-08-12 00:00:00", "calendarYear": "1994", "period": "Q3",
         "revenue": 2149908000, "costOfRevenue": 1576036000, "grossProfit": 573872000,
@@ -2046,7 +2064,7 @@ interactions:
         "eps": 0.0104, "epsdiluted": 0.0104, "weightedAverageShsOut": 13312320000,
         "weightedAverageShsOutDil": 13312320000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019394000013/0000320193-94-000013-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-94-000013.txt",
-        "calculatedOtherExpenses": 459722000, "calculatedOperatingExpenses": 595161000,
+        "calculatedOtherExpenses": 126855000, "calculatedOperatingExpenses": 595161000,
         "calculatedNetInterest": 244032000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 20049000}, {"date": "1994-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1994-03-31",
@@ -2062,14 +2080,14 @@ interactions:
         "incomeTaxExpense": 11000000, "netIncome": 17000000, "netIncomeRatio": 0.008184882,
         "eps": 0.0013, "epsdiluted": 0.0013, "weightedAverageShsOut": 13321728000,
         "weightedAverageShsOutDil": 13321728000, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 330000000, "calculatedOperatingExpenses": 464000000,
-        "calculatedNetInterest": 0, "calculatedOtherIncome": -7000000, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 73394000}, {"date": "1993-12-31", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1994-01-26",
-        "acceptedDate": "1994-01-26 00:00:00", "calendarYear": "1994", "period": "Q1",
-        "revenue": 2468854000, "costOfRevenue": 1876830000, "grossProfit": 592024000,
-        "grossProfitRatio": 0.239797088, "researchAndDevelopmentExpenses": 152612000,
-        "generalAndAdministrativeExpenses": 0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 464000000, "calculatedNetInterest":
+        0, "calculatedOtherIncome": -7000000, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 73394000}, {"date": "1993-12-31", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1994-01-26", "acceptedDate": "1994-01-26
+        00:00:00", "calendarYear": "1994", "period": "Q1", "revenue": 2468854000,
+        "costOfRevenue": 1876830000, "grossProfit": 592024000, "grossProfitRatio":
+        0.239797088, "researchAndDevelopmentExpenses": 152612000, "generalAndAdministrativeExpenses":
+        0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         374705000, "otherExpenses": 0, "operatingExpenses": 527317000, "costAndExpenses":
         2404147000, "interestIncome": 0, "interestExpense": 163000, "depreciationAndAmortization":
         42606000, "ebitda": 107313000, "ebitdaratio": 0.0434667259, "operatingIncome":
@@ -2079,13 +2097,13 @@ interactions:
         "eps": 0.003, "epsdiluted": 0.003, "weightedAverageShsOut": 13099144576, "weightedAverageShsOutDil":
         13106352000, "link": "https://www.sec.gov/Archives/edgar/data/320193/000032019394000002/0000320193-94-000002-index.htm",
         "finalLink": "https://www.sec.gov/Archives/edgar/data/320193/0000320193-94-000002.txt",
-        "calculatedOtherExpenses": 374705000, "calculatedOperatingExpenses": 527317000,
-        "calculatedNetInterest": -163000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
-        0, "calculatedEbitda": 107313000}, {"date": "1993-09-30", "symbol": "AAPL",
-        "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1993-09-30",
-        "acceptedDate": "1993-09-30 00:00:00", "calendarYear": "1993", "period": "Q4",
-        "revenue": 2140800000, "costOfRevenue": 1547900000, "grossProfit": 592900000,
-        "grossProfitRatio": 0.2769525411, "researchAndDevelopmentExpenses": 0, "generalAndAdministrativeExpenses":
+        "calculatedOtherExpenses": 0, "calculatedOperatingExpenses": 527317000, "calculatedNetInterest":
+        -163000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling": 0,
+        "calculatedEbitda": 107313000}, {"date": "1993-09-30", "symbol": "AAPL", "reportedCurrency":
+        "USD", "cik": "0000320193", "fillingDate": "1993-09-30", "acceptedDate": "1993-09-30
+        00:00:00", "calendarYear": "1993", "period": "Q4", "revenue": 2140800000,
+        "costOfRevenue": 1547900000, "grossProfit": 592900000, "grossProfitRatio":
+        0.2769525411, "researchAndDevelopmentExpenses": 0, "generalAndAdministrativeExpenses":
         0, "sellingAndMarketingExpenses": 0, "sellingGeneralAndAdministrativeExpenses":
         543300000, "otherExpenses": 42500000, "operatingExpenses": 585800000, "costAndExpenses":
         2133700000, "interestIncome": 0, "interestExpense": 5600000, "depreciationAndAmortization":
@@ -2095,7 +2113,7 @@ interactions:
         "incomeTaxExpense": 1700000, "netIncome": 2700000, "netIncomeRatio": 0.0012612108,
         "eps": 0.0003, "epsdiluted": 0.0003, "weightedAverageShsOut": 13058416000,
         "weightedAverageShsOutDil": 13227327434, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 582900000, "calculatedOperatingExpenses": 582900000,
+        "calculatedOtherExpenses": 39600000, "calculatedOperatingExpenses": 582900000,
         "calculatedNetInterest": -5600000, "calculatedOtherIncome": 0, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 52500000}, {"date": "1993-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1993-06-30",
@@ -2111,7 +2129,7 @@ interactions:
         "incomeTaxExpense": -115400000, "netIncome": -188300000, "netIncomeRatio":
         -0.1011278195, "eps": -0.0146, "epsdiluted": -0.0146, "weightedAverageShsOut":
         12954928000, "weightedAverageShsOutDil": 13489557522, "link": null, "finalLink":
-        null, "calculatedOtherExpenses": 954100000, "calculatedOperatingExpenses":
+        null, "calculatedOtherExpenses": 41400000, "calculatedOperatingExpenses":
         954100000, "calculatedNetInterest": 5900000, "calculatedOtherIncome": -2900000,
         "calculatedIncomeNonControlling": 0, "calculatedEbitda": -265300000}, {"date":
         "1993-03-31", "symbol": "AAPL", "reportedCurrency": "USD", "cik": "0000320193",
@@ -2127,7 +2145,7 @@ interactions:
         "incomeBeforeTax": 178900000, "incomeBeforeTaxRatio": 0.0906327575, "incomeTaxExpense":
         68000000, "netIncome": 110900000, "netIncomeRatio": 0.0561831906, "eps": 0.0082,
         "epsdiluted": 0.0082, "weightedAverageShsOut": 13500869565, "weightedAverageShsOutDil":
-        13500869565, "link": null, "finalLink": null, "calculatedOtherExpenses": 632800000,
+        13500869565, "link": null, "finalLink": null, "calculatedOtherExpenses": 41100000,
         "calculatedOperatingExpenses": 632800000, "calculatedNetInterest": 19600000,
         "calculatedOtherIncome": -9800000, "calculatedIncomeNonControlling": 0, "calculatedEbitda":
         211900000}, {"date": "1992-12-31", "symbol": "AAPL", "reportedCurrency": "USD",
@@ -2144,7 +2162,7 @@ interactions:
         "incomeTaxExpense": 98900000, "netIncome": 161300000, "netIncomeRatio": 0.0806379043,
         "eps": 0.0119, "epsdiluted": 0.0119, "weightedAverageShsOut": 13569472000,
         "weightedAverageShsOutDil": 13569472000, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 609500000, "calculatedOperatingExpenses": 609500000,
+        "calculatedOtherExpenses": 39400000, "calculatedOperatingExpenses": 609500000,
         "calculatedNetInterest": 38800000, "calculatedOtherIncome": -19400000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 280200000}, {"date": "1992-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1992-09-30",
@@ -2160,7 +2178,7 @@ interactions:
         "incomeTaxExpense": 59900000, "netIncome": 97600000, "netIncomeRatio": 0.0552129886,
         "eps": 0.0072, "epsdiluted": 0.0072, "weightedAverageShsOut": 13562792727,
         "weightedAverageShsOutDil": 13605800727, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 683400000, "calculatedOperatingExpenses": 683400000,
+        "calculatedOtherExpenses": 60000000, "calculatedOperatingExpenses": 683400000,
         "calculatedNetInterest": 51600000, "calculatedOtherIncome": -25700000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 191600000}, {"date": "1992-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1992-06-30",
@@ -2176,7 +2194,7 @@ interactions:
         "incomeTaxExpense": 80700000, "netIncome": 131700000, "netIncomeRatio": 0.0756809562,
         "eps": 0.0096, "epsdiluted": 0.0096, "weightedAverageShsOut": 13657777778,
         "weightedAverageShsOutDil": 13657777778, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 627400000, "calculatedOperatingExpenses": 627400000,
+        "calculatedOtherExpenses": 57100000, "calculatedOperatingExpenses": 627400000,
         "calculatedNetInterest": 22600000, "calculatedOtherIncome": -11300000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 258300000}, {"date": "1992-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1992-03-31",
@@ -2192,7 +2210,7 @@ interactions:
         "incomeTaxExpense": 82800000, "netIncome": 135100000, "netIncomeRatio": 0.0787296037,
         "eps": 0.0098, "epsdiluted": 0.0098, "weightedAverageShsOut": 13755636364,
         "weightedAverageShsOutDil": 13755636364, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 595400000, "calculatedOperatingExpenses": 595400000,
+        "calculatedOtherExpenses": 50300000, "calculatedOperatingExpenses": 595400000,
         "calculatedNetInterest": 14900000, "calculatedOtherIncome": -7400000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 260600000}, {"date": "1991-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1991-12-31",
@@ -2208,7 +2226,7 @@ interactions:
         "incomeTaxExpense": 101800000, "netIncome": 166000000, "netIncomeRatio": 0.0891227317,
         "eps": 0.0121, "epsdiluted": 0.0121, "weightedAverageShsOut": 13670588235,
         "weightedAverageShsOutDil": 13670588235, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 600400000, "calculatedOperatingExpenses": 600400000,
+        "calculatedOtherExpenses": 49800000, "calculatedOperatingExpenses": 600400000,
         "calculatedNetInterest": 10300000, "calculatedOtherIncome": -5100000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 312400000}, {"date": "1991-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1991-09-30",
@@ -2224,7 +2242,7 @@ interactions:
         "incomeTaxExpense": 49800000, "netIncome": 81200000, "netIncomeRatio": 0.0538818845,
         "eps": 0.0059, "epsdiluted": 0.0059, "weightedAverageShsOut": 13789728682,
         "weightedAverageShsOutDil": 13789728682, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 591400000, "calculatedOperatingExpenses": 591400000,
+        "calculatedOtherExpenses": 57900000, "calculatedOperatingExpenses": 591400000,
         "calculatedNetInterest": 19500000, "calculatedOtherIncome": -9800000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 179200000}, {"date": "1991-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1991-06-30",
@@ -2240,7 +2258,7 @@ interactions:
         "incomeTaxExpense": -32500000, "netIncome": -53100000, "netIncomeRatio": -0.0347376685,
         "eps": -0.0039, "epsdiluted": -0.0039, "weightedAverageShsOut": 13516363636,
         "weightedAverageShsOutDil": 13516363636, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 842500000, "calculatedOperatingExpenses": 842500000,
+        "calculatedOtherExpenses": 53400000, "calculatedOperatingExpenses": 842500000,
         "calculatedNetInterest": 6500000, "calculatedOtherIncome": -3300000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": -35300000}, {"date": "1991-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1991-03-31",
@@ -2256,7 +2274,7 @@ interactions:
         "incomeTaxExpense": 80400000, "netIncome": 131100000, "netIncomeRatio": 0.0820554547,
         "eps": 0.0096, "epsdiluted": 0.0096, "weightedAverageShsOut": 13595555556,
         "weightedAverageShsOutDil": 13595555556, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 638400000, "calculatedOperatingExpenses": 638400000,
+        "calculatedOtherExpenses": 45900000, "calculatedOperatingExpenses": 638400000,
         "calculatedNetInterest": 49900000, "calculatedOtherIncome": -25000000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 232500000}, {"date": "1990-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1990-12-31",
@@ -2272,7 +2290,7 @@ interactions:
         "incomeTaxExpense": 92200000, "netIncome": 150500000, "netIncomeRatio": 0.0898239332,
         "eps": 0.0114, "epsdiluted": 0.0114, "weightedAverageShsOut": 13168750000,
         "weightedAverageShsOutDil": 13168750000, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 679400000, "calculatedOperatingExpenses": 679400000,
+        "calculatedOtherExpenses": 47100000, "calculatedOperatingExpenses": 679400000,
         "calculatedNetInterest": 28700000, "calculatedOtherIncome": -14400000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 275500000}, {"date": "1990-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1990-09-30",
@@ -2288,7 +2306,7 @@ interactions:
         "incomeTaxExpense": 62900000, "netIncome": 98500000, "netIncomeRatio": 0.0727420427,
         "eps": 0.0073, "epsdiluted": 0.0073, "weightedAverageShsOut": 13557957958,
         "weightedAverageShsOutDil": 13557957958, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 622100000, "calculatedOperatingExpenses": 622100000,
+        "calculatedOtherExpenses": 60800000, "calculatedOperatingExpenses": 622100000,
         "calculatedNetInterest": 41700000, "calculatedOtherIncome": -20900000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 201400000}, {"date": "1990-06-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1990-06-30",
@@ -2304,7 +2322,7 @@ interactions:
         "incomeTaxExpense": 76600000, "netIncome": 119800000, "netIncomeRatio": 0.0877784291,
         "eps": 0.0086, "epsdiluted": 0.0086, "weightedAverageShsOut": 13976666667,
         "weightedAverageShsOutDil": 13976666667, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 604200000, "calculatedOperatingExpenses": 604200000,
+        "calculatedOtherExpenses": 49900000, "calculatedOperatingExpenses": 604200000,
         "calculatedNetInterest": 28200000, "calculatedOtherIncome": -14100000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 232200000}, {"date": "1990-03-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1990-03-31",
@@ -2320,7 +2338,7 @@ interactions:
         "incomeTaxExpense": 84300000, "netIncome": 131800000, "netIncomeRatio": 0.0979052147,
         "eps": 0.0093, "epsdiluted": 0.0093, "weightedAverageShsOut": 14193846154,
         "weightedAverageShsOutDil": 14193846154, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 581700000, "calculatedOperatingExpenses": 581700000,
+        "calculatedOtherExpenses": 44300000, "calculatedOperatingExpenses": 581700000,
         "calculatedNetInterest": 33700000, "calculatedOtherIncome": -16800000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 243400000}, {"date": "1989-12-31", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1989-12-31",
@@ -2336,7 +2354,7 @@ interactions:
         "incomeTaxExpense": 79800000, "netIncome": 124800000, "netIncomeRatio": 0.0835676979,
         "eps": 0.0086, "epsdiluted": 0.0086, "weightedAverageShsOut": 14560000000,
         "weightedAverageShsOutDil": 14560000000, "link": null, "finalLink": null,
-        "calculatedOtherExpenses": 634900000, "calculatedOperatingExpenses": 634900000,
+        "calculatedOtherExpenses": 47800000, "calculatedOperatingExpenses": 634900000,
         "calculatedNetInterest": 29200000, "calculatedOtherIncome": -14600000, "calculatedIncomeNonControlling":
         0, "calculatedEbitda": 237800000}, {"date": "1989-09-30", "symbol": "AAPL",
         "reportedCurrency": "USD", "cik": "0000320193", "fillingDate": "1989-09-30",
@@ -2588,11 +2606,11 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '226601'
+      - '227359'
       Content-Type:
       - application/json
       Date:
-      - Thu, 11 Apr 2024 05:31:24 GMT
+      - Wed, 08 May 2024 17:30:45 GMT
       Referrer-Policy:
       - same-origin
       Server:
@@ -2605,32 +2623,32 @@ interactions:
       code: 200
       message: OK
 - request:
-    body: '{"manual_input_dataset": [{"date": "2024Q1", "value": 119575000000}, {"date":
-      "2023Q4", "value": 89498000000}, {"date": "2023Q3", "value": 81797000000}, {"date":
-      "2023Q2", "value": 94836000000}, {"date": "2023Q1", "value": 117154000000},
-      {"date": "2022Q4", "value": 90146000000}, {"date": "2022Q3", "value": 82959000000},
-      {"date": "2022Q2", "value": 97278000000}, {"date": "2022Q1", "value": 123945000000},
-      {"date": "2021Q4", "value": 83360000000}, {"date": "2021Q3", "value": 81434000000},
-      {"date": "2021Q2", "value": 89584000000}, {"date": "2021Q1", "value": 111439000000},
-      {"date": "2020Q4", "value": 64698000000}, {"date": "2020Q3", "value": 59685000000},
-      {"date": "2020Q2", "value": 58313000000}, {"date": "2020Q1", "value": 91819000000},
-      {"date": "2019Q4", "value": 64040000000}, {"date": "2019Q3", "value": 53809000000},
-      {"date": "2019Q2", "value": 58015000000}, {"date": "2019Q1", "value": 84310000000},
-      {"date": "2018Q4", "value": 62900000000}, {"date": "2018Q3", "value": 53265000000},
-      {"date": "2018Q2", "value": 61137000000}, {"date": "2018Q1", "value": 88293000000},
-      {"date": "2017Q4", "value": 52579000000}, {"date": "2017Q3", "value": 45408000000},
-      {"date": "2017Q2", "value": 52896000000}, {"date": "2017Q1", "value": 78351000000},
-      {"date": "2016Q4", "value": 46852000000}, {"date": "2016Q3", "value": 42358000000},
-      {"date": "2016Q2", "value": 50557000000}, {"date": "2016Q1", "value": 75872000000},
-      {"date": "2015Q4", "value": 51501000000}, {"date": "2015Q3", "value": 49605000000},
-      {"date": "2015Q2", "value": 58010000000}, {"date": "2015Q1", "value": 74599000000},
-      {"date": "2014Q4", "value": 42123000000}, {"date": "2014Q3", "value": 37432000000},
-      {"date": "2014Q2", "value": 45646000000}, {"date": "2014Q1", "value": 57594000000},
-      {"date": "2013Q4", "value": 37472000000}, {"date": "2013Q3", "value": 35323000000},
-      {"date": "2013Q2", "value": 43603000000}, {"date": "2013Q1", "value": 54512000000},
-      {"date": "2012Q4", "value": 35966000000}, {"date": "2012Q3", "value": 35023000000},
-      {"date": "2012Q2", "value": 39186000000}, {"date": "2012Q1", "value": 46333000000}],
-      "selected_datasets": ["CEU4349200001"]}'
+    body: '{"manual_input_dataset": [{"date": "2012Q1", "value": 46333000000}, {"date":
+      "2012Q2", "value": 39186000000}, {"date": "2012Q3", "value": 35023000000}, {"date":
+      "2012Q4", "value": 35966000000}, {"date": "2013Q1", "value": 54512000000}, {"date":
+      "2013Q2", "value": 43603000000}, {"date": "2013Q3", "value": 35323000000}, {"date":
+      "2013Q4", "value": 37472000000}, {"date": "2014Q1", "value": 57594000000}, {"date":
+      "2014Q2", "value": 45646000000}, {"date": "2014Q3", "value": 37432000000}, {"date":
+      "2014Q4", "value": 42123000000}, {"date": "2015Q1", "value": 74599000000}, {"date":
+      "2015Q2", "value": 58010000000}, {"date": "2015Q3", "value": 49605000000}, {"date":
+      "2015Q4", "value": 51501000000}, {"date": "2016Q1", "value": 75872000000}, {"date":
+      "2016Q2", "value": 50557000000}, {"date": "2016Q3", "value": 42358000000}, {"date":
+      "2016Q4", "value": 46852000000}, {"date": "2017Q1", "value": 78351000000}, {"date":
+      "2017Q2", "value": 52896000000}, {"date": "2017Q3", "value": 45408000000}, {"date":
+      "2017Q4", "value": 52579000000}, {"date": "2018Q1", "value": 88293000000}, {"date":
+      "2018Q2", "value": 61137000000}, {"date": "2018Q3", "value": 53265000000}, {"date":
+      "2018Q4", "value": 62900000000}, {"date": "2019Q1", "value": 84310000000}, {"date":
+      "2019Q2", "value": 58015000000}, {"date": "2019Q3", "value": 53809000000}, {"date":
+      "2019Q4", "value": 64040000000}, {"date": "2020Q1", "value": 91819000000}, {"date":
+      "2020Q2", "value": 58313000000}, {"date": "2020Q3", "value": 59685000000}, {"date":
+      "2020Q4", "value": 64698000000}, {"date": "2021Q1", "value": 111439000000},
+      {"date": "2021Q2", "value": 89584000000}, {"date": "2021Q3", "value": 81434000000},
+      {"date": "2021Q4", "value": 83360000000}, {"date": "2022Q1", "value": 123945000000},
+      {"date": "2022Q2", "value": 97278000000}, {"date": "2022Q3", "value": 82959000000},
+      {"date": "2022Q4", "value": 90146000000}, {"date": "2023Q1", "value": 117154000000},
+      {"date": "2023Q2", "value": 94836000000}, {"date": "2023Q3", "value": 81797000000},
+      {"date": "2023Q4", "value": 89498000000}, {"date": "2024Q1", "value": 119575000000},
+      {"date": "2024Q2", "value": 90753000000}], "selected_datasets": ["CEU4349200001"]}'
     headers:
       Accept:
       - '*/*'
@@ -2639,29 +2657,30 @@ interactions:
       Connection:
       - keep-alive
       Content-Length:
-      - '2128'
+      - '2170'
       User-Agent:
       - python-requests/2.31.0
     method: POST
     uri: https://api2.correlatefinance.com/correlate_input?aggregation_period=Quarterly&fiscal_year_end=9&lag_periods=0&correlation_metric=RAW_VALUE&start_year=2012&end_year=2024
   response:
     body:
-      string: '{"data":[{"title":"All Employees, Couriers and Messengers","internal_name":"CEU4349200001","pearson_value":0.9220995807237818,"lag":0,"input_data":[46333000000.0,39186000000.0,35023000000.0,35966000000.0,54512000000.0,43603000000.0,35323000000.0,37472000000.0,57594000000.0,45646000000.0,37432000000.0,42123000000.0,74599000000.0,58010000000.0,49605000000.0,51501000000.0,75872000000.0,50557000000.0,42358000000.0,46852000000.0,78351000000.0,52896000000.0,45408000000.0,52579000000.0,88293000000.0,61137000000.0,53265000000.0,62900000000.0,84310000000.0,58015000000.0,53809000000.0,64040000000.0,91819000000.0,58313000000.0,59685000000.0,64698000000.0,111439000000.0,89584000000.0,81434000000.0,83360000000.0,123945000000.0,97278000000.0,82959000000.0,90146000000.0,117154000000.0,94836000000.0,81797000000.0,89498000000.0,119575000000.0],"dataset_data":[1689.3,1563.7,1556.5,1563.9999999999998,1725.3000000000002,1602.7,1557.3000000000002,1575.2,1791.0,1666.0000000000002,1625.6999999999998,1666.6999999999998,1959.6,1811.7,1719.9,1756.0,2066.2,1859.9,1815.7,1858.4,2203.6000000000004,1960.3,1904.4999999999998,1953.6,2295.1,2085.5,2067.5,2153.1000000000004,2567.6,2374.6,2285.8,2391.7,2870.7,2651.8999999999996,2613.3,2818.3,3523.8,3264.3999999999996,2984.1000000000004,3080.1,3744.6000000000004,3412.0,3160.7,3164.8999999999996,3681.6000000000004,3248.0,3064.3,3087.8999999999996,3595.8],"dates":["2012Q1","2012Q2","2012Q3","2012Q4","2013Q1","2013Q2","2013Q3","2013Q4","2014Q1","2014Q2","2014Q3","2014Q4","2015Q1","2015Q2","2015Q3","2015Q4","2016Q1","2016Q2","2016Q3","2016Q4","2017Q1","2017Q2","2017Q3","2017Q4","2018Q1","2018Q2","2018Q3","2018Q4","2019Q1","2019Q2","2019Q3","2019Q4","2020Q1","2020Q2","2020Q3","2020Q4","2021Q1","2021Q2","2021Q3","2021Q4","2022Q1","2022Q2","2022Q3","2022Q4","2023Q1","2023Q2","2023Q3","2023Q4","2024Q1"]}],"aggregation_period":"Quarterly","correlation_metric":"RAW_VALUE"}'
+      string: '{"data":[{"title":"All Employees, Couriers and Messengers","internal_name":"CEU4349200001","pearson_value":0.9236743222536966,"lag":0,"input_data":[46333000000.0,39186000000.0,35023000000.0,35966000000.0,54512000000.0,43603000000.0,35323000000.0,37472000000.0,57594000000.0,45646000000.0,37432000000.0,42123000000.0,74599000000.0,58010000000.0,49605000000.0,51501000000.0,75872000000.0,50557000000.0,42358000000.0,46852000000.0,78351000000.0,52896000000.0,45408000000.0,52579000000.0,88293000000.0,61137000000.0,53265000000.0,62900000000.0,84310000000.0,58015000000.0,53809000000.0,64040000000.0,91819000000.0,58313000000.0,59685000000.0,64698000000.0,111439000000.0,89584000000.0,81434000000.0,83360000000.0,123945000000.0,97278000000.0,82959000000.0,90146000000.0,117154000000.0,94836000000.0,81797000000.0,89498000000.0,119575000000.0,90753000000.0],"dataset_data":[1689.3,1563.7,1556.5,1563.9999999999998,1725.3000000000002,1602.7,1557.3000000000002,1575.2,1791.0,1666.0000000000002,1625.6999999999998,1666.6999999999998,1959.6,1811.7,1719.9,1756.0,2066.2,1859.9,1815.7,1858.4,2203.6000000000004,1960.3,1904.4999999999998,1953.6,2295.1,2085.5,2067.5,2153.1000000000004,2567.6,2374.6,2285.8,2391.7,2870.7,2651.8999999999996,2613.3,2818.3,3523.8,3264.3999999999996,2984.1000000000004,3080.1,3744.6000000000004,3412.0,3160.7,3164.8999999999996,3681.6000000000004,3248.0,3064.3,3087.8999999999996,3595.8,3169.3999999999996],"dates":["2012Q1","2012Q2","2012Q3","2012Q4","2013Q1","2013Q2","2013Q3","2013Q4","2014Q1","2014Q2","2014Q3","2014Q4","2015Q1","2015Q2","2015Q3","2015Q4","2016Q1","2016Q2","2016Q3","2016Q4","2017Q1","2017Q2","2017Q3","2017Q4","2018Q1","2018Q2","2018Q3","2018Q4","2019Q1","2019Q2","2019Q3","2019Q4","2020Q1","2020Q2","2020Q3","2020Q4","2021Q1","2021Q2","2021Q3","2021Q4","2022Q1","2022Q2","2022Q3","2022Q4","2023Q1","2023Q2","2023Q3","2023Q4","2024Q1","2024Q2"],"source":"BLS","units":"Thousands
+        of Persons","release":"Employment Situation","url":"http://www.bls.gov/ces/","categories":["Transportation"]}],"aggregation_period":"Quarterly","correlation_metric":"RAW_VALUE"}'
     headers:
       Connection:
       - keep-alive
       Content-Length:
-      - '1910'
+      - '2095'
       Content-Type:
       - application/json
       Date:
-      - Thu, 11 Apr 2024 05:31:25 GMT
+      - Wed, 08 May 2024 17:30:46 GMT
       Nel:
       - '{"report_to":"heroku-nel","max_age":3600,"success_fraction":0.005,"failure_fraction":0.05,"response_headers":["Via"]}'
       Report-To:
-      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1712813485&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ZybGxXBkMIzaBfGOUvGhtMmoQ5Nj7JY4hk9gcBu9Xa8%3D"}]}'
+      - '{"group":"heroku-nel","max_age":3600,"endpoints":[{"url":"https://nel.heroku.com/reports?ts=1715189446&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ssjcxG0Pxk1Y%2Fs6ZwrPVw0tx%2FvUpIixqmnZMZTknpp4%3D"}]}'
       Reporting-Endpoints:
-      - heroku-nel=https://nel.heroku.com/reports?ts=1712813485&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ZybGxXBkMIzaBfGOUvGhtMmoQ5Nj7JY4hk9gcBu9Xa8%3D
+      - heroku-nel=https://nel.heroku.com/reports?ts=1715189446&sid=e11707d5-02a7-43ef-b45e-2cf4d2036f7d&s=ssjcxG0Pxk1Y%2Fs6ZwrPVw0tx%2FvUpIixqmnZMZTknpp4%3D
       Server:
       - Cowboy
       Via:
