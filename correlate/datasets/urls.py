@@ -69,5 +69,5 @@ urlpatterns = [
         "async",
         views.AsyncGet.as_view(),
         name="async",
-    )
+    ),
 ]

@@ -7,7 +7,7 @@ import numpy as np
 from datetime import datetime
 from datasets.models import CorrelationMetric, AggregationPeriod
 from pandas.core.dtypes.dtypes import DatetimeTZDtype
-from datasets.lib import VALID_DATE_PATTERNS
+from datasets.lib.date import VALID_DATE_PATTERNS
 
 
 def transform_data_base(df: pd.DataFrame) -> pd.DataFrame:

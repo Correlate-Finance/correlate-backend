@@ -200,4 +200,4 @@ RUST_ENGINE_URL = env.str(
 )
 
 # Celery
-CELERY_BROKER_URL = env.str('CLOUDAMQP_URL', default='amqp://localhost') # type:ignore
+CELERY_BROKER_URL = env.str("CLOUDAMQP_URL", default="amqp://localhost")  # type:ignore

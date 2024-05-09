@@ -1,6 +1,10 @@
-from datetime import datetime
-from datasets.lib import parse_year_from_date
-from datasets.models import CorrelationParameters, AggregationPeriod, CorrelationMetric, Month
+from datasets.lib.date import parse_year_from_date
+from datasets.models import (
+    CorrelationParameters,
+    AggregationPeriod,
+    CorrelationMetric,
+    Month,
+)
 from users.models import User
 
 
