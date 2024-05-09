@@ -198,3 +198,6 @@ RUST_ENGINE_URL = env.str(
     "RUST_ENGINE_URL",
     default="https://api2.correlatefinance.com",  # type:ignore
 )
+
+# Celery
+CELERY_BROKER_URL = env.str('CLOUDAMQP_URL', default='amqp://localhost') # type:ignore

@@ -37,6 +37,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from datasets.tasks import add
 from datasets.orm.report_orm import create_report
 from datasets.lib import parse_year_from_date
 from datasets.models import (
@@ -879,3 +880,11 @@ class GetAllReports(APIView):
         reports = Report.objects.filter(user=user)
         report_serializer = ReportSerializer(reports, many=True)
         return Response(report_serializer.data)
+
+class AsyncGet(APIView):
+    permission_classes = ()
+    authentication_classes = ()
+
+    def get(self, _: Request) -> HttpResponse:
+        result = add.delay(4,4)
+        return JsonResponse({"message": f"Task ID: {result.id}"})

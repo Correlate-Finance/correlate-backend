@@ -65,4 +65,9 @@ urlpatterns = [
         views.GenerateAutomaticReport.as_view(),
         name="generate-automatic-report",
     ),
+    path(
+        "async",
+        views.AsyncGet.as_view(),
+        name="async",
+    )
 ]
