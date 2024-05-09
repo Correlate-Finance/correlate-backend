@@ -7,7 +7,12 @@ from users.models import User
 from django.http import JsonResponse
 from rest_framework.authtoken.models import Token
 import pytest
-from datasets.models import AggregationPeriod, CorrelationParameters, CorrelationMetric
+from datasets.models import (
+    AggregationPeriod,
+    CorrelationParameters,
+    CorrelationMetric,
+    Month,
+)
 
 
 class CorrelateViewTests(APITestCase):
@@ -36,7 +41,7 @@ class CorrelateViewTests(APITestCase):
 
     @patch(
         "datasets.views.fetch_stock_data",
-        return_value=({"2020-01-01": 1}, "December"),
+        return_value=({"2020-01-01": 1}, Month.DECEMBER),
     )
     @patch(
         "datasets.views.run_correlations_rust",
@@ -58,8 +63,8 @@ class CorrelateViewTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
     @patch(
-        "datasets.views.fetch_stock_data",
-        return_value=({"2020-01-01": 1}, "December"),
+        "datasets.lib.correlations.fetch_stock_data",
+        return_value=({"2020-01-01": 1}, Month.DECEMBER),
     )
     @patch(
         "datasets.views.run_correlations_rust",

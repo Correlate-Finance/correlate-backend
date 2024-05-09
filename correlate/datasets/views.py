@@ -1,19 +1,22 @@
 import json
 import urllib.parse
+from users.models import User
 from typing import List
 import pandas as pd
-from datasets.rust_engine import run_correlations_rust
+from datasets.lib.report import generate_report, generate_stock_report
+from datasets.lib.correlations import (
+    correlate_indexes,
+    generate_stock_correlations,
+    run_correlations_rust,
+)
 from adapters.discounting_cash_flows import (
-    fetch_company_description,
     fetch_segment_data,
     fetch_stock_data,
 )
-from adapters.openai import OpenAIAdapter
 from core.data_processing import (
     parse_input_dataset,
     transform_data,
     transform_metric,
-    transform_quarterly,
 )
 from core.data_trends import (
     calculate_average_monthly_growth,
@@ -34,8 +37,7 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from datasets.tasks import add
-from datasets.orm.report_orm import create_report
+from datasets.tasks import add, generate_automatic_report_task
 from datasets.models import (
     AggregationPeriod,
     CompanyMetric,
@@ -276,90 +278,22 @@ class CorrelateView(APIView):
         selected_datasets = request.GET.getlist("selected_datasets")
         selected_indexes = request.GET.getlist("selected_indexes")
 
-        try:
-            company_metric = CompanyMetric[request.GET.get("company_metric", "REVENUE")]
-        except KeyError:
-            return HttpResponseBadRequest("Invalid company metric")
-
         segment: str | None = request.GET.get("segment", None)
         if stock is None or len(stock) < 1:
             return HttpResponseBadRequest("Pass a valid stock ticker")
 
-        segment_data = None
-        if segment is not None:
-            segment_data = fetch_segment_data(
-                stock,
-                start_year,
-                aggregation_period,
-                end_year=end_year,
-            )[segment]
-
-        revenues, fiscal_end_month = fetch_stock_data(
-            stock,
-            start_year,
-            aggregation_period,
+        return generate_stock_correlations(
+            stock=stock,
+            user=user,
+            segment=segment,
+            aggregation_period=aggregation_period,
+            correlation_metric=correlation_metric,
+            lag_periods=lag_periods,
+            start_year=start_year,
             end_year=end_year,
-            company_metric=company_metric,
+            selected_indexes=selected_indexes,
+            selected_datasets=selected_datasets,
         )
-        if fiscal_end_month is None:
-            return JsonResponse(
-                CorrelateData(
-                    data=[],
-                    aggregation_period=aggregation_period,
-                    correlation_metric=correlation_metric,
-                ).model_dump()
-            )
-
-        if segment_data is not None:
-            test_data = {
-                "Date": list(segment_data.keys()),
-                "Value": list(segment_data.values()),
-            }
-            test_df = transform_data(
-                pd.DataFrame(test_data),
-                aggregation_period,
-                correlation_metric=correlation_metric,
-                fiscal_end_month=fiscal_end_month,
-            )
-        elif revenues is not None:
-            test_data = {
-                "Date": list(revenues.keys()),
-                "Value": list(revenues.values()),
-            }
-            test_df = transform_metric(
-                pd.DataFrame(test_data),
-                aggregation_period,
-                correlation_metric=correlation_metric,
-            )
-        else:
-            return HttpResponseBadRequest("No data available")
-
-        if selected_indexes:
-            return correlate_indexes(
-                indexes=list(Index.objects.filter(id__in=selected_indexes)),
-                aggregation_period=aggregation_period,
-                correlation_metric=correlation_metric,
-                fiscal_end_month=fiscal_end_month,
-                test_df=test_df,
-            )
-        else:
-            correlation_parameters = insert_automatic_correlation(
-                user=user,
-                stock_ticker=stock,
-                start_year=start_year,
-                end_year=end_year,
-                aggregation_period=aggregation_period,
-                correlation_metric=correlation_metric,
-                lag_periods=lag_periods,
-                fiscal_year_end=fiscal_end_month,
-                company_metric=segment,
-            )
-
-            return run_correlations_rust(
-                correlation_parameters=correlation_parameters,
-                test_df=test_df,
-                selected_datasets=selected_datasets,
-            )
 
 
 class CorrelateInputDataView(APIView):
@@ -506,44 +440,6 @@ class CorrelateIndex(APIView):
         )
 
 
-def correlate_indexes(
-    indexes: list[Index],
-    aggregation_period: AggregationPeriod,
-    correlation_metric: CorrelationMetric,
-    fiscal_end_month: str,
-    test_df: pd.DataFrame,
-) -> HttpResponse:
-    results: list[CorrelateDataPoint] = []
-    if aggregation_period == AggregationPeriod.QUARTERLY:
-        test_df = transform_quarterly(test_df, fiscal_end_month)
-    for index in indexes:
-        index_df = create_index(
-            dataset_weights={
-                index_dataset.dataset.internal_name: index_dataset.weight
-                for index_dataset in IndexDataset.objects.filter(
-                    index=index
-                ).prefetch_related("dataset")
-            },
-            aggregation_period=aggregation_period,
-            correlation_metric=correlation_metric,
-            fiscal_end_month=fiscal_end_month,
-        )
-        if index_df is None:
-            continue
-
-        result = correlate_datasets(df=index_df, test_df=test_df, df_title=index.name)
-        if result:
-            results.extend(result)
-
-    return JsonResponse(
-        CorrelateData(
-            data=results,
-            aggregation_period=aggregation_period,
-            correlation_metric=correlation_metric,
-        ).model_dump()
-    )
-
-
 class SaveIndexView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -630,54 +526,28 @@ class GenerateReport(APIView):
             CorrelateDataPoint(**c) for c in json.loads(body)["top_correlations"]
         ]
 
-        correlations_text = "\n".join(
-            [
-                f"ID: {correlation.internal_name} Name: {correlation.title} {correlation.pearson_value}"
-                for correlation in top_correlations
-            ]
-        )
-
-        stock: str | None = request.GET.get("stock")
-        name: str | None = None
-        if stock is None:
-            # This is the manual input case in which both the name and
-            # description of the report should be present.
-            company_description = request.GET.get("company_description")
-            name = request.GET.get("name")
-            if company_description is None or name is None:
-                return JsonResponse(
-                    {"error": "Company description and name are required"}
-                )
-        else:
-            company_description = fetch_company_description(stock)
-
-        if stock is None and name is None:
-            return JsonResponse({"error": "Stock or name is required"})
-
         correlation_parameters_id = request.GET.get("correlation_parameters_id")
-        content = f"Company: {company_description}\n Correlations: {correlations_text}"
-        openai_adapter = OpenAIAdapter()
-        response = openai_adapter.generate_report(content)
+        stock: str | None = request.GET.get("stock")
+        name: str | None = request.GET.get("name")
+        company_description: str | None = None
 
-        if response is None:
+        if stock is not None:
+            report = generate_stock_report(
+                top_correlations, stock, user, correlation_parameters_id
+            )
+        elif name is not None and company_description is not None:
+            report = generate_report(
+                top_correlations,
+                name,
+                company_description,
+                user,
+                correlation_parameters_id,
+            )
+        else:
+            return JsonResponse({"error": "Stock or name and description are required"})
+
+        if report is None:
             return JsonResponse({"error": "Invalid response from OpenAI"})
-
-        selected_datasets = [d["series_id"] for d in response]
-        selected_correlations = {
-            correlation.internal_name: correlation
-            for correlation in top_correlations
-            if correlation.internal_name in selected_datasets
-        }
-        report = create_report(
-            name=stock.upper() if stock is not None else name,  # type: ignore
-            user=user,
-            parameters=correlation_parameters_id,
-            llm_response=response,
-            report_data=[
-                selected_correlations[series_id] for series_id in selected_datasets
-            ],
-            description=company_description,
-        )
         return JsonResponse({"report_id": report.id})
 
 
@@ -685,112 +555,19 @@ class GenerateAutomaticReport(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request: Request) -> HttpResponse:
-        user = request.user
+        user: User = request.user
         body = request.body
         body = body.decode("utf-8")
         stocks = request.GET.getlist("stocks")
         stock = stocks[0] if stocks else None
-        reports = []
-
-        # Default parameters
-        start_year = 2014
-        end_year = 2025
-        aggregation_period = AggregationPeriod.QUARTERLY
-        lag_periods = 0
-        correlation_metric = CorrelationMetric.YOY_GROWTH
-        company_metric = CompanyMetric["REVENUE"]
 
         for stock in stocks:
             if stock is None or len(stock) < 1:
                 return HttpResponseBadRequest("Pass a valid stock ticker")
 
-            if stock is None or len(stock) < 1:
-                return HttpResponseBadRequest("Pass a valid stock ticker")
+            generate_automatic_report_task.delay(stock, user.id)
 
-            revenues, fiscal_end_month = fetch_stock_data(
-                stock,
-                start_year,
-                aggregation_period,
-                end_year=end_year,
-                company_metric=company_metric,
-            )
-
-            if revenues is None or fiscal_end_month is None:
-                return JsonResponse(
-                    CorrelateData(
-                        data=[],
-                        aggregation_period=aggregation_period,
-                        correlation_metric=correlation_metric,
-                    ).model_dump()
-                )
-
-            test_data = {
-                "Date": list(revenues.keys()),
-                "Value": list(revenues.values()),
-            }
-            test_df = transform_metric(
-                pd.DataFrame(test_data),
-                aggregation_period,
-                correlation_metric=correlation_metric,
-            )
-
-            correlation_parameters = insert_automatic_correlation(
-                user=user,
-                stock_ticker=stock,
-                start_year=start_year,
-                end_year=end_year,
-                aggregation_period=aggregation_period,
-                correlation_metric=correlation_metric,
-                lag_periods=lag_periods,
-                fiscal_year_end=fiscal_end_month,
-            )
-
-            correlations = run_correlations_rust(
-                correlation_parameters=correlation_parameters,
-                test_df=test_df,
-            )
-
-            # fetch the top correlations for the stock ticker using the rust engine
-            top_correlations = [
-                CorrelateDataPoint(**c)
-                for c in json.loads(correlations.content)["data"][:100]
-            ]
-
-            correlations_text = "\n".join(
-                [
-                    f"id: {correlation.internal_name} name: {correlation.title} {correlation.pearson_value}"
-                    for correlation in top_correlations
-                ]
-            )
-
-            company_description = fetch_company_description(stock)
-            content = (
-                f"Company: {company_description}\n Correlations: {correlations_text}"
-            )
-            openai_adapter = OpenAIAdapter()
-            response = openai_adapter.generate_report(content)
-
-            if response is None:
-                return JsonResponse({"error": "Invalid response from OpenAI"})
-
-            selected_datasets = [d["series_id"] for d in response]
-            selected_correlations = {
-                correlation.internal_name: correlation
-                for correlation in top_correlations
-                if correlation.internal_name in selected_datasets
-            }
-            report = create_report(
-                name=stock.upper(),
-                user=user,
-                parameters=correlation_parameters.id,
-                llm_response=response,
-                report_data=[
-                    selected_correlations[series_id] for series_id in selected_datasets
-                ],
-                description=company_description,
-            )
-            reports.append(report)
-        return JsonResponse({"reports": [report.id for report in reports]})
+        return JsonResponse({"success": "Queued reports"})
 
 
 class GetReport(APIView):
