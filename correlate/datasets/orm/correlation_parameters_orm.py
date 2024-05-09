@@ -9,7 +9,7 @@ from users.models import User
 
 
 def insert_automatic_correlation(
-    user: User,
+    user: User | int,
     stock_ticker: str,
     start_year: int,
     end_year: int,
@@ -19,8 +19,13 @@ def insert_automatic_correlation(
     fiscal_year_end: Month,
     company_metric: str | None = None,
 ) -> CorrelationParameters:
+    if isinstance(user, int):
+        user_id = user
+    else:
+        user_id = user.id
+
     return CorrelationParameters.objects.create(
-        user=user,
+        user_id=user_id,
         ticker=stock_ticker,
         start_year=start_year,
         end_year=end_year,
