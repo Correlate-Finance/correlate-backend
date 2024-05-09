@@ -129,7 +129,7 @@ class DatasetMetadata(models.Model):
 
 
 class Dataset(models.Model):
-    class Meta:
+    class Meta:  # pyright: ignore [reportIncompatibleVariableOverride]
         unique_together = ["metadata", "date"]
 
     id = models.AutoField(primary_key=True)

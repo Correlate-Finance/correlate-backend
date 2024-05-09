@@ -121,9 +121,7 @@ class CorrelateViewGoldenTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         response = response.json()
 
-        self.assertAlmostEqual(
-            response["data"][0]["pearson_value"], 0.923674, places=5
-        )
+        self.assertAlmostEqual(response["data"][0]["pearson_value"], 0.923674, places=5)
         self.assertEqual(response["data"][0]["internal_name"], "CEU4349200001")
         self.assertEqual(response["aggregation_period"], "Quarterly")
         self.assertEqual(response["correlation_metric"], "RAW_VALUE")
