@@ -1,6 +1,5 @@
 from celery import shared_task
 import time
-from users.models import User
 from datasets.lib.report import generate_automatic_report
 
 

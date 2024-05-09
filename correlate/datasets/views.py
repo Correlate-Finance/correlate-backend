@@ -50,7 +50,6 @@ from datasets.models import (
     Report,
 )
 from datasets.orm.correlation_parameters_orm import (
-    insert_automatic_correlation,
     insert_manual_correlation,
 )
 from datasets.orm.dataset_metadata_orm import (
