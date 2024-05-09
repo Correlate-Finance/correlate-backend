@@ -1,6 +1,6 @@
 from django.conf import settings
 from datetime import datetime
-from datasets.models import AggregationPeriod, CompanyMetric
+from datasets.models import AggregationPeriod, CompanyMetric, Month
 import requests
 import calendar
 from functools import cache
@@ -19,7 +19,7 @@ def fetch_stock_data(
     aggregation_period: AggregationPeriod = AggregationPeriod.ANNUALLY,
     end_year: int | None = None,
     company_metric: CompanyMetric = CompanyMetric.REVENUE,
-) -> tuple[dict, str | None]:
+) -> tuple[dict, Month | None]:
     if API_KEY is None or API_KEY == "":
         raise ValueError("DCF_API_KEY is not set in settings.py")
 
@@ -33,7 +33,7 @@ def fetch_stock_data(
             return {}, None
 
         reporting_date_month = datetime.strptime(report[0]["date"], "%Y-%m-%d")
-        fiscal_year_end = calendar.month_name[reporting_date_month.month]
+        fiscal_year_end = Month[calendar.month_name[reporting_date_month.month].upper()]
 
         values = {}
 
@@ -75,7 +75,7 @@ def fetch_stock_data(
         if updated_month > 12:
             updated_month = ((updated_month - 1) % 12) + 1
 
-        fiscal_year_end = calendar.month_name[updated_month]
+        fiscal_year_end = Month[calendar.month_name[updated_month].upper()]
 
         values = {}
         for i in range(len(report)):

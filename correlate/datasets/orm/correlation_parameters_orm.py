@@ -1,5 +1,6 @@
+from datetime import datetime
 from datasets.lib import parse_year_from_date
-from datasets.models import CorrelationParameters, AggregationPeriod, CorrelationMetric
+from datasets.models import CorrelationParameters, AggregationPeriod, CorrelationMetric, Month
 from users.models import User
 
 
@@ -11,7 +12,7 @@ def insert_automatic_correlation(
     aggregation_period: AggregationPeriod,
     correlation_metric: CorrelationMetric,
     lag_periods: int,
-    fiscal_year_end: str,
+    fiscal_year_end: Month,
     company_metric: str | None = None,
 ) -> CorrelationParameters:
     return CorrelationParameters.objects.create(
@@ -33,7 +34,7 @@ def insert_manual_correlation(
     aggregation_period: AggregationPeriod,
     correlation_metric: CorrelationMetric,
     lag_periods: int,
-    fiscal_year_end: str,
+    fiscal_year_end: Month,
 ) -> CorrelationParameters:
     start_year = parse_year_from_date(min(input_data["Date"]))  # type: ignore
     end_year = parse_year_from_date(max(input_data["Date"]))  # type: ignore

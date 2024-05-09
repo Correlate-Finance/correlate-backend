@@ -362,12 +362,7 @@ class CorrelateView(APIView):
 
             return run_correlations_rust(
                 correlation_parameters=correlation_parameters,
-                aggregation_period=aggregation_period,
-                fiscal_end_month=fiscal_end_month,
                 test_df=test_df,
-                test_data=test_data,
-                lag_periods=lag_periods,
-                correlation_metric=correlation_metric,
                 selected_datasets=selected_datasets,
             )
 
@@ -435,12 +430,7 @@ class CorrelateInputDataView(APIView):
             )
             return run_correlations_rust(
                 correlation_parameters=correlation_parameters,
-                aggregation_period=aggregation_period,
-                fiscal_end_month=fiscal_end_month,
                 test_df=test_df,
-                test_data=test_data,
-                lag_periods=lag_periods,
-                correlation_metric=correlation_metric,
                 selected_datasets=selected_datasets,
             )
 
@@ -561,12 +551,7 @@ def correlate_indexes(
 
 def run_correlations_rust(
     correlation_parameters: CorrelationParameters,
-    aggregation_period: AggregationPeriod,
-    fiscal_end_month: str,
     test_df: pd.DataFrame,
-    test_data: dict,
-    lag_periods: int,
-    correlation_metric: CorrelationMetric,
     selected_datasets: list[str] | None = None,
 ) -> JsonResponse:
     test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
@@ -578,18 +563,20 @@ def run_correlations_rust(
         "selected_datasets": selected_datasets or [],
     }
 
-    start_year = parse_year_from_date(min(test_data["Date"]))
-    end_year = parse_year_from_date(max(test_data["Date"]))
+    start_year = correlation_parameters.start_year
+    end_year = correlation_parameters.end_year
 
     if start_year is None or end_year is None:
         return JsonResponse({"error": "Invalid date format"})
 
     url = f"{settings.RUST_ENGINE_URL}/correlate_input?"
+
+    fiscal_end_month = correlation_parameters.fiscal_year_end.value
     request_paramters = {
-        "aggregation_period": aggregation_period.value,
+        "aggregation_period": correlation_parameters.aggregation_period.value,
         "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,
-        "lag_periods": lag_periods,
-        "correlation_metric": correlation_metric.value,
+        "lag_periods": correlation_parameters.lag_periods,
+        "correlation_metric": correlation_parameters.correlation_metric.value,
         "start_year": start_year,
         "end_year": end_year,
     }
@@ -806,12 +793,7 @@ class GenerateAutomaticReport(APIView):
 
             correlations = run_correlations_rust(
                 correlation_parameters=correlation_parameters,
-                aggregation_period=aggregation_period,
-                fiscal_end_month=fiscal_end_month,
                 test_df=test_df,
-                test_data=test_data,
-                lag_periods=lag_periods,
-                correlation_metric=correlation_metric,
             )
 
             # fetch the top correlations for the stock ticker using the rust engine

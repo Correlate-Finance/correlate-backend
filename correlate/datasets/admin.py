@@ -2,7 +2,14 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import DatasetMetadata, Dataset, Index, IndexDataset
+from .models import (
+    CorrelationParameters,
+    DatasetMetadata,
+    Dataset,
+    Index,
+    IndexDataset,
+    Report,
+)
 from datasets.orm.dataset_orm import (
     parse_excel_file_for_datasets,
     parse_metadata_from_excel,
@@ -118,5 +125,14 @@ class DatasetAdmin(admin.ModelAdmin):
         return render(request, "admin/excel_form.html", context)
 
 
+@admin.register(CorrelationParameters)
+class CorrelationParametersAdmin(admin.ModelAdmin):
+    readonly_fields = ("created_at", "updated_at")
+
+    def created_at_method(self, obj):
+        return obj.created_at.strftime("%Y-%m-%d %H:%M:%S")
+
+
 admin.site.register(Index)
 admin.site.register(IndexDataset)
+admin.site.register(Report)

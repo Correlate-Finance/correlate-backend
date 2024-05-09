@@ -176,15 +176,15 @@ class CorrelationParameters(models.Model):
     # Common Parameters
     start_year = models.IntegerField()
     end_year = models.IntegerField()
-    correlation_metric = models.CharField(
+    correlation_metric: CorrelationMetric = models.CharField(  # type: ignore
         max_length=255, choices=CorrelationMetricChoices
     )
-    aggregation_period = models.CharField(
+    aggregation_period: AggregationPeriod = models.CharField(  # type: ignore
         max_length=255, choices=AggregationPeriodChoices
     )
     lag_periods = models.IntegerField()
-    fiscal_year_end = models.CharField(
-        max_length=255, blank=True, null=True, choices=MonthChoices
+    fiscal_year_end: Month = models.CharField(  # type: ignore
+        max_length=255, choices=MonthChoices
     )
 
     # Parameters for Automatic Correlations
