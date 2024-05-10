@@ -47,6 +47,7 @@ from datasets.models import (
     DatasetMetadata,
     Index,
     IndexDataset,
+    Month,
     Report,
 )
 from datasets.orm.correlation_parameters_orm import (
@@ -311,7 +312,7 @@ class CorrelateInputDataView(APIView):
                 "aggregation_period", AggregationPeriod.QUARTERLY.value
             ).upper()
         ]
-        fiscal_end_month = request.GET.get("fiscal_year_end", "December")
+        fiscal_end_month = Month[request.GET.get("fiscal_year_end", "December").upper()]
         lag_periods = int(request.GET.get("lag_periods", 0))
         correlation_metric = CorrelationMetric[
             request.GET.get(
