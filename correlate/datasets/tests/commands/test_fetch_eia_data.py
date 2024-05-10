@@ -2,7 +2,7 @@ from django.test import TestCase
 from unittest.mock import patch
 from django.core.management import call_command
 from datasets.models import DatasetMetadata, Dataset
-from datasets.management.commands.fetch_eia_data import (
+from adapters.eia import (
     fetch_eia_data,
     fetch_records_from_eia_data,
     fetch_all_eia_series,
@@ -74,7 +74,7 @@ TEST_SERIES_RESPONSE = {
 
 
 class FetchEIADataTests(TestCase):
-    @patch("datasets.management.commands.fetch_eia_data.requests.get")
+    @patch("adapters.eia.requests.get")
     def test_fetch_eia_data(self, mock_get):
         # Mock the API response
         mock_get.return_value.json.side_effect = [
@@ -90,7 +90,7 @@ class FetchEIADataTests(TestCase):
 
 
 class FetchAllEIASeriesTests(TestCase):
-    @patch("datasets.management.commands.fetch_eia_data.requests.get")
+    @patch("adapters.eia.requests.get")
     def test_fetch_all_eia_series(self, mock_get):
         # Mock the API response
         mock_get.return_value.json.return_value = TEST_ALL_FACETS_RESPONSE
@@ -103,7 +103,7 @@ class FetchAllEIASeriesTests(TestCase):
 
 
 class CommandExecutionTests(TestCase):
-    @patch("datasets.management.commands.fetch_eia_data.requests.get")
+    @patch("adapters.eia.requests.get")
     def test_command_execution(self, mock_get):
         # Setup mock response
         mock_get.return_value.json.side_effect = [
@@ -130,7 +130,7 @@ class CommandExecutionTests(TestCase):
             len(TEST_SERIES_RESPONSE["response"]["data"]),
         )
 
-    @patch("datasets.management.commands.fetch_eia_data.requests.get")
+    @patch("adapters.eia.requests.get")
     def test_command_execution_no_data(self, mock_get):
         # Setup mock response with no data
         mock_get.return_value.json.side_effect = [
@@ -148,7 +148,7 @@ class CommandExecutionTests(TestCase):
 
 
 class ParseRecordsTests(TestCase):
-    @patch("datasets.management.commands.fetch_eia_data.requests.get")
+    @patch("adapters.eia.requests.get")
     def test_fetch_records_from_eia_data(self, mock_get):
         # Mock the API response
         mock_get.return_value.json.return_value = TEST_SERIES_RESPONSE

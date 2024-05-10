@@ -1,6 +1,6 @@
 from django.test import TestCase, TransactionTestCase
 from unittest.mock import patch
-from datasets.management.commands.fetch_fred_data import (
+from adapters.fred import (
     fetch_fred_data,
     fetch_fred_metadata,
 )
