@@ -24,6 +24,8 @@ def run_correlations_rust(
     correlation_parameters: CorrelationParameters,
     test_df: pd.DataFrame,
     selected_datasets: list[str] | None = None,
+    limit: int | None = None,
+    include_data: bool = True,
 ) -> JsonResponse:
     test_df = test_df.rename(columns={"Date": "date", "Value": "value"})
     records = test_df.to_json(orient="records", default_handler=str)
@@ -43,17 +45,19 @@ def run_correlations_rust(
     url = f"{settings.RUST_ENGINE_URL}/correlate_input?"
 
     fiscal_end_month = correlation_parameters.fiscal_year_end.value
-    request_paramters = {
+    request_parameters = {
         "aggregation_period": correlation_parameters.aggregation_period.value,
         "fiscal_year_end": datetime.strptime(fiscal_end_month, "%B").month,
         "lag_periods": correlation_parameters.lag_periods,
         "correlation_metric": correlation_parameters.correlation_metric.value,
         "start_year": start_year,
         "end_year": end_year,
+        include_data: str(include_data).lower(),
     }
+    if limit:
+        request_parameters["limit"] = limit
 
-    query_string = urllib.parse.urlencode(request_paramters)
-
+    query_string = urllib.parse.urlencode(request_parameters)
     response = requests.post(url + query_string, data=json.dumps(body))
     json_response = response.json()
     # Add the id for the correlation parameters to the response
@@ -110,6 +114,8 @@ def generate_stock_correlations(
     segment: str | None = None,
     selected_indexes: list[int] | None = None,
     selected_datasets: list[str] | None = None,
+    include_data: bool = True,
+    limit: int | None = None,
 ) -> HttpResponse:
     segment_data = None
     if segment is not None:
@@ -184,6 +190,8 @@ def generate_stock_correlations(
             correlation_parameters=correlation_parameters,
             test_df=test_df,
             selected_datasets=selected_datasets,
+            limit=limit,
+            include_data=include_data,
         )
 
 

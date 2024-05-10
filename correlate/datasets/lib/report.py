@@ -80,6 +80,8 @@ def generate_automatic_report(stock: str, user_id: int) -> Report | None:
         lag_periods=lag_periods,
         start_year=start_year,
         end_year=end_year,
+        limit=100,
+        include_data=False,
     )
     if response.status_code != 200:
         return None
