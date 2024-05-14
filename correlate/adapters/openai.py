@@ -14,7 +14,7 @@ class OpenAIAdapter:
     # TODO: Add better error states so that consumer can know what went wrong
     def generate_report(self, input_text: str):
         response = self.client.chat.completions.create(
-            model="gpt-4-turbo",
+            model="gpt-4o",
             messages=[
                 {
                     "role": "system",
