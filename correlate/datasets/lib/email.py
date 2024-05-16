@@ -61,6 +61,13 @@ def create_new_data_report_email(
                         <p>Time taken to fetch and update data: {total_time}</p>
                         <p>Here is the latest update on the datasets for {source} we are monitoring:</p>
 
+                        <h3>Overview</h3>
+                        <p>Datasets with new data: {len(added_records)} n</p>
+                        <p>Total data points added: {sum([count for _, count in added_records])}</p>
+
+                        <p>Datasets with updated data: {len(set([series_id for series_id, _, _, _ in updated_records]))} n</p>
+                        <p>Total data points updated: {len(updated_records)}</p>
+
                         <h3>New Data added</h3>
                         <table>
                             <tr>
